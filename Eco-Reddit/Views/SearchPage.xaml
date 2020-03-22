@@ -1,0 +1,70 @@
+﻿<Page
+    x:Class="Eco_Reddit.Views.SearchPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local1="using:Eco_Reddit.Models"
+    Style="{StaticResource PageStyle}"
+    mc:Ignorable="d">
+    <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+        <TextBlock Margin="5" FontSize="25" VerticalAlignment="Top" x:Name="TextSearched"></TextBlock>
+        <ListView x:Name="SearchList" Margin="0, 50, 0, 0" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowBrush}" IsItemClickEnabled="True" ItemClick="HomeList_ItemClick" Width="600" HorizontalAlignment="Left">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local1:Posts">
+                    <RelativePanel Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="10" Margin="0, 5,0, 5">
+
+                        <AppBarToggleButton x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True" Margin="5"  IsChecked="{x:Bind PostUpvoted}" Icon="Up" Label="{x:Bind PostUpvotes}"></AppBarToggleButton>
+                        <AppBarToggleButton x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="Upvote" Margin="5" IsChecked="{x:Bind PostDownVoted}">
+                            <AppBarToggleButton.Icon>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;"/>
+                            </AppBarToggleButton.Icon>
+                        </AppBarToggleButton>
+
+                        <TextBlock x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="Upvote" FontSize="15" Canvas.ZIndex="6" Text="{x:Bind TitleText}" Margin="10, 20, 0, 0"  TextWrapping="WrapWholeWords" Width="400"></TextBlock>
+
+                        <TextBlock RelativePanel.RightOf="DownVote" RelativePanel.Below="TitleTextBlock" x:Name="Date" FontSize="11" Margin="0,13,3,0" x:Phase="3" Text="{x:Bind PostDate}"></TextBlock>
+                       <!-- <TextBlock x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date" Margin="3,0,0,0" FontSize="11"></TextBlock>
+                        <HyperlinkButton x:Phase="1" Content="{x:Bind PostSubreddit}" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="User" x:Name="Subreddit" Margin="3,0,0,0" FontSize="11"/>-->
+                        <HyperlinkButton x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date" x:Phase="1" Margin="3,0,0,0" FontSize="11" Tapped="HyperlinkButton_Tapped" Content="{x:Bind PostAuthor}">
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout>
+                                    <Frame Loaded="Frame_Loaded"></Frame>
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
+                        </HyperlinkButton>
+                        <HyperlinkButton x:Phase="1" Content="{x:Bind PostSubreddit}" Tapped="Subreddit_Tapped" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="User" x:Name="Subreddit" Margin="3,0,0,0" FontSize="11">
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout>
+                                    <Frame Loaded="Frame_LoadedSubreddit"></Frame>
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
+                        </HyperlinkButton>
+                        <TextBlock Margin="3,0,0,0" x:Name="Flair" RelativePanel.Below="Subreddit" RelativePanel.RightOf="DownVote"  x:Phase="2" Text="{x:Bind PostFlair}"  Foreground="{Binding PostFlairColor}"  Padding="10, 5, 10, 5"  HorizontalAlignment="Left" TextWrapping="WrapWholeWords"></TextBlock>
+                        <CommandBar x:Name="PostsBar" RelativePanel.Above="PostImage" RelativePanel.RightOf="DownVote" RelativePanel.Below="Flair" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
+                            <AppBarButton Icon="Comment" Label="{x:Bind PostCommentCount}"/>
+                            <AppBarButton Icon="SolidStar" Label="Awards">
+                                <AppBarButton.Flyout>
+                                    <Flyout>
+                                        <Frame Loaded="Award_Loaded"></Frame>
+                                    </Flyout>
+                                </AppBarButton.Flyout>
+                            </AppBarButton>
+                            <AppBarSeparator/>
+                            <AppBarButton Icon="Globe" Label="Open post in web"/>
+                            <AppBarSeparator/>
+                            <AppBarButton Icon="ClosePane" Label="Hide" Click="HideButton_Click"/>
+                            <AppBarButton Icon="Share" Label="Share"/>
+                            <AppBarButton Icon="Save" Label="Save" Click="SaveButton_Click"/>
+                            <AppBarButton Icon="ReportHacked" Label="Report"/>
+                            <AppBarButton Icon="ReShare" Label="Crosspost"/>
+                            <AppBarSeparator/>
+                            <AppBarButton Icon="Delete" Label="Delete"/>
+                        </CommandBar>
+                        <Image x:Name="PostImage" Source="{x:Bind LinkSource}" RelativePanel.AlignBottomWithPanel="True" Margin="0, 10,0,0 " Stretch="Fill" Visibility="{x:Bind PostType}"/>
+                    </RelativePanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

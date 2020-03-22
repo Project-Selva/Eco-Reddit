@@ -1,0 +1,109 @@
+﻿<Page
+    x:Class="Eco_Reddit.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helper="using:Eco_Reddit.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Style="{StaticResource PageStyle}"
+    xmlns:xaml="using:Windows.UI.Xaml"
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <helper:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="ElementTheme" />
+    </Page.Resources>
+    <Grid Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            x:Uid="Settings_Title"
+            Style="{StaticResource PageTitleStyle}" />
+
+        <StackPanel
+            Grid.Row="1"
+            x:Name="ContentArea">
+            <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
+                <ToggleSwitch Header="Enable Ads" OffContent="Disabled: Planting trees isnt supported in pre - Alpha" OnContent="Working" IsOn="False" IsEnabled="False" />
+                <TextBlock x:Uid="Settings_Theme" />
+
+                <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                    <RadioButton 
+                        x:Uid="Settings_Theme_Light"
+                        Checked="ThemeChanged_CheckedAsync" 
+                        IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
+                        FontSize="15"
+                        GroupName="AppTheme" >
+                        <RadioButton.CommandParameter>
+                            <xaml:ElementTheme>Light</xaml:ElementTheme>
+                        </RadioButton.CommandParameter> 
+                    </RadioButton>
+                    <RadioButton 
+                        x:Uid="Settings_Theme_Dark"
+                        Checked="ThemeChanged_CheckedAsync" 
+                        IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
+                        FontSize="15"
+                        GroupName="AppTheme">
+                        <RadioButton.CommandParameter>
+                            <xaml:ElementTheme>Dark</xaml:ElementTheme>
+                        </RadioButton.CommandParameter>
+                    </RadioButton>
+                    <RadioButton 
+                        x:Uid="Settings_Theme_Default"
+                        Checked="ThemeChanged_CheckedAsync"
+                        IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
+                        FontSize="15"
+                        GroupName="AppTheme">
+                        <RadioButton.CommandParameter>
+                            <xaml:ElementTheme>Default</xaml:ElementTheme>
+                        </RadioButton.CommandParameter>
+                    </RadioButton>
+                </StackPanel>
+            </StackPanel>
+
+            <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
+
+            <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="Pre alpha v0.01" />
+                <TextBlock
+                    Margin="{StaticResource XSmallTopMargin}"
+                    Style="{ThemeResource BodyTextBlockStyle}" >
+                    Plant trees while browsing reddit.
+                    <LineBreak/>
+                    upcoming features for pre - Alpha:
+                    <LineBreak/>
+                    -speed improvements
+                     <LineBreak/>
+                    -Subscribed subreddits
+                     <LineBreak/>
+                    -Upvoting and downvoting
+                     <LineBreak/>
+                    -Abiity to create posts
+                     <LineBreak/>
+                    -Comments, replies and commenting
+                     <LineBreak/>
+                    -save, share, hide, report and crosspost posts
+                     <LineBreak/>
+                    -Improve UI
+                     <LineBreak/>
+                    -Recomended subreddit
+                     <LineBreak/>
+                    -Personalisation settings
+                </TextBlock>
+
+                <HyperlinkButton  NavigateUri="https://www.reddit.com/help/privacypolicy" Margin="{StaticResource XSmallTopMargin}" />
+
+                <HyperlinkButton
+                    x:Uid="FeedbackHub_Link"
+                    x:Name="FeedbackLink"
+                    Visibility="Collapsed"
+                    Click="FeedbackLink_Click"
+                    Margin="{StaticResource XSmallTopMargin}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>
