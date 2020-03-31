@@ -150,12 +150,14 @@
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\GetPostsClass.cs" />
     <Compile Include="Helpers\GetSearchResults.cs" />
+    <Compile Include="Helpers\GetSubreddits.cs" />
     <Compile Include="Helpers\GetUserPosts.cs" />
     <Compile Include="Helpers\LoginHelper.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Models\AuthViewModel.cs" />
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Models\Posts.cs" />
+    <Compile Include="Models\SubredditList.cs" />
     <Compile Include="Models\TabViewItemData.cs" />
     <Compile Include="Models\UserPosts.cs" />
     <Compile Include="Services\ActivationService.cs" />

@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
+     Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     mc:Ignorable="d">
     <Page.Resources>
         <Style x:Key="BrowserButtonStyle" TargetType="Button">
@@ -72,8 +73,14 @@
             </Setter>
         </Style>
     </Page.Resources>
-
-    <Grid>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+        <Grid Margin="0,0,150,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel>
+            <TextBlock FontSize="30">Login to reddit</TextBlock>
+            <TextBlock>Eco reddit pre alpha requires login</TextBlock>
+            </StackPanel>
+        </Grid>
+    <Grid Width="1000">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -116,4 +123,5 @@
             </StackPanel>
         </Grid>
     </Grid>
+    </StackPanel>
 </Page>

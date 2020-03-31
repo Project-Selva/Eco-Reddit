@@ -8,8 +8,28 @@
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
     <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+        <StackPanel>
         <TextBlock Margin="5" FontSize="25" VerticalAlignment="Top" x:Name="TextSearched"></TextBlock>
-        <ListView x:Name="SearchList" Margin="0, 50, 0, 0" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowBrush}" IsItemClickEnabled="True" ItemClick="HomeList_ItemClick" Width="600" HorizontalAlignment="Left">
+        <StackPanel Orientation="Horizontal">
+        <AutoSuggestBox Header="Search:" QueryIcon="Find" Width="350" Margin="5" x:Name="Search" QuerySubmitted="Search_QuerySubmitted" PlaceholderText="Search posts, users and subreddits"></AutoSuggestBox>
+                <ComboBox x:Name="SortBox" Margin="5" Header="Search options:" Width="200" SelectedIndex="0">
+                    <x:String>Relevance</x:String>
+                    <x:String>Comments</x:String>
+                    <x:String>hot</x:String>
+                    <x:String>top</x:String>
+                    <x:String>new</x:String>
+                </ComboBox>
+                <ComboBox x:Name="TimeBox" Margin="5" Header="Time options:" SelectedIndex="0" Width="200">
+                    <x:String>all</x:String>
+                    <x:String>year</x:String>
+                    <x:String>month</x:String>
+                    <x:String>week</x:String>
+                    <x:String>day</x:String>
+                </ComboBox>
+                <Button Background="Black" Margin="5, 10, 5, 5" BorderBrush="Wheat" BorderThickness='3' Click="SearchButton_Click">Search</Button>
+            </StackPanel>
+        </StackPanel>
+        <ListView x:Name="SearchList" Margin="0, 150, 0, 0" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowBrush}" IsItemClickEnabled="True" ItemClick="HomeList_ItemClick" Width="600" HorizontalAlignment="Left">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local1:Posts">
                     <RelativePanel Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="10" Margin="0, 5,0, 5">

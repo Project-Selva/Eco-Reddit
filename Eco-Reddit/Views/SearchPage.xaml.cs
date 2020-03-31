@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -16,6 +17,7 @@ namespace Eco_Reddit.Views
     {
         public static string SearchString { get; set; }
         public static string Subreddit { get; set; }
+        public string Sub;
         string LocalSearchString { get; set; }
         public string appId = "mp8hDB_HfbctBg";
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
@@ -24,11 +26,15 @@ namespace Eco_Reddit.Views
         {
             InitializeComponent();
             LocalSearchString = SearchString;
+            Sub = Subreddit;
             SearchString = null;
             TextSearched.Text = "Search results for: " + LocalSearchString + " in r/" + Subreddit;
+            Search.Text = LocalSearchString;
             GetSearchResults.Input = LocalSearchString;
             GetSearchResults.Sub = Subreddit;
             GetSearchResults.limit = 10;
+            GetSearchResults.TimeSort = "all";
+            GetSearchResults.SearchSort = "relevance";
             GetSearchResults.skipInt = 0;
             var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
             SearchList.ItemsSource = Postscollection;
@@ -126,5 +132,35 @@ namespace Eco_Reddit.Views
             await post.SaveAsync("");
         }
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void Search_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            TextSearched.Text = "Search results for: " + LocalSearchString + " in r/" + Subreddit;
+            Search.Text = LocalSearchString;
+            GetSearchResults.Input = LocalSearchString;
+            GetSearchResults.Sub = Subreddit;
+            GetSearchResults.limit = 10;
+            GetSearchResults.TimeSort = TimeBox.SelectedItem.ToString();
+            GetSearchResults.SearchSort = SortBox.SelectedItem.ToString();
+            GetSearchResults.skipInt = 0;
+            var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
+            SearchList.ItemsSource = Postscollection;
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            TextSearched.Text = "Search results for: " + LocalSearchString + " in r/" + Sub;
+            Search.Text = LocalSearchString;
+            GetSearchResults.Input = LocalSearchString;
+            GetSearchResults.Sub = Sub;
+            GetSearchResults.limit = 10;
+            GetSearchResults.TimeSort = TimeBox.SelectedItem.ToString();
+            var m = new MessageDialog(TimeBox.SelectedItem.ToString());
+            m.ShowAsync();
+            GetSearchResults.SearchSort = SortBox.SelectedItem.ToString();
+            GetSearchResults.skipInt = 0;
+            var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
+            SearchList.ItemsSource = Postscollection;
+        }
     }
 }

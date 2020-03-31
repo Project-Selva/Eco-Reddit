@@ -18,27 +18,9 @@
 
         <Frame Canvas.ZIndex="9999" x:Name="LoginFrame"></Frame>
         <controls:DropShadowPanel BlurRadius="4.0" ShadowOpacity="0.70"
-                          OffsetX="5.0" OffsetY="5.0" Color="Black" Canvas.ZIndex="50" >
+                          OffsetX="5.0" OffsetY="5.0" Color="Black" Canvas.ZIndex="50" Width="10000">
 
-            <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Width="1600" Orientation="Horizontal" Height="50" VerticalAlignment="Top" Canvas.ZIndex="50" x:Name="HomeBar" x:Load="False">
-                <muxc:DropDownButton Content="Hub" Background="{ThemeResource SystemControlAcrylicElementBrush}">
-                    <muxc:DropDownButton.Flyout>
-                        <Flyout>
-                            <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Orientation="Vertical">
-                                <AutoSuggestBox PlaceholderText="r/"
-                                      Header="Jump to..."
-                                            x:Name="Jumper"
-                                            Width="300"
-                                            
-        QueryIcon="Add"
-        QuerySubmitted="Jumper_QuerySubmitted">
-                                </AutoSuggestBox>
-                                <CheckBox Content="Open in new tab"
-                                      x:Name="Openinnewtabjumpercheckbox" IsEnabled="False"/>
-                            </StackPanel>
-                        </Flyout>
-                    </muxc:DropDownButton.Flyout>
-                </muxc:DropDownButton>
+            <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Width="10000" Orientation="Horizontal" Height="50" VerticalAlignment="Top" Canvas.ZIndex="50" x:Name="HomeBar" x:Load="False">
                 <TextBlock Margin="5" x:Name="SubredditText" Text="Home" FontSize="30"></TextBlock>
                 <CommandBar HorizontalAlignment="Center" DefaultLabelPosition="Right" Background="{ThemeResource SystemControlAcrylicElementBrush}" VerticalAlignment="Center">
                     <AppBarButton Icon="Sort" x:Name="SortOrderButton" Visibility="Collapsed">
@@ -58,8 +40,16 @@
                             </MenuFlyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>
-                    <AppBarButton Icon="Add" Label="Create Post"></AppBarButton>
+                    <AppBarButton Icon="Home" Label="Hub" Click="HubButton_Click"></AppBarButton>
+                    <AppBarButton Icon="Add" Click="AddBarButton_Click" Label="Create Post"></AppBarButton>
                     <AppBarButton Icon="Refresh" Label="Refresh" Click="RefreshBarButton_Click"></AppBarButton>
+                    <AppBarButton Icon="Account" Label="Profile">
+                        <AppBarButton.Flyout>
+                            <Flyout>
+                                <Frame x:Name="ProfileFrame" Loaded="ProfilePage_Loaded"></Frame>
+                            </Flyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
                     <AppBarButton Icon="Setting" x:Name="SettingsButton" Label="Settings" Click="SettingsButton_Click">
                         <AppBarButton.Flyout>
                             <Flyout>
@@ -68,78 +58,61 @@
                         </AppBarButton.Flyout>
                     </AppBarButton>
                     <AppBarButton Icon="ThreeBars" Label="Sidebar" Click="Expander_Expanded">
-                        <AppBarButton.Flyout>
-                            <Flyout>
-                                <ScrollViewer Grid.Row="3"
-                  HorizontalScrollBarVisibility="Disabled"
-                  VerticalScrollBarVisibility="Visible">
-                                    <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Orientation="Vertical">
-                                        <Image Height="100" Width="400" Stretch="Fill" x:Name="HeaderIMG" Source="/Images/HeaderImg.jpg"/>
-                                        <StackPanel Orientation="Horizontal">
-                                            <PersonPicture x:Name="SubIcon" ProfilePicture="/Images/IconSub.png"></PersonPicture>
-                                            <TextBlock x:Name="TitleSidebar" FontSize="30" Margin="5">
-                                            </TextBlock>
-                                        </StackPanel>
-                                        <TextBlock x:Name="HeaderSideBar" FontSize="20" Margin="5"></TextBlock>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock x:Name="SubsSidebar" Margin="5"></TextBlock>
-                                            <TextBlock x:Name="UserssSidebar" Margin="5"></TextBlock>
-                                            <TextBlock x:Name="TimeSidebar" Margin="5"></TextBlock>
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button x:Name="SubscribeButton" Margin="5" Click="SubscribeButton_Click" Content="Subscribe"></Button>
-                                            <Button x:Name="UnSubscribeButton" Click="UnSubscribeButton_Click" Content="Unsubscribe"></Button>
-                                            <Grid x:Name="NSFWGrid" Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0" Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}" BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left" Padding="10, 5, 10, 5">
-                                                <TextBlock Text="NSFW" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
-                                            </Grid>
-                                        </StackPanel>
-                                        <controls:MarkdownTextBlock
-                        Foreground="White"
-                     Background="{ThemeResource SystemControlAcrylicElementBrush}"
-                    TextWrapping="Wrap"
-                    Width="400"
-                    IsTextSelectionEnabled="True"
-                        LinkClicked="MarkdownText_LinkClicked"
-                        ImageClicked="MarkdownText_ImageClicked"
-                    x:Name="AboutSidebar"
-                   Margin="6"/>
-                                        <Image Width="400" Stretch="Fill" x:Name="BannerIMG"/>
-                                        <controls:MarkdownTextBlock
-                        Foreground="White"
-                     Background="{ThemeResource SystemControlAcrylicElementBrush}"
-                    TextWrapping="Wrap"
-                    Width="400"
-                        LinkClicked="MarkdownText_LinkClicked"
-                        ImageClicked="MarkdownText_ImageClicked"
-                    IsTextSelectionEnabled="True"
-                    x:Name="SideBarSidebar"
-                   Margin="6"/>
-                                    </StackPanel>
-                                </ScrollViewer>
-                            </Flyout>
-                        </AppBarButton.Flyout>
                     </AppBarButton>
                 </CommandBar>
                 <AutoSuggestBox Margin="9" PlaceholderText="Search subreddits, users and post (Pre Alpha)"
                             HorizontalAlignment="Center"
                                             x:Name="Search"
                                             Width="400"
-        QueryIcon="Find"
-                          TextChanged="Search_TextChanged"  
+        QueryIcon="Find"  
         QuerySubmitted="Search_QuerySubmitted">
                 </AutoSuggestBox>
             </StackPanel>
         </controls:DropShadowPanel>
+
         <!-- Loading screen content -->
-           
         <muxc:TwoPaneView Pane1Length="auto" Pane2Length="*" x:Name="splitView" Margin="0, 50, 0, 0" Background="{ThemeResource SystemControlAcrylicWindowBrush}"  Foreground="{ThemeResource SystemControlAcrylicWindowBrush}" Loaded="splitView_Loaded">
             <muxc:TwoPaneView.Pane1>
                 <Grid Width="670">
+                    <SplitView Canvas.ZIndex="5000" x:Name="HubsplitView" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+           IsPaneOpen="False" OpenPaneLength="312" CompactPaneLength="48" DisplayMode="Overlay">
+                        <SplitView.Pane>
+                            <Grid>
+                                <StackPanel VerticalAlignment="Top" Background="{ThemeResource SystemControlAcrylicElementBrush}" Orientation="Vertical">
+                                <AutoSuggestBox PlaceholderText="r/"
+                                      Header="Jump to..."
+                                            x:Name="Jumper"
+                                            Width="300"
+                                            
+        QueryIcon="Add"
+        QuerySubmitted="Jumper_QuerySubmitted">
+                                </AutoSuggestBox>
+                                <CheckBox Content="Open in new tab"
+                                      x:Name="Openinnewtabjumpercheckbox" IsEnabled="False"/>
+                                    <Button Margin="5" Width="400" HorizontalAlignment="Center" Click="HomeButton_Click">Home</Button>
+                                    <Button Margin="5" Width="400" HorizontalAlignment="Center" Click="PopularButton_Click">popular</Button>
+                                    <Button Margin="5" Width="400" HorizontalAlignment="Center" Click="AllButton_Click">all</Button>
+                                </StackPanel>
+                            <ListView IsItemClickEnabled="True" ItemClick="SubscribedSubs_ItemClick" Foreground="White" Margin="0, 250, 0, 0" x:Name="SubscribedSubs" Header="Subscribed subreddits:" Width="400">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
+                                                <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
+                                                <TextBlock HorizontalAlignment="Left" Margin="5" Padding="10, 5, 10, 5" Text="IsNSFW" Visibility="{Binding IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                          </Grid>
+                        </SplitView.Pane>
+                    </SplitView>
+
                     <ProgressRing VerticalAlignment="Bottom" Foreground="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}" IsActive="True" Canvas.ZIndex="6" />
                     <ListView VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="HomeList" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowBrush}" IsItemClickEnabled="True" ItemClick="HomeList_ItemClick" HorizontalAlignment="Left">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:Posts">
-                                <RelativePanel Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="10" Margin="0, 5,0, 5" Width="670">
+                                <RelativePanel Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="10" Margin="0, 5,0, 5" Width="640">
                 
                                             <AppBarToggleButton x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True" Margin="5"  IsChecked="{x:Bind PostUpvoted}" Icon="Up" Label="{x:Bind PostUpvotes}"></AppBarToggleButton>
                                     <AppBarToggleButton x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="Upvote" Margin="5" IsChecked="{x:Bind PostDownVoted}">
@@ -178,15 +151,15 @@
                                         </AppBarButton>
                                         <AppBarSeparator/>
                                         <AppBarButton Icon="NewWindow" Click="NewTabButton_Click" Label="Open post in new tab"/>
-                                        <AppBarButton Icon="Globe" Label="Open post in web"/>
+                                        <AppBarButton Icon="Globe" Label="Open post in web" IsEnabled="False"/>
                                         <AppBarSeparator/>
                                         <AppBarButton Icon="ClosePane" Label="Hide" Click="HideButton_Click"/>
-                                        <AppBarButton Icon="Share" Label="Share"/>
+                                        <AppBarButton Icon="Share" Label="Share" IsEnabled="False"/>
                                         <AppBarButton Icon="Save" Label="Save" Click="SaveButton_Click"/>
-                                        <AppBarButton Icon="ReportHacked" Label="Report"/>
-                                        <AppBarButton Icon="ReShare" Label="Crosspost"/>
+                                        <AppBarButton Icon="ReportHacked" Label="Report" IsEnabled="False"/>
+                                        <AppBarButton Icon="ReShare" Label="Crosspost" IsEnabled="False"/>
                                         <AppBarSeparator/>
-                                        <AppBarButton Icon="Delete" Label="Delete"/>
+                                        <AppBarButton Icon="Delete" Label="Delete" IsEnabled="False"/>
                                     </CommandBar>
                                     <Image x:Name="PostImage" Source="{x:Bind LinkSource}" RelativePanel.AlignBottomWithPanel="True" Margin="0, 10,0,0 " Stretch="Fill" Visibility="{x:Bind PostType}"/>
                                 </RelativePanel>
@@ -197,6 +170,57 @@
                 </muxc:TwoPaneView.Pane1>
                     <muxc:TwoPaneView.Pane2>
                 <Grid>
+                    <SplitView Canvas.ZIndex="5000" x:Name="SideBarsplitView" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+           IsPaneOpen="False" OpenPaneLength="312" PanePlacement="Right" CompactPaneLength="48" DisplayMode="Overlay">
+                        <SplitView.Pane>
+                            <ScrollViewer Grid.Row="3"
+                  HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Visible">
+                                <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Orientation="Vertical">
+                                    <Image Height="100" Width="400" Stretch="Fill" x:Name="HeaderIMG" Source="/Images/HeaderImg.jpg"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <PersonPicture x:Name="SubIcon" ProfilePicture="/Images/IconSub.png"></PersonPicture>
+                                        <TextBlock x:Name="TitleSidebar" Foreground="White" FontSize="30" Margin="5">
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <TextBlock x:Name="HeaderSideBar" Foreground="White"  FontSize="20" Margin="5"></TextBlock>
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock x:Name="SubsSidebar" Foreground="White" Margin="5"></TextBlock>
+                                        <TextBlock x:Name="UserssSidebar" Foreground="White" Margin="5"></TextBlock>
+                                        <TextBlock x:Name="TimeSidebar" Foreground="White" Margin="5"></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="SubscribeButton" Margin="5" Click="SubscribeButton_Click" Content="Subscribe"></Button>
+                                        <Button x:Name="UnSubscribeButton" Click="UnSubscribeButton_Click" Content="Unsubscribe"></Button>
+                                        <Grid x:Name="NSFWGrid" Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0" Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}" BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left" Padding="10, 5, 10, 5">
+                                            <TextBlock Text="NSFW" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
+                                        </Grid>
+                                    </StackPanel>
+                                    <controls:MarkdownTextBlock
+                        Foreground="White"
+                     Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                    TextWrapping="Wrap"
+                    Width="400"
+                    IsTextSelectionEnabled="True"
+                        LinkClicked="MarkdownText_LinkClicked"
+                        ImageClicked="MarkdownText_ImageClicked"
+                    x:Name="AboutSidebar"
+                   Margin="6"/>
+                                    <Image Width="400" Stretch="Fill" x:Name="BannerIMG"/>
+                                    <controls:MarkdownTextBlock
+                        Foreground="White"
+                     Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                    TextWrapping="Wrap"
+                    Width="400"
+                        LinkClicked="MarkdownText_LinkClicked"
+                        ImageClicked="MarkdownText_ImageClicked"
+                    IsTextSelectionEnabled="True"
+                    x:Name="SideBarSidebar"
+                   Margin="6"/>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </SplitView.Pane>
+                    </SplitView>
                     <winui:TabView
                  Foreground="White"
                      Background="{ThemeResource SystemControlAcrylicWindowBrush}"
@@ -212,5 +236,41 @@
                 </Grid>
             </muxc:TwoPaneView.Pane2>
         </muxc:TwoPaneView>
+        <ContentDialog
+            x:Name="CreatePostDialog"
+        PrimaryButtonText="Create"
+            PrimaryButtonClick="CreatePostDialog_PrimaryButtonClick"
+        CloseButtonText="Cancel"
+               Background="{ThemeResource SystemControlAcrylicElementBrush}"
+        DefaultButton="Primary">
+
+            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <TextBox PlaceholderText="Title" Header="Title:" x:Name="TitleBox"></TextBox>
+                <Pivot x:Name="CreatePostPivot">
+                    <PivotItem Header="Text">
+                        <StackPanel>
+                            <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind EditZone}" Background="{ThemeResource SystemControlAcrylicElementBrush}" Format="MarkDown"/>
+                            <RichEditBox x:Name="EditZone"
+                     PlaceholderText="Enter Text Here"
+                     TextWrapping="Wrap"
+                     VerticalContentAlignment="Stretch"
+                     MinHeight="300"
+                     Padding="10,3"
+                     BorderThickness="1"
+                     BorderBrush="{ThemeResource SystemControlAcrylicElementBrush}"
+                     Foreground="{ThemeResource SystemControlAcrylicElementBrush}"/>
+                        </StackPanel>
+                    </PivotItem>
+                    <PivotItem Header="Link">
+                        <TextBox PlaceholderText="Enter link" x:Name="Link"></TextBox>
+                    </PivotItem>
+                    <PivotItem Header="Ink" IsEnabled="False">
+                        <TextBlock>coming soon</TextBlock>
+                    </PivotItem>
+
+                </Pivot>
+            </StackPanel>
+
+        </ContentDialog>
     </Grid>
 </Page>

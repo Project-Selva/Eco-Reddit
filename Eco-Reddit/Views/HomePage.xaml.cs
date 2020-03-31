@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Reddit;
 using Reddit.Controllers;
+using Reddit.Inputs.LinksAndComments;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -154,6 +155,7 @@ namespace Eco_Reddit.Views
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
+                SideBarsplitView.IsPaneOpen = true;
                 if (IsHomeEnabled == true)
                 {
                     TitleSidebar.Text = "r/Home";
@@ -172,7 +174,6 @@ namespace Eco_Reddit.Views
                     var reddit = new RedditClient(appId, refreshToken, secret);
                     var subreddit = CurrentSub.About();
                     TitleSidebar.Text = "r/" + subreddit.Name;
-
                     HeaderSideBar.Text = subreddit.Title;
                     SubscribeButton.Visibility = Visibility.Visible;
                     UnSubscribeButton.Visibility = Visibility.Visible;
@@ -371,11 +372,6 @@ namespace Eco_Reddit.Views
             MainTabView.SelectedItem = newTab;
         }
 
-        private void Search_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-
-        }
-
         private async void SortOrderItem_Click(object sender, RoutedEventArgs e)
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
@@ -493,6 +489,131 @@ namespace Eco_Reddit.Views
         private void Subreddit_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+
+        private void HubButton_Click(object sender, RoutedEventArgs e)
+        {
+            HubsplitView.IsPaneOpen = true;
+            GetSubreddit.Load = true;
+            var SubredditsCollection = new IncrementalLoadingCollection<GetSubreddit, SubredditList>();
+
+            SubscribedSubs.ItemsSource = SubredditsCollection;
+        }
+
+        private async void SubscribedSubs_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                SubredditList P = e.ClickedItem as SubredditList;
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+                 try
+                 {
+                CurrentSub = Client.Subreddit(P.SubredditSelf);
+                SubredditText.Text = "r/" + CurrentSub.Name;
+                GetPostsClass.Subreddit = CurrentSub.Name;
+                GetPostsClass.limit = 10;
+                GetPostsClass.skipInt = 0;
+                IsHomeEnabled = false;
+                PostsSortOrder = "Hot";
+                SortOrderButton.Label = "Hot";
+                GetPostsClass.SortOrder = "Hot";
+                var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
+                HomeList.ItemsSource = Postscollection;
+                SortOrderButton.Visibility = Visibility.Visible;
+                 }
+                 catch
+                 {
+                     var m = new MessageDialog("Subreddit doesnt exist");
+                     await m.ShowAsync();
+                 }
+            });
+        }
+        private async void HomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                GetPostsClass.SortOrder = "Best";
+            PostsSortOrder = "Best";
+            SubredditText.Text = "Home";
+            IsHomeEnabled = true;
+            var PostsCollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
+            HomeList.ItemsSource = PostsCollection;
+            });
+        }
+        private async void PopularButton_Click(object sender, RoutedEventArgs e)
+        {
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    string refreshToken = localSettings.Values["refresh_token"].ToString();
+            var reddit = new RedditClient(appId, refreshToken, secret);
+
+            CurrentSub = Client.Subreddit("popular");
+            SubredditText.Text = "r/" + CurrentSub.Name;
+            GetPostsClass.Subreddit = CurrentSub.Name;
+            GetPostsClass.limit = 10;
+            GetPostsClass.skipInt = 0;
+            IsHomeEnabled = false;
+            PostsSortOrder = "Hot";
+            SortOrderButton.Label = "Hot";
+            GetPostsClass.SortOrder = "Hot";
+            var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
+            HomeList.ItemsSource = Postscollection;
+            SortOrderButton.Visibility = Visibility.Visible;
+                });
+        }
+        private async void AllButton_Click(object sender, RoutedEventArgs e)
+        {
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
+                        string refreshToken = localSettings.Values["refresh_token"].ToString();
+            var reddit = new RedditClient(appId, refreshToken, secret);
+            CurrentSub = Client.Subreddit("all");
+            SubredditText.Text = "r/" + CurrentSub.Name;
+            GetPostsClass.Subreddit = CurrentSub.Name;
+            GetPostsClass.limit = 10;
+            GetPostsClass.skipInt = 0;
+            IsHomeEnabled = false;
+            PostsSortOrder = "Hot";
+            SortOrderButton.Label = "Hot";
+            GetPostsClass.SortOrder = "Hot";
+            var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
+            HomeList.ItemsSource = Postscollection;
+            SortOrderButton.Visibility = Visibility.Visible;
+                    });
+        }
+
+        private void ProfilePage_Loaded(object sender, RoutedEventArgs e)
+        {
+        ProfileFrame.Navigate(typeof(ProfilePage));
+        }
+
+        private async void AddBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsHomeEnabled == false)
+            {
+                CreatePostDialog.Title = "Create post to r/" + CurrentSub.Name;
+                await CreatePostDialog.ShowAsync();
+            }
+        }
+
+        private async void CreatePostDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            string refreshToken = localSettings.Values["refresh_token"].ToString();
+            var reddit = new RedditClient(appId, refreshToken, secret);
+            PivotItem pivotitem = (PivotItem)CreatePostPivot.SelectedItem;
+            var m = new MessageDialog(pivotitem.Header.ToString());
+           await m.ShowAsync();
+            String RichText;
+            EditZone.TextDocument.GetText(Windows.UI.Text.TextGetOptions.None, out RichText);
+            if (pivotitem.Header.ToString() == "Text")
+            {
+                reddit.Models.LinksAndComments.Submit(new LinksAndCommentsSubmitInput(title: TitleBox.Text, kind: "self", text: RichText, sr: CurrentSub.Name));
+            }
+            else
+            {
+                reddit.Models.LinksAndComments.Submit(new LinksAndCommentsSubmitInput(title:TitleBox.Text, url: Link.Text, sr: CurrentSub.Name));
+            }
         }
         /* private  void SubredditlinkButton_Loaded(object sender, RoutedEventArgs e)
 {

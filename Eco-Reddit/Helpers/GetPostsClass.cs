@@ -83,7 +83,7 @@ namespace Eco_Reddit.Helpers
 
                         // pageContent += Environment.NewLine + "### [" + post.Title + "](" + post.Permalink + ")" + Environment.NewLine;
                         try
-                             {
+                            {
                                  var p = post as LinkPost;
                                  ImageUrl = p.URL;
                                  LinkPostType = Visibility.Visible;
@@ -118,14 +118,12 @@ namespace Eco_Reddit.Helpers
                                  LinkSource = ImageUrl,
                             //  IsNSFW = Nsfw
                         });
-                         }
+                       }
                      });
                     // Simulates a longer request...
                     skipInt = skipInt + 10;
             });
             return PostCollection;
-
-
         }
     }
    }

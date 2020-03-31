@@ -17,6 +17,8 @@ namespace Eco_Reddit.Helpers
     {
         public static int limit = 10;
         public static int skipInt = 0;
+        public static string SearchSort { get; set; }
+        public static string TimeSort { get; set; }
         public string appId = "mp8hDB_HfbctBg";
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
         List<Posts> ResultsCollection;
@@ -36,7 +38,7 @@ namespace Eco_Reddit.Helpers
                 string ImageUrl = "e";
                 string Nsfw = "";
                 limit = limit + 10;
-                IEnumerable<Post> SearchResultsSearch = reddit.Subreddit(Sub).Search(new SearchGetSearchInput(Input, limit: limit, sort: "top")).Skip(skipInt);
+                IEnumerable<Post> SearchResultsSearch = reddit.Subreddit(Sub).Search(new SearchGetSearchInput(Input, limit: limit, sort: SearchSort, t: TimeSort)).Skip(skipInt);
                /* if (SearchResultsSearch.Count == 0)
                 {
                     SearchResultsSearch = reddit.Subreddit("all").Search(new SearchGetSearchInput(Input, limit: limit, sort: "top")).Skip(skipInt);  // Search r/all

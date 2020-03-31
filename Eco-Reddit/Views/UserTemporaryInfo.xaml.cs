@@ -32,8 +32,8 @@ namespace Eco_Reddit.Views
             var User = PostUser.About();
             CurrentUser = PostUser;
             TitleAuthor.Text = "u/" + User.Name;
-            FullNameAuthor.Text = User.Fullname;
-            AuthorKarma.Text = "Karma total: " + User.CommentKarma + User.LinkKarma;
+            FullNameAuthor.Text = User.Id;
+            AuthorKarma.Text = "Karma total: " + (User.CommentKarma + User.LinkKarma);
              AuthorPostKarma.Text = " Post Karma: " + User.LinkKarma;
               AuthorCommentKarma.Text = " Comment Karma: " + User.CommentKarma;
             AuthorDate.Text = "Created: " + User.Created.ToString();
