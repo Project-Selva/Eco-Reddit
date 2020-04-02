@@ -26,13 +26,13 @@ namespace Eco_Reddit.Helpers
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
         List<Posts> PostCollection;
         private IEnumerable<Post> posts;
-
         public static String Subreddit { get; set; }
         public static String SortOrder { get; set; }
         public async Task<IEnumerable<Posts>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
             await Task.Run(async() =>
             {
+
                     string refreshToken = localSettings.Values["refresh_token"].ToString();
                     // Gets items from the collection according to pageIndex and pageSize parameters.
                     PostCollection = new List<Posts>();
@@ -72,56 +72,47 @@ namespace Eco_Reddit.Helpers
                             posts = subreddit.Posts.GetControversial(limit: limit).Skip(skipInt);
                             break;
                     }
-                    var LinkPostType = Visibility.Collapsed;
-                    string ImageUrl = "e";
-                    string Nsfw = "";
                     limit = limit + 10;
                     await Task.Run(() =>
                      {
                          foreach (Post post in posts)
                          {
-
-                        // pageContent += Environment.NewLine + "### [" + post.Title + "](" + post.Permalink + ")" + Environment.NewLine;
-                        try
-                            {
-                                 var p = post as LinkPost;
-                                 ImageUrl = p.URL;
-                                 LinkPostType = Visibility.Visible;
-                             }
-                             catch
+                             PostCollection.Add(new Posts()
                              {
-                                 LinkPostType = Visibility.Collapsed;
-                             }
-                             if (post.NSFW == true)
-                             {
-                                 Nsfw = "NSFW";
-                             }
-                             else
-                             {
-                                 Nsfw = "";
-                             }
-                        // Console.WriteLine("New Post by " + post.Author + ": " + post.Title);
-                        PostCollection.Add(new Posts()
-                             {
-                                 TitleText = post.Title,
                                  PostSelf = post,
-                                 PostAuthor = "u/" + post.Author,
-                                 PostDate = "Created: " + post.Created,
-                                 PostUpvoted = post.IsUpvoted,
-                                 PostSubreddit = "r/" + post.Subreddit,
-                                 PostDownVoted = post.IsDownvoted,
-                                 PostUpvotes = post.UpVotes.ToString(),
-                                 PostCommentCount = "Comments: " + post.Comments.GetComments("new").Count.ToString(),
-                                 PostFlair = Nsfw + "    Flair: " + post.Listing.LinkFlairText,
-                                 PostFlairColor = post.Listing.LinkFlairBackgroundColor,
-                                 PostType = LinkPostType,
-                                 LinkSource = ImageUrl,
-                            //  IsNSFW = Nsfw
-                        });
-                       }
+                                 //PostCommentCount = "Comments: " + post.Comments.GetComments("new").Count.ToString(),
+                                 // PostID = post.Id
+                                 //  IsNSFW = Nsfw
+                             });
+                         }
                      });
                     // Simulates a longer request...
                     skipInt = skipInt + 10;
+              /*  }
+                else
+                {
+                    string refreshToken = localSettings.Values["refresh_token"].ToString();
+                    // Gets items from the collection according to pageIndex and pageSize parameters.
+                    PostCollection = new List<Posts>();
+                    var reddit = new RedditClient(appId, refreshToken, secret);
+                    var subreddit = reddit.Subreddit(Subreddit);
+                    posts = UserToGetPostsFrom.GetPostHistory(limit: limit).Skip(skipInt);
+                    limit = limit + 10;
+                    await Task.Run(() =>
+                    {
+                        foreach (Post post in posts)
+                        {
+                            PostCollection.Add(new Posts()
+                            {
+                                PostSelf = post,
+                                //PostCommentCount = "Comments: " + post.Comments.GetComments("new").Count.ToString(),
+                                // PostID = post.Id
+                                //  IsNSFW = Nsfw
+                            });
+                        }
+                    });
+                    // Simulates a longer request...
+                }*/
             });
             return PostCollection;
         }

@@ -69,19 +69,19 @@ namespace Eco_Reddit.Helpers
                         // Console.WriteLine("New Post by " + post.Author + ": " + post.Title);
                         ResultsCollection.Add(new Posts()
                         {
-                            TitleText = post.Title,
+                           // TitleText = post.Title,
                             PostSelf = post,
-                            PostAuthor = "u/" + post.Author,
-                            PostDate = "Created: " + post.Created,
-                            PostUpvoted = post.IsUpvoted,
-                            PostSubreddit = "r/" + post.Subreddit,
-                            PostDownVoted = post.IsDownvoted,
-                            PostUpvotes = post.UpVotes.ToString(),
-                            PostCommentCount = "Comments: " + post.Comments.GetComments("new").Count.ToString(),
-                            PostFlair = Nsfw + "    Flair: " + post.Listing.LinkFlairText,
-                            PostFlairColor = post.Listing.LinkFlairBackgroundColor,
-                            PostType = LinkPostType,
-                            LinkSource = ImageUrl,
+                            //PostAuthor = "u/" + post.Author,
+                         //   PostDate = "Created: " + post.Created,
+                          //  PostUpvoted = post.IsUpvoted,
+                         //  PostSubreddit = "r/" + post.Subreddit,
+                          //  PostDownVoted = post.IsDownvoted,
+                           // PostUpvotes = post.UpVotes.ToString(),
+                            //PostCommentCount = "Comments: " + post.Comments.GetComments("new").Count.ToString(),
+                         //   PostFlair = Nsfw + "    Flair: " + post.Listing.LinkFlairText,
+                          //  PostFlairColor = post.Listing.LinkFlairBackgroundColor,
+                          //  PostType = LinkPostType,
+                          //  LinkSource = ImageUrl,
                             //  IsNSFW = Nsfw
                         });
                     }

@@ -74,10 +74,20 @@
         </Style>
     </Page.Resources>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-        <Grid Margin="0,0,150,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel>
-            <TextBlock FontSize="30">Login to reddit</TextBlock>
-            <TextBlock>Eco reddit pre alpha requires login</TextBlock>
+            <TextBlock Margin="5" FontSize="30">Login to reddit</TextBlock>
+                <TextBlock Margin="5">This is the Preview Alpha DEV version</TextBlock>
+                <TextBlock Margin="5">This version</TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <Button  Margin="5" Click="Button_Click" Style="{ThemeResource ButtonRevealStyle}">
+                        Subreddit
+                    </Button>
+                    <Button  Margin="5" Click="Button_Click_1" Style="{ThemeResource ButtonRevealStyle}">
+                        FAQ
+                    </Button>
+                </StackPanel>
+                <Frame x:Name="SettingsFrame"></Frame>
             </StackPanel>
         </Grid>
     <Grid Width="1000">

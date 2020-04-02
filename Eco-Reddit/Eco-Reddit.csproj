@@ -17,7 +17,16 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <PackageCertificateKeyFile>Eco-Reddit_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>
+    </PackageCertificateKeyFile>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>EFD2AC2A22A9EDA615F4298D39CF1A690E39DD45</PackageCertificateThumbprint>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -148,6 +157,7 @@
     <Compile Include="Activation\ActivationHandler.cs" />
     <Compile Include="Activation\WebToAppLinkActivationHandler.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
+    <Compile Include="Helpers\GetComments.cs" />
     <Compile Include="Helpers\GetPostsClass.cs" />
     <Compile Include="Helpers\GetSearchResults.cs" />
     <Compile Include="Helpers\GetSubreddits.cs" />
@@ -156,10 +166,10 @@
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Models\AuthViewModel.cs" />
     <Compile Include="Constants\Constants.cs" />
+    <Compile Include="Models\Comments.cs" />
     <Compile Include="Models\Posts.cs" />
     <Compile Include="Models\SubredditList.cs" />
     <Compile Include="Models\TabViewItemData.cs" />
-    <Compile Include="Models\UserPosts.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultActivationHandler.cs" />
     <Compile Include="Services\DevCenterNotificationsService.cs" />
@@ -345,6 +355,7 @@
     <Content Include="Images\1409938.png" />
     <Content Include="Images\HeaderImg.jpg" />
     <Content Include="Images\IconSub.png" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

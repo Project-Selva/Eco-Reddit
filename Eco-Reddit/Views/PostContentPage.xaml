@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:local="using:Eco_Reddit.Models"
     Style="{StaticResource PageStyle}"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     mc:Ignorable="d">
@@ -12,8 +13,14 @@
         <ScrollViewer Grid.Row="3"
                   HorizontalScrollBarVisibility="Disabled"
                   VerticalScrollBarVisibility="Visible">
-            <Grid Margin="0, 5,0, 5" Width="670">
-                <StackPanel Orientation="Vertical" Width="670">
+            <Grid Margin="0, 5,0, 5">
+                <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="9999" IsLoading="True">
+                    <StackPanel>
+                    <ProgressRing Loaded="StartUp" IsActive="True"/>
+                        <TextBlock>Loading post</TextBlock>
+                    </StackPanel>
+                </controls:Loading>
+                <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Vertical">
                             <AppBarToggleButton Margin="5"  Icon="Up" x:Name="UpvoteButton"></AppBarToggleButton>
@@ -24,13 +31,25 @@
                             </AppBarToggleButton>
                         </StackPanel>
                         <StackPanel Orientation="Vertical">
-                            <TextBlock FontSize="20" Foreground="White" Margin="0, 10,0,0" x:Name="Title" TextWrapping="WrapWholeWords" Width="670"></TextBlock>
-                            <TextBlock FontSize="11" Foreground="White" Margin="1" x:Name="Date"></TextBlock>
-                            <HyperlinkButton Margin="1" FontSize="11" x:Name="PostAuthor"/>
-                            <HyperlinkButton Margin="1" FontSize="11" x:Name="PostSub"/>
+                            <TextBlock FontSize="20" Margin="0, 10,10,0" x:Name="Title" MaxWidth="600" TextWrapping="WrapWholeWords"></TextBlock>
+                            <TextBlock FontSize="11"  Margin="1" x:Name="Date"></TextBlock>
+                            <HyperlinkButton x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date" Margin="1" FontSize="11" Tapped="HyperlinkButton_Tapped">
+                                <FlyoutBase.AttachedFlyout>
+                                    <Flyout>
+                                        <Frame Loaded="Frame_Loaded"></Frame>
+                                    </Flyout>
+                                </FlyoutBase.AttachedFlyout>
+                            </HyperlinkButton>
+                            <HyperlinkButton Tapped="Subreddit_Tapped" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="User" x:Name="Subreddit" Margin="1" FontSize="11">
+                                <FlyoutBase.AttachedFlyout>
+                                    <Flyout>
+                                        <Frame Loaded="Frame_LoadedSubreddit"></Frame>
+                                    </Flyout>
+                                </FlyoutBase.AttachedFlyout>
+                            </HyperlinkButton>
                             <StackPanel Orientation="Vertical">
                                 <Grid CornerRadius="20" Margin="3,0,0,0" Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}" BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left" Padding="10, 5, 10, 5">
-                                    <TextBlock x:Name="Flair"  Foreground="White" TextWrapping="WrapWholeWords"></TextBlock>
+                                    <TextBlock x:Name="Flair"   TextWrapping="WrapWholeWords"></TextBlock>
                                 </Grid>
                                 <Grid CornerRadius="20" Margin="3,0,0,0" Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}" BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left" Padding="10, 5, 10, 5">
                                     <TextBlock x:Name="NSFW" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
@@ -38,9 +57,10 @@
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
-                    <CommandBar Background="Transparent" IsOpen="False" DefaultLabelPosition="Right" Width="670">
-                        <AppBarButton Icon="Comment" x:Name="Comment"/>
-                        <AppBarButton Icon="SolidStar" x:Name="Award">
+                    <!--<TextBlock Margin="3,0,0,0" HorizontalAlignment="Left"  Padding="10, 5, 10, 5" x:Name="NSFW" x:Phase="2" Text="{x:Bind IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>-->
+                    <CommandBar x:Name="PostsBar" IsDynamicOverflowEnabled="True" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
+                        <AppBarButton x:Name="Comment" Icon="Comment" />
+                        <AppBarButton Icon="SolidStar" Label="Awards">
                             <AppBarButton.Flyout>
                                 <Flyout>
                                     <StackPanel>
@@ -53,19 +73,19 @@
                             </AppBarButton.Flyout>
                         </AppBarButton>
                         <AppBarSeparator/>
-                        <AppBarButton Icon="NewWindow" Label="Open post in new tab"/>
-                        <AppBarButton Icon="Globe" Label="Open post in web"/>
+                        <AppBarButton Icon="NewWindow" Click="NewTabButton_Click" Label="Open post in new tab"/>
+                        <AppBarButton Icon="Globe" Label="Open post in web" Click="OpenPostInWebButton_Click"/>
                         <AppBarSeparator/>
-                        <AppBarButton Icon="ClosePane" Label="Hide"/>
-                        <AppBarButton Icon="Share" Label="Share"/>
-                        <AppBarButton Icon="Save" Label="Save"/>
-                        <AppBarButton Icon="ReportHacked" Label="Report"/>
-                        <AppBarButton Icon="ReShare" Label="Crosspost"/>
+                        <AppBarButton Icon="ClosePane" Label="Hide" Click="HideButton_Click"/>
+                        <AppBarButton Icon="Share" Label="Share" IsEnabled="False"/>
+                        <AppBarButton Icon="Save" Label="Save" Click="SaveButton_Click"/>
+                        <AppBarButton Icon="ReportHacked" Label="Report" IsEnabled="False"/>
+                        <AppBarButton Icon="ReShare" Label="Crosspost" IsEnabled="False"/>
                         <AppBarSeparator/>
-                        <AppBarButton Icon="Delete" Label="Delete"/>
+                        <AppBarButton Icon="Delete" Label="Delete" IsEnabled="False"/>
                     </CommandBar>
                     <Image Margin="0, 10,0,0 " Stretch="Fill" x:Name="Image" Width="670"/>
-                    <WebView x:Name="LinkView" Width="670" Margin="0,5,0,0" Height="1000"></WebView>
+                    <WebView x:Name="LinkView" Margin="100,5,100,0" Height="1000"></WebView>
                     <MediaPlayerElement x:Name="MediaRedditPlayer"
                                         Background="Beige"
                                         Margin="0, 10,0,0 "
@@ -75,7 +95,7 @@
                     AreTransportControlsEnabled="True" />
                     <HyperlinkButton Content="Link" x:Name="Link"></HyperlinkButton>
                     <controls:MarkdownTextBlock
-                        Foreground="White"
+                        
                      Background="{ThemeResource SystemControlAcrylicWindowBrush}"
                     TextWrapping="Wrap"
                     Width="500"
@@ -83,7 +103,33 @@
                     x:Name="PostText"
                    Margin="6">
                     </controls:MarkdownTextBlock>
-                    <TextBlock Margin="5">Loading comments isnt supported in the pre - Alpha version</TextBlock>
+                    <TextBlock Margin="5">Loading replies isnt supported in the pre - Alpha version</TextBlock>
+                    <ListView ContainerContentChanging="HomeList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="CommentList" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}" IsItemClickEnabled="True" ItemClick="HomeList_ItemClick" HorizontalAlignment="Left">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="local:Comments">
+                                <RelativePanel  Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="10" Margin="0, 5,0, 5" Width="640">
+
+                                    <AppBarToggleButton CornerRadius="10" x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True" Margin="5" Icon="Up"></AppBarToggleButton>
+                                    <AppBarToggleButton CornerRadius="10" x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="Upvote" Margin="5">
+                                        <AppBarToggleButton.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;"/>
+                                        </AppBarToggleButton.Icon>
+                                    </AppBarToggleButton>
+
+                                    <TextBlock x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="Upvote" FontSize="15" Canvas.ZIndex="6" Margin="10, 20, 0, 0"  TextWrapping="WrapWholeWords" Width="400"></TextBlock>
+
+                                    <TextBlock RelativePanel.RightOf="DownVote" RelativePanel.Below="TitleTextBlock" x:Name="Date" FontSize="11" Margin="0,13,3,0"></TextBlock>
+                                    <HyperlinkButton x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date" Margin="3,6,0,0" FontSize="11" Tapped="HyperlinkButton_Tapped">
+                                        <FlyoutBase.AttachedFlyout>
+                                            <Flyout>
+                                                <Frame Tag="{x:Bind CommentSelf}"  Loaded="Frame_Loaded"></Frame>
+                                            </Flyout>
+                                        </FlyoutBase.AttachedFlyout>
+                                    </HyperlinkButton>
+                                </RelativePanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

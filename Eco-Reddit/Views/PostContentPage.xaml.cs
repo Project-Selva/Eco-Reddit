@@ -3,15 +3,22 @@ using Reddit;
 using Reddit.Controllers;
 using System;
 using System.ComponentModel;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.System;
+using Windows.UI;
+using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace Eco_Reddit.Views
 {
@@ -21,33 +28,34 @@ namespace Eco_Reddit.Views
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
         public Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public static Post Post { get; set; }
+        public Post PostLocal;
         public static PostContentPage SingletonReference { get; set; }
         public PostContentPage()
         {
             InitializeComponent();
-            StartUp();
+            PostLocal = Post;
             SingletonReference = this;
         }
-        public async void StartUp()
+        public async void StartUp(object sender, RoutedEventArgs e)
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                await Task.Delay(500);
                 string refreshToken = localSettings.Values["refresh_token"].ToString();
                 var Client = new RedditClient(appId, refreshToken, secret);
-                Title.Text = Post.Title;
-                Date.Text = "Created: " + Post.Created;
-                PostAuthor.Content = "u/" + Post.Author;
-                Comment.Label = "Comments: " + Post.Comments.GetComments("new").Count.ToString();
-                PostSub.Content = "r/" + Post.Subreddit;
-                UpvoteButton.Label = Post.UpVotes.ToString();
-                UpvoteButton.IsChecked = Post.IsUpvoted;
-                DownVoteButton.IsChecked = Post.IsDownvoted;
-                Total.Text = "Total Awards: " + Post.Awards.Count.ToString();
-                Gold.Text = "Platinum Awards: " + Post.Awards.Platinum.ToString();
-                Silver.Text = "Gold Awards: " + Post.Awards.Gold.ToString();
-                Bronze.Text = "Silver Awards: " + Post.Awards.Silver.ToString();
-                if(Post.NSFW == true)
+                Title.Text = PostLocal.Title;
+                Date.Text = "Created: " + PostLocal.Created;
+                User.Content = "u/" + PostLocal.Author;
+                Comment.Label = "Comments: " + PostLocal.Comments.GetComments("new").Count.ToString();
+                Subreddit.Content = "r/" + PostLocal.Subreddit;
+                UpvoteButton.Label = PostLocal.UpVotes.ToString();
+                UpvoteButton.IsChecked = PostLocal.IsUpvoted;
+                DownVoteButton.IsChecked = PostLocal.IsDownvoted;
+                Total.Text = "Total Awards: " + PostLocal.Awards.Count.ToString();
+                Gold.Text = "Platinum Awards: " + PostLocal.Awards.Platinum.ToString();
+                Silver.Text = "Gold Awards: " + PostLocal.Awards.Gold.ToString();
+                Bronze.Text = "Silver Awards: " + PostLocal.Awards.Silver.ToString();
+
+                if(PostLocal.NSFW == true)
                 {
                     NSFW.Text = "NSFW";
                 }
@@ -58,7 +66,7 @@ namespace Eco_Reddit.Views
                try
                 {
                     PostText.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    var p = Post as LinkPost;
+                    var p = PostLocal as LinkPost;
                 if (p.URL.ToString().Contains("i.redd.it") == true || p.URL.ToString().Contains("i.imgur") == true)
                 {
                     BitmapImage img = new BitmapImage();
@@ -101,7 +109,7 @@ namespace Eco_Reddit.Views
                   
                     try
                     {
-                        Flair.Text = Post.Listing.LinkFlairText;
+                        Flair.Text = PostLocal.Listing.LinkFlairText;
                     }
                     catch
                     {
@@ -111,7 +119,7 @@ namespace Eco_Reddit.Views
                  catch
                  {
 
-                     var p = Post as SelfPost;
+                     var p = PostLocal as SelfPost;
                      PostText.Text = p.SelfText;
                      PostText.Visibility = Windows.UI.Xaml.Visibility.Visible;
                      LinkView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -120,15 +128,86 @@ namespace Eco_Reddit.Views
                     Link.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                     try
                      {
-                         Flair.Text = Post.Listing.LinkFlairText;
+                         Flair.Text = PostLocal.Listing.LinkFlairText;
                      }
                      catch
                      {
                          Flair.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                      }
                  }
-                Post = null;
+                LoadingControl.Visibility = Visibility.Collapsed;
             });
+        }
+        private async void HideButton_Click(object sender, RoutedEventArgs e)
+        {
+            Reddit.Controllers.Post post = PostLocal;
+            await post.HideAsync();
+        }
+
+        private async void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            Reddit.Controllers.Post post = PostLocal;
+            await post.SaveAsync("");
+        }
+        private async void OpenPostInWebButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://www.reddit.com/r/" + PostLocal.Subreddit + "/comments/" + PostLocal.Id));
+        }
+        private async void Frame_LoadedSubreddit(object sender, RoutedEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+                SubredditTemporaryInfo.InfoSubReddit = reddit.Subreddit(PostLocal.Subreddit);
+                Frame f = sender as Frame;
+                f.Navigate(typeof(SubredditTemporaryInfo));
+            });
+        }
+        private async void Frame_Loaded(object sender, RoutedEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+                Reddit.Controllers.User PostUser = reddit.User(PostLocal.Author);
+                UserTemporaryInfo.PostUser = PostUser;
+                Frame f = sender as Frame;
+                f.Navigate(typeof(UserTemporaryInfo));
+            });
+        }
+        private void Subreddit_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+        private void HyperlinkButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+        private void NewTabButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            /* var SenderFramework = (FrameworkElement)e.OriginalSource;
+             var DataContext = SenderFramework.DataContext;
+         var Post = DataContext as Posts;
+         /*  if (Post == null)*/
+            /* {
+                 return;
+             }
+             else
+             {*/
+            // Reddit.Controllers.Post post = Post.PostSelf;
+            var newTab = new WinUI.TabViewItem();
+            newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Document };
+            newTab.Header = PostLocal.Title;
+            Frame frame = new Frame();
+            newTab.Content = frame;
+            frame.Navigate(typeof(PostContentPage));
+            PostContentPage.Post = PostLocal;
+            //  PostContentPage.SingletonReference.StartUp();
+            HomePage.MainTab.TabItems.Add(newTab);
+            // }
         }
         private async void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs e)
         {

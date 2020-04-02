@@ -29,22 +29,25 @@ namespace Eco_Reddit.Views
         public UserTemporaryInfo()
         {
             this.InitializeComponent();
+        }
+        public void StartUp(object sender, RoutedEventArgs e)
+        {
             var User = PostUser.About();
             CurrentUser = PostUser;
             TitleAuthor.Text = "u/" + User.Name;
             FullNameAuthor.Text = User.Id;
             AuthorKarma.Text = "Karma total: " + (User.CommentKarma + User.LinkKarma);
-             AuthorPostKarma.Text = " Post Karma: " + User.LinkKarma;
-              AuthorCommentKarma.Text = " Comment Karma: " + User.CommentKarma;
+            AuthorPostKarma.Text = " Post Karma: " + User.LinkKarma;
+            AuthorCommentKarma.Text = " Comment Karma: " + User.CommentKarma;
             AuthorDate.Text = "Created: " + User.Created.ToString();
             AuthorFriends.Text = "Friends: " + User.NumFriends.ToString();
-            if(User.IsFriend == true)
+            if (User.IsFriend == true)
             {
                 NSFWUser.Visibility = Visibility.Visible;
             }
             if (User.IsGold == true)
             {
-               PremiumUser.Visibility = Visibility.Visible;
+                PremiumUser.Visibility = Visibility.Visible;
             }
             if (User.IsMod == true)
             {
@@ -56,11 +59,11 @@ namespace Eco_Reddit.Views
             }
             if (User.IsVerified == true)
             {
-                 VerifiedUser.Visibility = Visibility.Visible;
+                VerifiedUser.Visibility = Visibility.Visible;
             }
+            LoadingControl.Visibility = Visibility.Collapsed;
         }
-
-        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
+            private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
            await CurrentUser.BlockAsync();
         }

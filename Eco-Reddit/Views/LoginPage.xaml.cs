@@ -253,7 +253,7 @@ namespace Eco_Reddit.Views
             var urlParams = "client_id=" + appId + "&response_type=code&state=uyagsjgfhjs&duration=permanent&redirect_uri=" + HttpUtility.UrlEncode("http://127.0.0.1:3000/reddit_callback") + "&scope=" + HttpUtility.UrlEncode(scopes);
             Uri targetUri = new Uri(Constants.Constants.redditApiBaseUrl + "authorize?" + urlParams);
             webView.Navigate(targetUri);
-
+            SettingsFrame.Navigate(typeof(SettingsPage));
             //  UnloadObject(loginView);
         }
         public event PropertyChangedEventHandler PropertyChanged;
@@ -270,5 +270,15 @@ namespace Eco_Reddit.Views
         }
 
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://www.reddit.com/r/ProjectEcoReddit/"));
+        }
+
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://www.reddit.com/r/ProjectEcoReddit/comments/f7eje3/faq_about_the_app/"));
+        }
     }
 }

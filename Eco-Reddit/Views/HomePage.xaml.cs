@@ -6,6 +6,7 @@ using Reddit;
 using Reddit.Controllers;
 using Reddit.Inputs.LinksAndComments;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -44,10 +45,11 @@ namespace Eco_Reddit.Views
             L = HomeList;
             SingletonReference = this;
             LoginFrameFrame = LoginFrame;
-         /*   var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;*/
-            try { 
-            string refreshToken = localSettings.Values["refresh_token"].ToString();
+            /*   var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+               coreTitleBar.ExtendViewIntoTitleBar = true;*/
+            try
+            {
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
                 string BackuprefreshToken = "344019503430-ek4oMXyYO7QJci-Cb9jUeuoEhIM";
                 if (localSettings.Values["refresh_token"].ToString() == BackuprefreshToken) //remove and replace, this is when user is not signed in and should show different ui
                 {
@@ -60,12 +62,13 @@ namespace Eco_Reddit.Views
                     GetPostsClass.SortOrder = "Best";
                     PostsSortOrder = "Best";
                     IsHomeEnabled = true;
+                    
                     var PostsCollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
 
                     HomeList.ItemsSource = PostsCollection;
-                 //   localSettings.Values["refresh_token"] = BackuprefreshToken;
+                    //   localSettings.Values["refresh_token"] = BackuprefreshToken;
                 }
-           }
+            }
             catch
             {
                 LoginFrame.Visibility = Visibility.Visible;
@@ -74,12 +77,12 @@ namespace Eco_Reddit.Views
 
         }
 
-    
+
 
 
         private void OnTabCloseRequested(WinUI.TabView sender, WinUI.TabViewTabCloseRequestedEventArgs args)
         {
-                sender.TabItems.Remove(args.Tab);
+            sender.TabItems.Remove(args.Tab);
             GC.Collect(2);
         }
 
@@ -120,13 +123,13 @@ namespace Eco_Reddit.Views
                 }
                 else
                 {
-                     WinUI.TabViewItem newTab = MainTabView.SelectedItem as WinUI.TabViewItem;
+                    WinUI.TabViewItem newTab = MainTabView.SelectedItem as WinUI.TabViewItem;
                     MainTabView.TabItems.Remove(newTab);
                     var SelectedView = new WinUI.TabViewItem();
                     SelectedView.Header = P.PostSelf.Title;
-                     Frame frame = new Frame();
-                     SelectedView.Content = frame;
-                     frame.Navigate(typeof(PostContentPage));
+                    Frame frame = new Frame();
+                    SelectedView.Content = frame;
+                    frame.Navigate(typeof(PostContentPage));
                     PostContentPage.Post = P.PostSelf;
                     MainTabView.TabItems.Add(SelectedView);
                     MainTabView.SelectedItem = SelectedView;
@@ -135,19 +138,17 @@ namespace Eco_Reddit.Views
             });
         }
 
- 
+
 
         private async void Award_Loaded(object sender, RoutedEventArgs e)
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                var SenderFramework = (FrameworkElement)sender;
-                var DataContext = SenderFramework.DataContext;
-                var SenderPost = DataContext as Posts;
-                Reddit.Controllers.Post post = SenderPost.PostSelf;
+                Frame Frames = (Frame)sender;
+                Post pp = (Frames).Tag as Post;
                 Frame AwardFrame = sender as Frame;
                 AwardFrame.Navigate(typeof(AwardsFlyoutFrame));
-                AwardsFlyoutFrame.post = post;
+                AwardsFlyoutFrame.post = pp;
             });
         }
 
@@ -186,21 +187,21 @@ namespace Eco_Reddit.Views
                     if (String.IsNullOrEmpty(subreddit.IconImg.ToString()) == false)
                     {
                         BitmapImage img = new BitmapImage();
-                      //  img.UriSource = new Uri("/Images/1409938.png");
-                      //  SubIcon.ProfilePicture = img;
+                        //  img.UriSource = new Uri("/Images/1409938.png");
+                        //  SubIcon.ProfilePicture = img;
                     }
                     if (String.IsNullOrEmpty(subreddit.BannerImg.ToString()) == false)
                     {
                         BitmapImage Bimg = new BitmapImage();
-                    //    Bimg.UriSource = new Uri("/Images/1409938.png");
-                      //  BannerIMG.Source = Bimg;
+                        //    Bimg.UriSource = new Uri("/Images/1409938.png");
+                        //  BannerIMG.Source = Bimg;
                     }
-              /*      if (String.IsNullOrEmpty(subreddit.HeaderImg.ToString()) == false)
-                    {
-                        BitmapImage Himg = new BitmapImage();
-                        Himg.UriSource = new Uri(subreddit.HeaderImg.ToString());
-                        HeaderIMG.Source = Himg;
-                    }*/
+                    /*      if (String.IsNullOrEmpty(subreddit.HeaderImg.ToString()) == false)
+                          {
+                              BitmapImage Himg = new BitmapImage();
+                              Himg.UriSource = new Uri(subreddit.HeaderImg.ToString());
+                              HeaderIMG.Source = Himg;
+                          }*/
 
                     SubscribeButton.Visibility = Visibility.Visible;
                     UnSubscribeButton.Visibility = Visibility.Visible;
@@ -213,13 +214,20 @@ namespace Eco_Reddit.Views
                         NSFWGrid.Visibility = Visibility.Visible;
                     }
                     SideBarSidebar.Text = "Sidebar isnt supported in EcoReddit Alpha";
-                    /*  try { 
-                      SideBarSidebar.Text = subreddit.Sidebar.ToString();
+                      try {
+                        if (subreddit.Sidebar.Length < 5000)
+                        {
+                            SideBarSidebar.Text = subreddit.Sidebar.ToString();
+                        }
+                        else
+                        {
+                            SideBarSidebar.Text = "Sidebar too big to load";
+                        }
                       }
                       catch
                       {
                           SideBarSidebar.Text = "Couldnt load sidebar";
-                      }*/
+                      }
                 }
             });
 
@@ -272,18 +280,20 @@ namespace Eco_Reddit.Views
             {
                 string refreshToken = localSettings.Values["refresh_token"].ToString();
                 var reddit = new RedditClient(appId, refreshToken, secret);
-                    if (String.IsNullOrEmpty(args.QueryText) == true)
+                if (String.IsNullOrEmpty(args.QueryText) == true)
+                {
+                    return;
+                }
+                else
+                {
+                    try
                     {
-                        return;
-                    }
-                    else
-                    {
-                    try {
                         CurrentSub = Client.Subreddit(args.QueryText);
-                        SubredditText.Text = "r/" + CurrentSub.Name;
+                        Subreddit.Text = "r/" + CurrentSub.Name;
                         GetPostsClass.Subreddit = CurrentSub.Name;
                         GetPostsClass.limit = 10;
                         GetPostsClass.skipInt = 0;
+                        
                         IsHomeEnabled = false;
                         PostsSortOrder = "Hot";
                         SortOrderButton.Label = "Hot";
@@ -297,17 +307,18 @@ namespace Eco_Reddit.Views
                         var m = new MessageDialog("Subreddit doesnt exist");
                         await m.ShowAsync();
                     }
-                    }
+                }
             });
         }
         public void NavigateJumper(string subredditclicked)
         {
             CurrentSub = Client.Subreddit(subredditclicked);
             IsHomeEnabled = false;
-            SubredditText.Text = "r/" + CurrentSub.Name;
+            Subreddit.Text = "r/" + CurrentSub.Name;
             GetPostsClass.Subreddit = CurrentSub.Name;
             GetPostsClass.limit = 10;
             GetPostsClass.skipInt = 0;
+            
             IsHomeEnabled = false;
             PostsSortOrder = "Hot";
             SortOrderButton.Label = "Hot";
@@ -328,10 +339,11 @@ namespace Eco_Reddit.Views
             {
                 if (IsHomeEnabled == true)
                 {
-                    SubredditText.Text = "Home";
+                    Subreddit.Text = "Home";
                     GetPostsClass.SortOrder = "Best";
                     GetPostsClass.limit = 10;
                     GetPostsClass.skipInt = 0;
+                    
                     SortOrderButton.Visibility = Visibility.Collapsed;
                     IsHomeEnabled = true;
 
@@ -345,6 +357,7 @@ namespace Eco_Reddit.Views
                     GetPostsClass.SortOrder = PostsSortOrder;
                     GetPostsClass.Subreddit = CurrentSub.Name;
                     GetPostsClass.limit = 10;
+                    
                     GetPostsClass.skipInt = 0;
                     var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
                     HomeList.ItemsSource = Postscollection;
@@ -358,11 +371,11 @@ namespace Eco_Reddit.Views
             newTab.Header = "Search results for: " + args.QueryText;
             Frame frame = new Frame();
             newTab.Content = frame;
-            SearchPage.SearchString =  args.QueryText;
-            if(IsHomeEnabled == true)
+            SearchPage.SearchString = args.QueryText;
+            if (IsHomeEnabled == true)
             {
                 SearchPage.Subreddit = "all";
-              }
+            }
             else
             {
                 SearchPage.Subreddit = CurrentSub.Name;
@@ -378,11 +391,12 @@ namespace Eco_Reddit.Views
             {
                 if (IsHomeEnabled == true)
                 {
-                    SubredditText.Text = "Home";
+                    Subreddit.Text = "Home";
                     GetPostsClass.SortOrder = "Best";
                     SortOrderButton.Visibility = Visibility.Collapsed;
                     GetPostsClass.limit = 10;
                     GetPostsClass.skipInt = 0;
+                    
                     IsHomeEnabled = true;
                     var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
                     HomeList.ItemsSource = Postscollection;
@@ -397,30 +411,28 @@ namespace Eco_Reddit.Views
                     GetPostsClass.Subreddit = CurrentSub.Name;
                     GetPostsClass.limit = 10;
                     GetPostsClass.skipInt = 0;
+                    
                     var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
                     HomeList.ItemsSource = Postscollection;
                 }
             });
         }
 
-        private async void NewTabButton_Click(object sender, RoutedEventArgs e)
+        private void NewTabButton_Click(object sender, RoutedEventArgs e)
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                var SenderFramework = (FrameworkElement)sender;
-                var DataContext = SenderFramework.DataContext;
-                var SenderPost = DataContext as Posts;
-                Reddit.Controllers.Post post = SenderPost.PostSelf;
-                var newTab = new WinUI.TabViewItem();
-                newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Document };
-                newTab.Header = post.Title;
-                Frame frame = new Frame();
-                newTab.Content = frame;
-                frame.Navigate(typeof(PostContentPage));
-                PostContentPage.Post = post;
-                //  PostContentPage.SingletonReference.StartUp();
-                MainTabView.TabItems.Add(newTab);
-            });
+            AppBarButton NewTabButton = (AppBarButton)sender;
+            Post pp = (NewTabButton).Tag as Post;
+            // Reddit.Controllers.Post post = SenderPost.PostSelf;
+            var newTab = new WinUI.TabViewItem();
+            newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Document };
+            newTab.Header = pp.Title;
+            Frame frame = new Frame();
+            newTab.Content = frame;
+            PostContentPage.Post = pp;
+            frame.Navigate(typeof(PostContentPage));
+            //  PostContentPage.SingletonReference.StartUp();
+            MainTabView.TabItems.Add(newTab);
+            // }
         }
 
         private void ClearTabButton_Click(object sender, RoutedEventArgs e)
@@ -431,32 +443,26 @@ namespace Eco_Reddit.Views
 
         private async void HideButton_Click(object sender, RoutedEventArgs e)
         {
-            var SenderFramework = (FrameworkElement)sender;
-            var DataContext = SenderFramework.DataContext;
-            var SenderPost = DataContext as Posts;
-            Reddit.Controllers.Post post = SenderPost.PostSelf;
-            await post.HideAsync();
+            AppBarButton AppBarButtonHide = (AppBarButton)sender;
+            Post pp = (AppBarButtonHide).Tag as Post;
+            await pp.HideAsync();
         }
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var SenderFramework = (FrameworkElement)sender;
-            var DataContext = SenderFramework.DataContext;
-            var SenderPost = DataContext as Posts;
-            Reddit.Controllers.Post post = SenderPost.PostSelf;
-            await post.SaveAsync("");
+            AppBarButton AppBarButtonSave = (AppBarButton)sender;
+            Post pp = (AppBarButtonSave).Tag as Post;
+            await pp.SaveAsync("");
         }
         private async void Frame_Loaded(object sender, RoutedEventArgs e)
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                var SenderFramework = (FrameworkElement)sender;
-                var DataContext = SenderFramework.DataContext;
-                var SenderPost = DataContext as Posts;
-                Reddit.Controllers.Post post = SenderPost.PostSelf;
+                Frame Frames = (Frame)sender;
+                Post pp = (Frames).Tag as Post;
                 string refreshToken = localSettings.Values["refresh_token"].ToString();
                 var reddit = new RedditClient(appId, refreshToken, secret);
-                Reddit.Controllers.User PostUser = reddit.User(post.Author);
+                Reddit.Controllers.User PostUser = reddit.User(pp.Author);
                 UserTemporaryInfo.PostUser = PostUser;
                 Frame f = sender as Frame;
                 f.Navigate(typeof(UserTemporaryInfo));
@@ -473,31 +479,33 @@ namespace Eco_Reddit.Views
             FindName("HomeBar");
         }
 
-        private void Frame_LoadedSubreddit(object sender, RoutedEventArgs e)
+        private async void Frame_LoadedSubreddit(object sender, RoutedEventArgs e)
         {
-            var SenderFramework = (FrameworkElement)sender;
-            var DataContext = SenderFramework.DataContext;
-            var SenderPost = DataContext as Posts;
-            Reddit.Controllers.Post post = SenderPost.PostSelf;
-            string refreshToken = localSettings.Values["refresh_token"].ToString();
-            var reddit = new RedditClient(appId, refreshToken, secret);
-            SubredditTemporaryInfo.InfoSubReddit = reddit.Subreddit(post.Subreddit);
-            Frame f = sender as Frame;
-            f.Navigate(typeof(SubredditTemporaryInfo));
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                Frame Frames = (Frame)sender;
+                Post pp = (Frames).Tag as Post;
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+                SubredditTemporaryInfo.InfoSubReddit = reddit.Subreddit(pp.Subreddit);
+                Frame f = sender as Frame;
+                f.Navigate(typeof(SubredditTemporaryInfo));
+            });
         }
 
         private void Subreddit_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
         }
-
-        private void HubButton_Click(object sender, RoutedEventArgs e)
+        private IEnumerable<Subreddit> Subreddits;
+        List<SubredditList> SubredditCollection;
+        Visibility Nsfw;
+        private async void HubButton_Click(object sender, RoutedEventArgs e)
         {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
             HubsplitView.IsPaneOpen = true;
-            GetSubreddit.Load = true;
-            var SubredditsCollection = new IncrementalLoadingCollection<GetSubreddit, SubredditList>();
-
-            SubscribedSubs.ItemsSource = SubredditsCollection;
+            });
         }
 
         private async void SubscribedSubs_ItemClick(object sender, ItemClickEventArgs e)
@@ -507,12 +515,53 @@ namespace Eco_Reddit.Views
                 SubredditList P = e.ClickedItem as SubredditList;
                 string refreshToken = localSettings.Values["refresh_token"].ToString();
                 var reddit = new RedditClient(appId, refreshToken, secret);
-                 try
-                 {
-                CurrentSub = Client.Subreddit(P.SubredditSelf);
-                SubredditText.Text = "r/" + CurrentSub.Name;
+                try
+                {
+                    CurrentSub = Client.Subreddit(P.SubredditSelf);
+                    Subreddit.Text = "r/" + CurrentSub.Name;
+                    GetPostsClass.Subreddit = CurrentSub.Name;
+                    GetPostsClass.limit = 10;
+                    
+                    GetPostsClass.skipInt = 0;
+                    IsHomeEnabled = false;
+                    PostsSortOrder = "Hot";
+                    SortOrderButton.Label = "Hot";
+                    GetPostsClass.SortOrder = "Hot";
+                    var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
+                    HomeList.ItemsSource = Postscollection;
+                    SortOrderButton.Visibility = Visibility.Visible;
+                }
+                catch
+                {
+                    var m = new MessageDialog("Subreddit doesnt exist");
+                    await m.ShowAsync();
+                }
+            });
+        }
+        private async void HomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                GetPostsClass.SortOrder = "Best";
+                PostsSortOrder = "Best";
+                Subreddit.Text = "Home";
+                IsHomeEnabled = true;
+                var PostsCollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
+                HomeList.ItemsSource = PostsCollection;
+            });
+        }
+        private async void PopularButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+
+                CurrentSub = Client.Subreddit("popular");
+                Subreddit.Text = "r/" + CurrentSub.Name;
                 GetPostsClass.Subreddit = CurrentSub.Name;
                 GetPostsClass.limit = 10;
+                
                 GetPostsClass.skipInt = 0;
                 IsHomeEnabled = false;
                 PostsSortOrder = "Hot";
@@ -521,71 +570,33 @@ namespace Eco_Reddit.Views
                 var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
                 HomeList.ItemsSource = Postscollection;
                 SortOrderButton.Visibility = Visibility.Visible;
-                 }
-                 catch
-                 {
-                     var m = new MessageDialog("Subreddit doesnt exist");
-                     await m.ShowAsync();
-                 }
             });
-        }
-        private async void HomeButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                GetPostsClass.SortOrder = "Best";
-            PostsSortOrder = "Best";
-            SubredditText.Text = "Home";
-            IsHomeEnabled = true;
-            var PostsCollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
-            HomeList.ItemsSource = PostsCollection;
-            });
-        }
-        private async void PopularButton_Click(object sender, RoutedEventArgs e)
-        {
-                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                {
-                    string refreshToken = localSettings.Values["refresh_token"].ToString();
-            var reddit = new RedditClient(appId, refreshToken, secret);
-
-            CurrentSub = Client.Subreddit("popular");
-            SubredditText.Text = "r/" + CurrentSub.Name;
-            GetPostsClass.Subreddit = CurrentSub.Name;
-            GetPostsClass.limit = 10;
-            GetPostsClass.skipInt = 0;
-            IsHomeEnabled = false;
-            PostsSortOrder = "Hot";
-            SortOrderButton.Label = "Hot";
-            GetPostsClass.SortOrder = "Hot";
-            var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
-            HomeList.ItemsSource = Postscollection;
-            SortOrderButton.Visibility = Visibility.Visible;
-                });
         }
         private async void AllButton_Click(object sender, RoutedEventArgs e)
         {
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        string refreshToken = localSettings.Values["refresh_token"].ToString();
-            var reddit = new RedditClient(appId, refreshToken, secret);
-            CurrentSub = Client.Subreddit("all");
-            SubredditText.Text = "r/" + CurrentSub.Name;
-            GetPostsClass.Subreddit = CurrentSub.Name;
-            GetPostsClass.limit = 10;
-            GetPostsClass.skipInt = 0;
-            IsHomeEnabled = false;
-            PostsSortOrder = "Hot";
-            SortOrderButton.Label = "Hot";
-            GetPostsClass.SortOrder = "Hot";
-            var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
-            HomeList.ItemsSource = Postscollection;
-            SortOrderButton.Visibility = Visibility.Visible;
-                    });
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+                CurrentSub = Client.Subreddit("all");
+                Subreddit.Text = "r/" + CurrentSub.Name;
+                GetPostsClass.Subreddit = CurrentSub.Name;
+                GetPostsClass.limit = 10;
+                
+                GetPostsClass.skipInt = 0;
+                IsHomeEnabled = false;
+                PostsSortOrder = "Hot";
+                SortOrderButton.Label = "Hot";
+                GetPostsClass.SortOrder = "Hot";
+                var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
+                HomeList.ItemsSource = Postscollection;
+                SortOrderButton.Visibility = Visibility.Visible;
+            });
         }
 
         private void ProfilePage_Loaded(object sender, RoutedEventArgs e)
         {
-        ProfileFrame.Navigate(typeof(ProfilePage));
+            ProfileFrame.Navigate(typeof(ProfilePage));
         }
 
         private async void AddBarButton_Click(object sender, RoutedEventArgs e)
@@ -602,8 +613,6 @@ namespace Eco_Reddit.Views
             string refreshToken = localSettings.Values["refresh_token"].ToString();
             var reddit = new RedditClient(appId, refreshToken, secret);
             PivotItem pivotitem = (PivotItem)CreatePostPivot.SelectedItem;
-            var m = new MessageDialog(pivotitem.Header.ToString());
-           await m.ShowAsync();
             String RichText;
             EditZone.TextDocument.GetText(Windows.UI.Text.TextGetOptions.None, out RichText);
             if (pivotitem.Header.ToString() == "Text")
@@ -612,25 +621,118 @@ namespace Eco_Reddit.Views
             }
             else
             {
-                reddit.Models.LinksAndComments.Submit(new LinksAndCommentsSubmitInput(title:TitleBox.Text, url: Link.Text, sr: CurrentSub.Name));
+                reddit.Models.LinksAndComments.Submit(new LinksAndCommentsSubmitInput(title: TitleBox.Text, url: Link.Text, sr: CurrentSub.Name));
             }
         }
-        /* private  void SubredditlinkButton_Loaded(object sender, RoutedEventArgs e)
-{
-//  var SenderFramework = (FrameworkElement)sender;
-//  var DataContext = SenderFramework.DataContext;
 
-HyperlinkButton Sub = sender as HyperlinkButton;
+        private async void OpenPostInWebButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonWEB = (AppBarButton)sender;
+            Post pp = (AppBarButtonWEB).Tag as Post;
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("https://www.reddit.com/r/" + pp.Subreddit + "/comments/" + pp.Id));
+        }
 
-var senderframework = (FrameworkElement)Sub;
-var DataContext = Sub.DataContext;
+        private void HomeList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
 
-//  Post SenderPost = DataContext as Post;
+            if (args.Phase != 0)
+            {
+                throw new System.Exception("We should be in phase 0, but we are not.");
+            }
 
-//  Reddit.Controllers.Post post = SenderPost;
-Reddit.Controllers.Post post = DataContext as Post;
-Sub.Content = "r/" + post.Subreddit;
-}*/
+            // It's phase 0, so this item's title will already be bound and displayed.
+
+            args.RegisterUpdateCallback(this.ShowPhase1);
+
+            args.Handled = true;
+        }
+
+        private async void ShowPhase1(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            if (args.Phase != 1)
+            {
+                throw new System.Exception("We should be in phase 1, but we are not.");
+            }
+
+                    Posts SenderPost = args.Item as Posts;
+                    Reddit.Controllers.Post post = SenderPost.PostSelf;
+                    var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
+                    var textBlock = templateRoot.Children[5] as HyperlinkButton;
+                    var AuthorBlock = templateRoot.Children[4] as HyperlinkButton;
+                    var TextDateBlock = templateRoot.Children[3] as TextBlock;
+                    var TextFlairBlock = templateRoot.Children[6] as TextBlock;
+                    var TextTitleBlock = templateRoot.Children[2] as TextBlock;
+                    TextTitleBlock.Text = post.Title;
+                    textBlock.Content = post.Subreddit;
+                    AuthorBlock.Content = post.Author;
+                    TextDateBlock.Text = "Created: " + post.Created;
+                    TextFlairBlock.Text = "    Flair: " + post.Listing.LinkFlairText;
+                    // Posts SenderPost = args.Item as Eco_Reddit.Models.Posts;
+                    //  Reddit.Controllers.Post post = SenderPost.PostSelf;
+                    //  var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
+                    var img = templateRoot.Children[8] as Image;
+                    var Upvoted = templateRoot.Children[0] as AppBarToggleButton;
+                    var Downvoted = templateRoot.Children[1] as AppBarToggleButton;
+                    Upvoted.Label = post.UpVotes.ToString();
+                    Upvoted.IsChecked = post.IsUpvoted;
+                    //Downvoted.IsChecked = post.IsDownvoted;
+                    try
+                    {
+                        var p = post as LinkPost;
+                        BitmapImage bit = new BitmapImage();
+                        bit.UriSource = new Uri(p.URL);
+                        img.Source = bit;
+                        img.Visibility = Visibility.Visible;
+                    }
+                    catch
+                    {
+                        img.Visibility = Visibility.Collapsed;
+                    }
+            ///   TextFlairBlock.Foreground = post.Listing.LinkFlairBackgroundColor;
+
+          //  args.RegisterUpdateCallback(this.ShowPhase2);
+        }
+        private void ShowPhase2(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            if (args.Phase != 2)
+            {
+                throw new System.Exception("We should be in phase 2, but we are not.");
+            }
+
+        }
+
+        private async void SubscribedSubs_Loaded(object sender, RoutedEventArgs e)
+        {
+            GetSubreddit.Load = true;
+            //   var SubredditsCollection = new IncrementalLoadingCollection<GetSubreddit, SubredditList>();
+            string refreshToken = localSettings.Values["refresh_token"].ToString();
+            var reddit = new RedditClient(appId, refreshToken, secret);
+            Subreddits = reddit.Account.MySubscribedSubreddits();
+            SubredditCollection = new List<SubredditList>();
+            await Task.Run(() =>
+            {
+                foreach (Subreddit subreddit in Subreddits)
+                {
+                    if (subreddit.Over18 == true)
+                    {
+                        Nsfw = Visibility.Visible;
+                    }
+                    else
+                    {
+                        Nsfw = Visibility.Collapsed;
+                    }
+                    // Console.WriteLine("New Post by " + post.Author + ": " + post.Title);
+                    SubredditCollection.Add(new SubredditList()
+                    {
+                        IsNSFW = Nsfw,
+                        TitleSubreddit = subreddit.Name,
+                        SubredditSelf = subreddit,
+                        SubredditIcon = subreddit.CommunityIcon
+                    });
+                }
+            });
+            SubscribedSubs.ItemsSource = SubredditCollection;
+        }
     }
  
 

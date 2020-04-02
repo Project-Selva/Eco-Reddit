@@ -7,13 +7,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="Transparent">
 
     <Grid Width="420">
+        <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="9999" IsLoading="True">
+            <StackPanel>
+                <ProgressRing Loaded="StartUp" IsActive="True"/>
+                <TextBlock>Loading subreddit</TextBlock>
+            </StackPanel>
+        </controls:Loading>
         <ScrollViewer Grid.Row="3"
                   HorizontalScrollBarVisibility="Disabled"
                   VerticalScrollBarVisibility="Visible">
-            <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Orientation="Vertical">
+            <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
                 <Image Height="100"  Stretch="Fill" x:Name="HeaderIMG" Source="/Images/HeaderImg.jpg"/>
                 <StackPanel Orientation="Horizontal">
                     <PersonPicture x:Name="SubIcon" ProfilePicture="/Images/IconSub.png"></PersonPicture>
@@ -21,12 +27,12 @@
                     </TextBlock>
                 </StackPanel>
                 <TextBlock x:Name="Header" FontSize="20" Margin="5"></TextBlock>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
                     <TextBlock x:Name="Subs" Margin="5"></TextBlock>
                     <TextBlock x:Name="Users" Margin="5"></TextBlock>
                     <TextBlock x:Name="Time" Margin="5"></TextBlock>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                     <Button x:Name="SubscribeButton" Margin="5" Click="SubscribeButton_Click" Content="Subscribe"></Button>
                     <Button x:Name="UnSubscribeButton" Click="UnSubscribeButton_Click" Content="Unsubscribe"></Button>
                     <Grid x:Name="NSFWGrid" Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0" Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}" BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left" Padding="10, 5, 10, 5">
@@ -34,8 +40,8 @@
                     </Grid>
                 </StackPanel>
                 <controls:MarkdownTextBlock
-                        Foreground="White"
-                     Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                    HorizontalAlignment="Center"
+                    Background="Transparent"
                     TextWrapping="Wrap"
                     Width="400"
                     IsTextSelectionEnabled="True"
@@ -44,14 +50,14 @@
                     x:Name="About"
                    Margin="6"/>
                 <Image Width="500" Stretch="Fill" x:Name="BannerIMG"/>
-                <Button Width="380" Content="Navigate to subreddit" Click="Button_Click">
+                <Button HorizontalAlignment="Center" Width="380" Content="Navigate to subreddit" Click="Button_Click">
                     
                 </Button>
                 <controls:MarkdownTextBlock
-                        Foreground="White"
-                     Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                    HorizontalAlignment="Center"
                     TextWrapping="Wrap"
-                    Width="500"
+                    Background="Transparent"
+                    Width="400"
                         LinkClicked="MarkdownText_LinkClicked"
                         ImageClicked="MarkdownText_ImageClicked"
                     IsTextSelectionEnabled="True"

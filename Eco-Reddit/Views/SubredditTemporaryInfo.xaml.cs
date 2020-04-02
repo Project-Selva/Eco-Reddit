@@ -31,6 +31,9 @@ namespace Eco_Reddit.Views
         public SubredditTemporaryInfo()
         {
             this.InitializeComponent();
+        }
+        public void StartUp(object sender, RoutedEventArgs e)
+        {
             var subreddit = InfoSubReddit.About();
             Title.Text = "r/" + subreddit.Name;
 
@@ -46,14 +49,14 @@ namespace Eco_Reddit.Views
             if (String.IsNullOrEmpty(subreddit.IconImg.ToString()) == false)
             {
                 BitmapImage img = new BitmapImage();
-              //  img.UriSource = new Uri("/Images/1409938.png");
-              //  SubIcon.ProfilePicture = img;
+                //  img.UriSource = new Uri("/Images/1409938.png");
+                //  SubIcon.ProfilePicture = img;
             }
             if (String.IsNullOrEmpty(subreddit.BannerImg.ToString()) == false)
             {
                 BitmapImage Bimg = new BitmapImage();
-             //   Bimg.UriSource = new Uri("/Images/1409938.png");
-              //  BannerIMG.Source = Bimg;
+                //   Bimg.UriSource = new Uri("/Images/1409938.png");
+                //  BannerIMG.Source = Bimg;
             }
             /*      if (String.IsNullOrEmpty(subreddit.HeaderImg.ToString()) == false)
                   {
@@ -79,6 +82,7 @@ namespace Eco_Reddit.Views
               {
                   SideBarSidebar.Text = "Couldnt load sidebar";
               }*/
+            LoadingControl.Visibility = Visibility.Collapsed;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -4,11 +4,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     Style="{StaticResource PageStyle}"
+    Background="Transparent"
     mc:Ignorable="d">
 
-    <Grid
-            Background="{ThemeResource SystemControlAcrylicElementBrush}">
+    <Grid>
+        <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="9999" IsLoading="True">
+            <StackPanel>
+                <ProgressRing Loaded="StartUp" Foreground="Blue" IsActive="True"/>
+                <TextBlock>Loading account</TextBlock>
+            </StackPanel>
+        </controls:Loading>
         <StackPanel Orientation="Vertical" Width="350">
             <TextBlock Margin="5" x:Name="TitleAuthor" FontSize="30"></TextBlock>
             <TextBlock Margin="5" x:Name="FullNameAuthor" FontSize="20"></TextBlock>
@@ -37,7 +44,7 @@
                     <TextBlock x:Name="SuspendedUser" Text="Suspended" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
                 </Grid>
             </StackPanel>
-            <CommandBar DefaultLabelPosition="Right" OverflowButtonVisibility="Visible" IsDynamicOverflowEnabled="True">
+            <CommandBar Background="Transparent" DefaultLabelPosition="Right" OverflowButtonVisibility="Collapsed" IsDynamicOverflowEnabled="True">
                 <AppBarButton Label="Sign out" Click="AppBarButton_Click"></AppBarButton>
             </CommandBar>
             <Button Content="Open in new tab" Width="340" Click="AppBarButton_Click_2"></Button>

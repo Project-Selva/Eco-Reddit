@@ -18,10 +18,13 @@ namespace Eco_Reddit.Views
         User CurrentUser;
         public ProfilePage()
         {
-            InitializeComponent();
+            InitializeComponent();         
+        }
+        public void StartUp(object sender, RoutedEventArgs e)
+        {
             string refreshToken = localSettings.Values["refresh_token"].ToString();
             var reddit = new RedditClient(appId, refreshToken, secret);
-            
+
             var User = reddit.Account.Me;
             CurrentUser = reddit.Account.Me;
             TitleAuthor.Text = "u/" + User.Name;
@@ -51,8 +54,8 @@ namespace Eco_Reddit.Views
             {
                 VerifiedUser.Visibility = Visibility.Visible;
             }
+            LoadingControl.Visibility = Visibility.Collapsed;
         }
-
 
         private void AppBarButton_Click_2(object sender, RoutedEventArgs e)
         {

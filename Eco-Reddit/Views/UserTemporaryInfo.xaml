@@ -6,8 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="Transparent"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
-    <Grid>
+    <Grid Background="Transparent">
+        <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="9999" IsLoading="True">
+            <StackPanel>
+                <ProgressRing Loaded="StartUp" IsActive="True"/>
+                <TextBlock>Loading user</TextBlock>
+            </StackPanel>
+        </controls:Loading>
         <StackPanel Orientation="Vertical" Width="350">
             <TextBlock Margin="5" x:Name="TitleAuthor" FontSize="30"></TextBlock>
             <TextBlock Margin="5" x:Name="FullNameAuthor" FontSize="20"></TextBlock>
@@ -36,7 +43,7 @@
                     <TextBlock x:Name="SuspendedUser" Text="Suspended" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
                 </Grid>
             </StackPanel>
-            <CommandBar DefaultLabelPosition="Right" OverflowButtonVisibility="Visible" IsDynamicOverflowEnabled="True">
+            <CommandBar Background="Transparent" DefaultLabelPosition="Right" OverflowButtonVisibility="Collapsed" IsDynamicOverflowEnabled="True">
                 <AppBarButton Label="Block" Click="AppBarButton_Click"></AppBarButton>
                 <AppBarButton Label="Report" Click="AppBarButton_Click_1"></AppBarButton>
                
