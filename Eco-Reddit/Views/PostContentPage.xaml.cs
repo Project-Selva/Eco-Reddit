@@ -1,4 +1,6 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using Eco_Reddit.Helpers;
+using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Reddit;
 using Reddit.Controllers;
 using System;
@@ -136,7 +138,56 @@ namespace Eco_Reddit.Views
                      }
                  }
                 LoadingControl.Visibility = Visibility.Collapsed;
+               GetComments.SortOrder = "Top";
+                GetComments.limit = 10;
+                GetComments.skipInt = 0;
+                GetComments.PostToGetCommentsFrom = PostLocal;
+                var CommentsCollection = new IncrementalLoadingCollection<GetComments, Eco_Reddit.Models.Comments>();
+
+                CommentList.ItemsSource = CommentsCollection;
             });
+        }
+        private void CommentList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+
+            if (args.Phase != 0)
+            {
+                throw new System.Exception("We should be in phase 0, but we are not.");
+            }
+
+            // It's phase 0, so this item's title will already be bound and displayed.
+
+            args.RegisterUpdateCallback(this.ShowPhase1);
+
+            args.Handled = true;
+        }
+
+        private async void ShowPhase1(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            if (args.Phase != 1)
+            {
+                throw new System.Exception("We should be in phase 1, but we are not.");
+            }
+
+            Eco_Reddit.Models.Comments SenderComment = args.Item as Eco_Reddit.Models.Comments;
+            Reddit.Controllers.Comment comment = SenderComment.CommentSelf;
+            var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
+            var textBlock = templateRoot.Children[2] as MarkdownTextBlock;
+            var DatetextBlock = templateRoot.Children[3] as TextBlock;
+            DatetextBlock.Text = comment.Created.ToString();
+            var AuthortextBlock = templateRoot.Children[4] as HyperlinkButton;
+            AuthortextBlock.Content = comment.Author;    
+            var Upvoted = templateRoot.Children[0] as AppBarToggleButton;
+            var Downvoted = templateRoot.Children[1] as AppBarToggleButton;
+            Upvoted.Label = comment.UpVotes.ToString();
+            Upvoted.IsChecked = comment.IsUpvoted;
+            Downvoted.IsChecked = comment.IsDownvoted;
+            try
+            {
+                textBlock.Text = comment.Body;
+            }
+            catch
+            { }
         }
         private async void HideButton_Click(object sender, RoutedEventArgs e)
         {

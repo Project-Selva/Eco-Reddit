@@ -1,4 +1,5 @@
 ﻿using Eco_Reddit.Models;
+using Microsoft.Toolkit.Collections;
 using Reddit;
 using Reddit.Controllers;
 using Reddit.Inputs;
@@ -12,7 +13,7 @@ using Comments = Eco_Reddit.Models.Comments;
 
 namespace Eco_Reddit.Helpers
 {
-    public class GetComments
+    public class GetComments : IIncrementalSource<Comments>
     {
         public Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public static int limit = 10;

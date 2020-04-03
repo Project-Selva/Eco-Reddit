@@ -104,10 +104,10 @@
                    Margin="6">
                     </controls:MarkdownTextBlock>
                     <TextBlock Margin="5">Loading replies isnt supported in the pre - Alpha version</TextBlock>
-                    <ListView ContainerContentChanging="HomeList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="CommentList" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}" IsItemClickEnabled="True" ItemClick="HomeList_ItemClick" HorizontalAlignment="Left">
+                    <ListView ContainerContentChanging="CommentList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="CommentList" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}" IsItemClickEnabled="False" HorizontalAlignment="Center">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:Comments">
-                                <RelativePanel  Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="10" Margin="0, 5,0, 5" Width="640">
+                                <RelativePanel  Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="10" Margin="5">
 
                                     <AppBarToggleButton CornerRadius="10" x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True" Margin="5" Icon="Up"></AppBarToggleButton>
                                     <AppBarToggleButton CornerRadius="10" x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="Upvote" Margin="5">
@@ -116,13 +116,21 @@
                                         </AppBarToggleButton.Icon>
                                     </AppBarToggleButton>
 
-                                    <TextBlock x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="Upvote" FontSize="15" Canvas.ZIndex="6" Margin="10, 20, 0, 0"  TextWrapping="WrapWholeWords" Width="400"></TextBlock>
+                                    <controls:MarkdownTextBlock
+                                         RelativePanel.AlignTopWithPanel="True"
+                     Background="Transparent"
+                    TextWrapping="Wrap"
+                    IsTextSelectionEnabled="True"
+                        LinkClicked="MarkdownText_LinkClicked"
+                        ImageClicked="MarkdownText_ImageClicked"
+                    x:Name="TitleTextBlock"
+                   Margin="80,5,5,5"/>
 
                                     <TextBlock RelativePanel.RightOf="DownVote" RelativePanel.Below="TitleTextBlock" x:Name="Date" FontSize="11" Margin="0,13,3,0"></TextBlock>
                                     <HyperlinkButton x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date" Margin="3,6,0,0" FontSize="11" Tapped="HyperlinkButton_Tapped">
                                         <FlyoutBase.AttachedFlyout>
                                             <Flyout>
-                                                <Frame Tag="{x:Bind CommentSelf}"  Loaded="Frame_Loaded"></Frame>
+                                                <Frame Loaded="Frame_Loaded"></Frame>
                                             </Flyout>
                                         </FlyoutBase.AttachedFlyout>
                                     </HyperlinkButton>

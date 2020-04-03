@@ -115,8 +115,9 @@ namespace Eco_Reddit.Views
                     newTab.Header = P.PostSelf.Title;
                     Frame frame = new Frame();
                     newTab.Content = frame;
-                    frame.Navigate(typeof(PostContentPage));
                     PostContentPage.Post = P.PostSelf;
+                    frame.Navigate(typeof(PostContentPage));
+
                     //  PostContentPage.SingletonReference.StartUp();
                     MainTabView.TabItems.Add(newTab);
                     MainTabView.SelectedItem = newTab;
@@ -129,8 +130,8 @@ namespace Eco_Reddit.Views
                     SelectedView.Header = P.PostSelf.Title;
                     Frame frame = new Frame();
                     SelectedView.Content = frame;
-                    frame.Navigate(typeof(PostContentPage));
                     PostContentPage.Post = P.PostSelf;
+                    frame.Navigate(typeof(PostContentPage));
                     MainTabView.TabItems.Add(SelectedView);
                     MainTabView.SelectedItem = SelectedView;
                     //  PostContentPage.SingletonReference.StartUp();
@@ -675,6 +676,7 @@ namespace Eco_Reddit.Views
                     var Downvoted = templateRoot.Children[1] as AppBarToggleButton;
                     Upvoted.Label = post.UpVotes.ToString();
                     Upvoted.IsChecked = post.IsUpvoted;
+            Downvoted.IsChecked = post.IsDownvoted;
                     //Downvoted.IsChecked = post.IsDownvoted;
                     try
                     {
@@ -703,35 +705,42 @@ namespace Eco_Reddit.Views
 
         private async void SubscribedSubs_Loaded(object sender, RoutedEventArgs e)
         {
-            GetSubreddit.Load = true;
-            //   var SubredditsCollection = new IncrementalLoadingCollection<GetSubreddit, SubredditList>();
-            string refreshToken = localSettings.Values["refresh_token"].ToString();
-            var reddit = new RedditClient(appId, refreshToken, secret);
-            Subreddits = reddit.Account.MySubscribedSubreddits();
-            SubredditCollection = new List<SubredditList>();
-            await Task.Run(() =>
+            try
             {
-                foreach (Subreddit subreddit in Subreddits)
+                GetSubreddit.Load = true;
+                //   var SubredditsCollection = new IncrementalLoadingCollection<GetSubreddit, SubredditList>();
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+                Subreddits = reddit.Account.MySubscribedSubreddits();
+                SubredditCollection = new List<SubredditList>();
+                await Task.Run(() =>
                 {
-                    if (subreddit.Over18 == true)
+                    foreach (Subreddit subreddit in Subreddits)
                     {
-                        Nsfw = Visibility.Visible;
-                    }
-                    else
-                    {
-                        Nsfw = Visibility.Collapsed;
-                    }
+                        if (subreddit.Over18 == true)
+                        {
+                            Nsfw = Visibility.Visible;
+                        }
+                        else
+                        {
+                            Nsfw = Visibility.Collapsed;
+                        }
                     // Console.WriteLine("New Post by " + post.Author + ": " + post.Title);
                     SubredditCollection.Add(new SubredditList()
-                    {
-                        IsNSFW = Nsfw,
-                        TitleSubreddit = subreddit.Name,
-                        SubredditSelf = subreddit,
-                        SubredditIcon = subreddit.CommunityIcon
-                    });
-                }
-            });
-            SubscribedSubs.ItemsSource = SubredditCollection;
+                        {
+                            IsNSFW = Nsfw,
+                            TitleSubreddit = subreddit.Name,
+                            SubredditSelf = subreddit,
+                            SubredditIcon = subreddit.CommunityIcon
+                        });
+                    }
+                });
+                SubscribedSubs.ItemsSource = SubredditCollection;
+            }
+            catch
+            {
+                return;
+            }
         }
     }
  

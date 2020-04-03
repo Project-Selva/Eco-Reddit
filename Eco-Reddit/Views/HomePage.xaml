@@ -226,6 +226,7 @@
                      Background="{ThemeResource SystemControlAcrylicWindowBrush}"
         x:Name="MainTabView"
         AllowDropTabs="True"
+                        CornerRadius="2"
                     IsAddTabButtonVisible="False"
         TabCloseRequested="OnTabCloseRequested">
                         <winui:TabView.TabStripFooter>

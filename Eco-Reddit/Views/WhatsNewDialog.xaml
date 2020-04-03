@@ -24,7 +24,7 @@
     </ContentDialog.TitleTemplate>
     <ScrollViewer>
         <StackPanel>
-            <TextBlock x:Uid="WhatsNew_Body" TextWrapping="WrapWholeWords" />
+            <TextBlock >comments support + more</TextBlock>
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>

@@ -136,6 +136,7 @@ namespace Eco_Reddit.Views
             var Downvoted = templateRoot.Children[1] as AppBarToggleButton;
             Upvoted.Label = post.UpVotes.ToString();
             Upvoted.IsChecked = post.IsUpvoted;
+            Downvoted.IsChecked = post.IsDownvoted;
             //Downvoted.IsChecked = post.IsDownvoted;
             try
             {
