@@ -156,17 +156,6 @@ namespace Eco_Reddit.Views
                 await Task.Delay(100);
                 CommentCount.Text = "Comments: " + PostLocal.Comments.GetComments("new").Count.ToString();
             });
-                GetComments.SortOrder = "Top";
-                GetComments.limit = PostLocal.Comments.GetComments("Top").Count;
-                GetComments.skipInt = 0;
-                GetComments.PostToGetCommentsFrom = PostLocal;
-                var CommentsCollection = new IncrementalLoadingCollection<GetComments, Eco_Reddit.Models.Comments>();
-                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                {
-                    CommentList.ItemsSource = CommentsCollection;
-
-                });
-
             });
         }
         private async void EnableRelpyEditButton_Click(object sender, RoutedEventArgs e)
@@ -481,6 +470,23 @@ namespace Eco_Reddit.Views
         {
             Comment CommentLocal = (sender).Tag as Comment;
             CommentLocal.ReplyAsync(sender.Text);
+        }
+
+        private async void LOADCOM_Click(object sender, RoutedEventArgs e)
+        {
+            await Task.Run(async () =>
+            {
+                GetComments.SortOrder = "Top";
+            GetComments.limit = PostLocal.Comments.GetComments("Top").Count;
+            GetComments.skipInt = 0;
+            GetComments.PostToGetCommentsFrom = PostLocal;
+            var CommentsCollection = new IncrementalLoadingCollection<GetComments, Eco_Reddit.Models.Comments>();
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                CommentList.ItemsSource = CommentsCollection;
+                SortOrderCommentButton.Visibility = Visibility.Visible;
+            });
+        });
         }
     }
 }

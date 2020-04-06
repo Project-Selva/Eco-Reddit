@@ -74,7 +74,12 @@
                     Style="{ThemeResource BodyTextBlockStyle}" >
                     Plant trees while browsing reddit.
                 </TextBlock>
-
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="Alpha v0.3" />
+                <TextBlock
+                    Margin="{StaticResource XSmallTopMargin}"
+                    Style="{ThemeResource BodyTextBlockStyle}" >
+                    This app is still in Alpha so many bugs and issues still exist
+                </TextBlock>
                 <HyperlinkButton  NavigateUri="https://www.reddit.com/help/privacypolicy" Margin="{StaticResource XSmallTopMargin}" />
 
                 <HyperlinkButton

@@ -376,23 +376,42 @@ namespace Eco_Reddit.Views
         }
         private void Search_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            var newTab = new WinUI.TabViewItem();
-            newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Document };
-            newTab.Header = "Search results for: " + args.QueryText;
-            Frame frame = new Frame();
-            newTab.Content = frame;
-            SearchHubPage.SearchString = args.QueryText;
-            if (IsHomeEnabled == true)
+            if (SortBox.SelectedItem.ToString() == "Posts")
             {
-                SearchHubPage.Subreddit = "all";
+                var newTab = new WinUI.TabViewItem();
+                newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Document };
+                newTab.Header = "Search results for: " + args.QueryText;
+                Frame frame = new Frame();
+                newTab.Content = frame;
+                SearchPage.SearchString = args.QueryText;
+                if (IsHomeEnabled == true)
+                {
+                    SearchPage.Subreddit = "all";
+                }
+                else
+                {
+                    SearchPage.Subreddit = CurrentSub.Name;
+                }
+                frame.Navigate(typeof(SearchPage));
+                MainTabView.TabItems.Add(newTab);
+                MainTabView.SelectedItem = newTab;
+            }
+            else if(SortBox.SelectedItem.ToString() == "Subreddits")
+            {
+                var newTab = new WinUI.TabViewItem();
+                newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Document };
+                newTab.Header = "Subreddit search results for: " + args.QueryText;
+                Frame frame = new Frame();
+                newTab.Content = frame;
+                SearchSubredditPage.SearchString = args.QueryText;
+                frame.Navigate(typeof(SearchSubredditPage));
+                MainTabView.TabItems.Add(newTab);
+                MainTabView.SelectedItem = newTab;
             }
             else
             {
-                SearchHubPage.Subreddit = CurrentSub.Name;
+
             }
-            frame.Navigate(typeof(SearchHubPage));
-            MainTabView.TabItems.Add(newTab);
-            MainTabView.SelectedItem = newTab;
         }
 
         private async void SortOrderItem_Click(object sender, RoutedEventArgs e)
@@ -957,6 +976,10 @@ namespace Eco_Reddit.Views
             Clipboard.SetContent(dataPackage);
         }
 
+        private void SearchTipButton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchTip.IsOpen = true;
+        }
     }
  
 

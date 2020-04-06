@@ -9,45 +9,48 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.UI.Xaml;
 
 namespace Eco_Reddit.Helpers
 {
-    public class GetUserPostsClass : IIncrementalSource<Posts>
+    public class GetSearchSubreddits : IIncrementalSource<Models.Subreddits>
     {
         public Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public static int limit = 10;
+        public static string SearchSort { get; set; }
         public static int skipInt = 0;
         public string appId = "mp8hDB_HfbctBg";
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
-        public static User UserToGetPostsFrom { get; set; }
-        List<Posts> PostCollection;
-          
-        public async Task<IEnumerable<Posts>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
+        List<Models.Subreddits> SubredditCollection;
+        private IEnumerable<Subreddit> Subreddits;
+        public static string Input { get; set; }
+
+        public async Task<IEnumerable<Models.Subreddits>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
             await Task.Run(async () =>
             {
+
                 string refreshToken = localSettings.Values["refresh_token"].ToString();
                 // Gets items from the collection according to pageIndex and pageSize parameters.
-                PostCollection = new List<Posts>();
+                SubredditCollection = new List<Models.Subreddits>();
                 var reddit = new RedditClient(appId, refreshToken, secret);
-                limit = limit + 10;
-                IEnumerable<Post> posts = reddit.Account.Me.GetPostHistory(limit: limit).Skip(skipInt);
+                IEnumerable<Subreddit> SearchResultsSearch = reddit.SearchSubreddits(limit: limit, query: Input, sort: SearchSort);
+                  limit = limit + 10;
                 await Task.Run(() =>
+                {
+                    foreach (Subreddit Subreddit in SearchResultsSearch)
                     {
-                        foreach (Post post in posts)
+                        SubredditCollection.Add(new Models.Subreddits()
                         {
-                            PostCollection.Add(new Posts()
-                            {
-                                PostSelf = post,
-                            });
-                        }
-                    });
-
+                            SubredditSelf = Subreddit,
+                        });
+                    }
+                });
                 // Simulates a longer request...
                 skipInt = skipInt + 10;
+
             });
-            return PostCollection;
+            return SubredditCollection;
         }
+
     }
 }

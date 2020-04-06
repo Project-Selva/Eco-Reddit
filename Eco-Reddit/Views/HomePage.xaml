@@ -22,7 +22,7 @@
 
             <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Width="10000" Orientation="Horizontal" Height="50" VerticalAlignment="Top" Canvas.ZIndex="50" x:Name="HomeBar" x:Load="False">
                 <TextBlock Margin="5" x:Name="Subreddit" Text="Home" FontSize="30"></TextBlock>
-                <CommandBar HorizontalAlignment="Center" DefaultLabelPosition="Right" Background="Transparent" VerticalAlignment="Center">
+                <CommandBar IsDynamicOverflowEnabled="True" HorizontalAlignment="Center" DefaultLabelPosition="Right" Background="Transparent" VerticalAlignment="Center">
                     <AppBarButton Icon="Sort" x:Name="SortOrderButton" Visibility="Collapsed">
                         <AppBarButton.Flyout>
                             <MenuFlyout>
@@ -59,18 +59,43 @@
                     </AppBarButton>
                     <AppBarButton Icon="ThreeBars" Label="Sidebar" Click="Expander_Expanded">
                     </AppBarButton>
+                    <AppBarButton Icon="Find" Label="Search" Click="SearchTipButton_Click">
+                    </AppBarButton>
+                    <AppBarButton Icon="Mail" Label="Inbox" IsEnabled="False">
+                    </AppBarButton>
+                    <AppBarButton Icon="Message" Label="Private Messages" IsEnabled="False">
+                    </AppBarButton>
                 </CommandBar>
-                <AutoSuggestBox Margin="9" PlaceholderText="Search subreddits, users and post (Pre Alpha)"
-                            HorizontalAlignment="Center"
-                                            x:Name="Search"
-                                            Width="400"
-        QueryIcon="Find"  
-        QuerySubmitted="Search_QuerySubmitted">
-                </AutoSuggestBox>
             </StackPanel>
         </controls:DropShadowPanel>
 
-        <!-- Loading screen content -->
+        <winui:TeachingTip x:Name="SearchTip"
+                           Width="9000"
+	Title="Search:">
+            <winui:TeachingTip.Style>
+                <Style TargetType="winui:TeachingTip">
+                    <Setter Property="MaxWidth" Value="Infinity"></Setter>
+                </Style>
+            </winui:TeachingTip.Style>
+        <winui:TeachingTip.Content>
+                <StackPanel>
+                    <AutoSuggestBox Margin="9" PlaceholderText="Search subreddits, users and post (Pre Alpha)"
+                            HorizontalAlignment="Center"
+                                            x:Name="Search"
+                                            Width="200"
+        QueryIcon="Find"  
+        QuerySubmitted="Search_QuerySubmitted">
+
+
+                    </AutoSuggestBox>
+                    <ComboBox x:Name="SortBox" Margin="5" HorizontalAlignment="Center" Header="Search options:" Width="200" SelectedIndex="0">
+                        <x:String>Posts</x:String>
+                        <x:String>Subreddits</x:String>
+                        <x:String>Users (experimental)</x:String>
+                    </ComboBox>
+                </StackPanel>
+            </winui:TeachingTip.Content>
+        </winui:TeachingTip>
         <muxc:TwoPaneView Pane1Length="auto" Pane2Length="*" x:Name="splitView" Margin="0, 50, 0, 0" Loaded="splitView_Loaded">
             <muxc:TwoPaneView.Pane1>
                 <Grid Width="670" Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">

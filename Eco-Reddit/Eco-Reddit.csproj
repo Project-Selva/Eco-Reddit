@@ -159,6 +159,7 @@
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\GetComments.cs" />
     <Compile Include="Helpers\GetPostsClass.cs" />
+    <Compile Include="Helpers\GetSearchSubreddits.cs" />
     <Compile Include="Helpers\GetSearchResults.cs" />
     <Compile Include="Helpers\GetSubreddits.cs" />
     <Compile Include="Helpers\GetUserPosts.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="Models\Comments.cs" />
     <Compile Include="Models\Posts.cs" />
     <Compile Include="Models\SubredditList.cs" />
+    <Compile Include="Models\Subreddits.cs" />
     <Compile Include="Models\TabViewItemData.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultActivationHandler.cs" />
@@ -199,14 +201,11 @@
     <Compile Include="Views\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SearchHubPage.xaml.cs">
-      <DependentUpon>SearchHubPage.xaml</DependentUpon>
+    <Compile Include="Views\SearchSubreddits.xaml.cs">
+      <DependentUpon>SearchSubreddits.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SearchPage.xaml.cs">
       <DependentUpon>SearchPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SearchSubredditPage.xaml.cs">
-      <DependentUpon>SearchSubredditPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -279,17 +278,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SearchHubPage.xaml">
+    <Page Include="Views\SearchSubreddits.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SearchPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\SearchSubredditPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>

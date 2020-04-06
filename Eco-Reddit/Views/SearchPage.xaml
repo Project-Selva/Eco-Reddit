@@ -4,10 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+        Background="{ThemeResource SystemControlAcrylicWindowBrush}"
         xmlns:local1="using:Eco_Reddit.Models"
     Style="{StaticResource PageStyle}"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     mc:Ignorable="d">
     <Grid HorizontalAlignment="Center" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
         <ListView ContainerContentChanging="HomeList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="SearchList" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="HomeList_ItemClick">
@@ -16,7 +16,7 @@
                             <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
                                 <StackPanel HorizontalAlignment="Left">
                                     <TextBlock Margin="5" FontSize="25" VerticalAlignment="Top" x:Name="TextSearched"></TextBlock>
-                                    <AutoSuggestBox Header="Search:" QueryIcon="Find" Margin="5" x:Name="Search" QuerySubmitted="Search_QuerySubmitted" PlaceholderText="Search posts, users and subreddits"></AutoSuggestBox>
+                                    <AutoSuggestBox Header="Search:" QueryIcon="Find" Margin="5" x:Name="Search" QuerySubmitted="Search_QuerySubmitted" PlaceholderText="Search posts"></AutoSuggestBox>
                                     <StackPanel Margin="5" HorizontalAlignment="Left" Orientation="Horizontal">
                                         <ComboBox x:Name="SortBox" Margin="5" Header="Search options:" Width="200" SelectedIndex="0">
                                             <x:String>Relevance</x:String>

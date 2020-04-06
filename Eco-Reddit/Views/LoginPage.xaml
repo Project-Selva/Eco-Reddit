@@ -90,7 +90,7 @@
                 <Frame x:Name="SettingsFrame"></Frame>
             </StackPanel>
         </Grid>
-    <Grid Width="1000">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
