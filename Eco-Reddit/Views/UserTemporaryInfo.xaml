@@ -45,7 +45,16 @@
             </StackPanel>
             <CommandBar Background="Transparent" DefaultLabelPosition="Right" OverflowButtonVisibility="Collapsed" IsDynamicOverflowEnabled="True">
                 <AppBarButton Label="Block" Click="AppBarButton_Click"></AppBarButton>
-                <AppBarButton Label="Report" Click="AppBarButton_Click_1"></AppBarButton>
+                <AppBarButton Label="Report">
+                    <AppBarButton.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <TextBox x:Name="Reason" Header="Reason:" PlaceholderText="e.g. Spam" Margin="5" Width="300"></TextBox>
+                                <Button Margin="5" Content="Report" Click="AppBarButton_Click_1"></Button>
+                            </StackPanel>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
                
             </CommandBar>
             <Button Content="Open in new tab" Width="340" Click="AppBarButton_Click_2"></Button>

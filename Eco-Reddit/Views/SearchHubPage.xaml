@@ -1,0 +1,26 @@
+﻿<Page
+    x:Class="Eco_Reddit.Views.SearchHubPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Eco_Reddit.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <Pivot SelectionChanged="Pivot_SelectionChanged">
+            <PivotItem Header="Posts">
+                <Frame x:Name="PostsFrame" Background="red"></Frame>
+            </PivotItem>
+            <PivotItem Header="Comments">
+                <Frame x:Name="CommentsFrame"></Frame>
+            </PivotItem>
+            <PivotItem Header="Subreddits">
+                <Frame x:Name="SubredditsFrame"></Frame>
+            </PivotItem>
+            <PivotItem Header="Mixed">
+                <Frame x:Name="MixedFrame"></Frame>
+            </PivotItem>
+        </Pivot>
+    </Grid>
+</Page>

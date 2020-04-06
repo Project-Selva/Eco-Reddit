@@ -5,6 +5,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using Reddit;
 using Reddit.Controllers;
 using Reddit.Inputs.LinksAndComments;
+using Reddit.Inputs.Subreddits;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Media.Core;
 using Windows.System;
 using Windows.UI.Core;
@@ -43,6 +45,8 @@ namespace Eco_Reddit.Views
             InitializeComponent();
             MainTab = MainTabView;
             L = HomeList;
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += DataTransferManager_DataRequested;
             SingletonReference = this;
             LoginFrameFrame = LoginFrame;
             /*   var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
@@ -77,8 +81,13 @@ namespace Eco_Reddit.Views
 
         }
 
-
-
+        Post SharePost;
+        private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            DataRequest request = args.Request;
+            request.Data.SetText("https://www.reddit.com/r/" + SharePost.Subreddit + "/comments/" + SharePost.Id);
+            request.Data.Properties.Title = SharePost.Title;
+        }
 
         private void OnTabCloseRequested(WinUI.TabView sender, WinUI.TabViewTabCloseRequestedEventArgs args)
         {
@@ -372,16 +381,16 @@ namespace Eco_Reddit.Views
             newTab.Header = "Search results for: " + args.QueryText;
             Frame frame = new Frame();
             newTab.Content = frame;
-            SearchPage.SearchString = args.QueryText;
+            SearchHubPage.SearchString = args.QueryText;
             if (IsHomeEnabled == true)
             {
-                SearchPage.Subreddit = "all";
+                SearchHubPage.Subreddit = "all";
             }
             else
             {
-                SearchPage.Subreddit = CurrentSub.Name;
+                SearchHubPage.Subreddit = CurrentSub.Name;
             }
-            frame.Navigate(typeof(SearchPage));
+            frame.Navigate(typeof(SearchHubPage));
             MainTabView.TabItems.Add(newTab);
             MainTabView.SelectedItem = newTab;
         }
@@ -594,7 +603,48 @@ namespace Eco_Reddit.Views
                 SortOrderButton.Visibility = Visibility.Visible;
             });
         }
+        private async void TrendingButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+                CurrentSub = Client.Subreddit("trendingsubreddits");
+                Subreddit.Text = "r/" + CurrentSub.Name;
+                GetPostsClass.Subreddit = CurrentSub.Name;
+                GetPostsClass.limit = 10;
 
+                GetPostsClass.skipInt = 0;
+                IsHomeEnabled = false;
+                PostsSortOrder = "Hot";
+                SortOrderButton.Label = "Hot";
+                GetPostsClass.SortOrder = "Hot";
+                var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
+                HomeList.ItemsSource = Postscollection;
+                SortOrderButton.Visibility = Visibility.Visible;
+            });
+        }
+        private async void RandomButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+                CurrentSub = Client.Subreddit("random");
+                Subreddit.Text = "r/" + CurrentSub.Name;
+                GetPostsClass.Subreddit = CurrentSub.Name;
+                GetPostsClass.limit = 10;
+
+                GetPostsClass.skipInt = 0;
+                IsHomeEnabled = false;
+                PostsSortOrder = "Hot";
+                SortOrderButton.Label = "Hot";
+                GetPostsClass.SortOrder = "Hot";
+                var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
+                HomeList.ItemsSource = Postscollection;
+                SortOrderButton.Visibility = Visibility.Visible;
+            });
+        }
         private void ProfilePage_Loaded(object sender, RoutedEventArgs e)
         {
             ProfileFrame.Navigate(typeof(ProfilePage));
@@ -742,6 +792,171 @@ namespace Eco_Reddit.Views
                 return;
             }
         }
+
+        private async void Expander_Expanded(object sender, EventArgs e)
+        {
+           try
+           {
+               GetSubreddit.Load = true;
+                //   var SubredditsCollection = new IncrementalLoadingCollection<GetSubreddit, SubredditList>();
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+            var RSubreddits = reddit.Account.Me.GetModeratedSubreddits();
+                SubredditCollection = new List<SubredditList>();
+                await Task.Run(() =>
+                {
+                   foreach (Reddit.Things.ModeratedListItem subreddit in RSubreddits)
+                    {
+                        if (subreddit.Over18 == true)
+                        {
+                            Nsfw = Visibility.Visible;
+                        }
+                        else
+                        {
+                            Nsfw = Visibility.Collapsed;
+                        }
+                        SubredditCollection.Add(new SubredditList()
+                        {
+                            TitleSubreddit = "r/" + subreddit.Name,
+                            IsNSFW = Nsfw
+                        });
+                    }
+                });
+                ModeratedSubs.ItemsSource = SubredditCollection;
+            }
+            catch
+            {
+                return;
+            }
+        }
+        private async void ReportButton_Click(object sender, RoutedEventArgs e)
+        {
+           AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+           // await PostLocal.ReportAsync(violatorUsername: PostLocal.Author, reason: Reason.Text, ruleReason: RuleReason.Text, banEvadingAccountsNames: PostLocal.Author, siteReason: SiteReason.Text, additionalInfo: AdditionalInfo.Text, customText: Reason.Text, otherReason: OtherInfo.Text, fromHelpCenter: false);
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            //  PostLocal.set
+        }
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.DeleteAsync();
+        }
+        private async void DistinguishButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.DistinguishAsync(how: "yes");
+        }
+        private async void ShareButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            SharePost = (AppBarButtonObject).Tag as Post;
+            await Task.Delay(500);
+            DataTransferManager.ShowShareUI();
+        }
+        private async void StickyButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.SetSubredditStickyAsync(num: 1, toProfile: false);
+        }
+        private async void UnHideEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnhideAsync();
+        }
+        private async void UnSaveditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnsaveAsync();
+        }
+        private async void CrosspostButton_Click(object sender, RoutedEventArgs e)
+        {
+           /* AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            // try
+            // {
+            if (PostLocal.Listing.IsSelf == true)
+            {
+                var newSelfPost = (PostLocal as SelfPost).About().XPostToAsync(CrosspsotText.Text);
+            }
+            else
+            {
+                var newSelfPost = (PostLocal as LinkPost).About().XPostToAsync(CrosspsotText.Text);
+            }
+            /* }
+             catch
+             {
+                 return;
+             }*/
+        }
+        private async void RemoveEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.RemoveAsync();
+        }
+        private async void UnStickyEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnsetSubredditStickyAsync(num: 1, toProfile: false);
+        }
+        private async void SpoilerEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.SpoilerAsync();
+        }
+        private async void UnSpoilerEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnspoilerAsync();
+        }
+        private async void NSFWEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.MarkNSFWAsync();
+        }
+        private async void UNNSFWEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnmarkNSFWAsync();
+        }
+        private async void LockEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.LockAsync();
+        }
+        private async void UnlockEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnlockAsync();
+        }
+        private async void PermaLinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            string pl = PostLocal.Permalink;
+            DataPackage dataPackage = new DataPackage();
+            dataPackage.SetText("https://www.reddit.com" + pl);
+            Clipboard.SetContent(dataPackage);
+        }
+
     }
  
 

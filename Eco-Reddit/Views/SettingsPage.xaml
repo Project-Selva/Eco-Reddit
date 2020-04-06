@@ -28,7 +28,7 @@
             x:Name="ContentArea">
             <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
             <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
-                <ToggleSwitch Header="Enable Ads" OffContent="Disabled: Planting trees isnt supported in pre - Alpha" OnContent="Working" IsOn="False" IsEnabled="False" />
+                <ToggleSwitch Header="Enable Ads" OffContent="Disabled: Planting trees isnt supported in Alpha" OnContent="Working" IsOn="False" IsEnabled="False" />
                 <TextBlock x:Uid="Settings_Theme" />
 
                 <StackPanel Margin="{StaticResource XSmallTopMargin}">
@@ -68,31 +68,11 @@
             <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
             <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="Pre alpha v0.01" />
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="Alpha v0.3" />
                 <TextBlock
                     Margin="{StaticResource XSmallTopMargin}"
                     Style="{ThemeResource BodyTextBlockStyle}" >
                     Plant trees while browsing reddit.
-                    <LineBreak/>
-                    upcoming features for pre - Alpha:
-                    <LineBreak/>
-                    -speed improvements
-                     <LineBreak/>
-                    -Subscribed subreddits
-                     <LineBreak/>
-                    -Upvoting and downvoting
-                     <LineBreak/>
-                    -Abiity to create posts
-                     <LineBreak/>
-                    -Comments, replies and commenting
-                     <LineBreak/>
-                    -save, share, hide, report and crosspost posts
-                     <LineBreak/>
-                    -Improve UI
-                     <LineBreak/>
-                    -Recomended subreddit
-                     <LineBreak/>
-                    -Personalisation settings
                 </TextBlock>
 
                 <HyperlinkButton  NavigateUri="https://www.reddit.com/help/privacypolicy" Margin="{StaticResource XSmallTopMargin}" />

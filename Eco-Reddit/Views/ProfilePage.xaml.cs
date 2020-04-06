@@ -24,7 +24,6 @@ namespace Eco_Reddit.Views
         {
             string refreshToken = localSettings.Values["refresh_token"].ToString();
             var reddit = new RedditClient(appId, refreshToken, secret);
-
             var User = reddit.Account.Me;
             CurrentUser = reddit.Account.Me;
             TitleAuthor.Text = "u/" + User.Name;

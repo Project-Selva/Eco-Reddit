@@ -6,6 +6,7 @@ using Reddit.Controllers;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -28,6 +29,8 @@ namespace Eco_Reddit.Views
         {
             InitializeComponent();
             LocalSearchString = SearchString;
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += DataTransferManager_DataRequested;
             Sub = Subreddit;
             SearchString = null;
             TextSearched.Text = "Search results for: " + LocalSearchString + " in r/" + Subreddit;
@@ -43,7 +46,14 @@ namespace Eco_Reddit.Views
             Subreddit = null;
             //  UnloadObject(HomePage.L);
         }
-      
+        Post SharePost;
+        private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            DataRequest request = args.Request;
+            request.Data.SetText("https://www.reddit.com/r/" + SharePost.Subreddit + "/comments/" + SharePost.Id);
+            request.Data.Properties.Title = SharePost.Title;
+        }
+
         private void HyperlinkButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
@@ -121,7 +131,132 @@ namespace Eco_Reddit.Views
 
             args.RegisterUpdateCallback(this.ShowPhase2);
         }
-    
+        private async void ReportButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            // await PostLocal.ReportAsync(violatorUsername: PostLocal.Author, reason: Reason.Text, ruleReason: RuleReason.Text, banEvadingAccountsNames: PostLocal.Author, siteReason: SiteReason.Text, additionalInfo: AdditionalInfo.Text, customText: Reason.Text, otherReason: OtherInfo.Text, fromHelpCenter: false);
+        }
+
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            //  PostLocal.set
+        }
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.DeleteAsync();
+        }
+        private async void DistinguishButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.DistinguishAsync(how: "yes");
+        }
+        private void ShareButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            SharePost = (AppBarButtonObject).Tag as Post;
+            DataTransferManager.ShowShareUI();
+        }
+        private async void StickyButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.SetSubredditStickyAsync(num: 1, toProfile: false);
+        }
+        private async void UnHideEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnhideAsync();
+        }
+        private async void UnSaveditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnsaveAsync();
+        }
+        private async void CrosspostButton_Click(object sender, RoutedEventArgs e)
+        {
+            /* AppBarButton AppBarButtonObject = (AppBarButton)sender;
+             Post PostLocal = (AppBarButtonObject).Tag as Post;
+             // try
+             // {
+             if (PostLocal.Listing.IsSelf == true)
+             {
+                 var newSelfPost = (PostLocal as SelfPost).About().XPostToAsync(CrosspsotText.Text);
+             }
+             else
+             {
+                 var newSelfPost = (PostLocal as LinkPost).About().XPostToAsync(CrosspsotText.Text);
+             }
+             /* }
+              catch
+              {
+                  return;
+              }*/
+        }
+        private async void RemoveEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.RemoveAsync();
+        }
+        private async void UnStickyEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnsetSubredditStickyAsync(num: 1, toProfile: false);
+        }
+        private async void SpoilerEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.SpoilerAsync();
+        }
+        private async void UnSpoilerEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnspoilerAsync();
+        }
+        private async void NSFWEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.MarkNSFWAsync();
+        }
+        private async void UNNSFWEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnmarkNSFWAsync();
+        }
+        private async void LockEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.LockAsync();
+        }
+        private async void UnlockEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnlockAsync();
+        }
+        private async void PermaLinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            string pl = PostLocal.Permalink;
+            DataPackage dataPackage = new DataPackage();
+            dataPackage.SetText("https://www.reddit.com" + pl);
+            Clipboard.SetContent(dataPackage);
+        }
         private void ShowPhase2(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             if (args.Phase != 2)
@@ -235,9 +370,9 @@ namespace Eco_Reddit.Views
 
         private void Search_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            TextSearched.Text = "Search results for: " + LocalSearchString + " in r/" + Subreddit;
-            Search.Text = LocalSearchString;
-            GetSearchResults.Input = LocalSearchString;
+            TextSearched.Text = "Search results for: " + args.QueryText + " in r/" + Subreddit;
+            Search.Text = args.QueryText;
+            GetSearchResults.Input = sender.Text;
             GetSearchResults.Sub = Subreddit;
             GetSearchResults.limit = 10;
             GetSearchResults.TimeSort = TimeBox.SelectedItem.ToString();
@@ -249,14 +384,12 @@ namespace Eco_Reddit.Views
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            TextSearched.Text = "Search results for: " + LocalSearchString + " in r/" + Sub;
-            Search.Text = LocalSearchString;
-            GetSearchResults.Input = LocalSearchString;
+            TextSearched.Text = "Search results for: " + Search.Text + " in r/" + Sub;
+            Search.Text = Search.Text;
+            GetSearchResults.Input = Search.Text;
             GetSearchResults.Sub = Sub;
             GetSearchResults.limit = 10;
             GetSearchResults.TimeSort = TimeBox.SelectedItem.ToString();
-            var m = new MessageDialog(TimeBox.SelectedItem.ToString());
-            m.ShowAsync();
             GetSearchResults.SearchSort = SortBox.SelectedItem.ToString();
             GetSearchResults.skipInt = 0;
             var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();

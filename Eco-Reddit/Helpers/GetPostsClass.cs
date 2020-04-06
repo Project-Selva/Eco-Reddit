@@ -43,37 +43,57 @@ namespace Eco_Reddit.Helpers
 
                         case "all":
                             posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "all", limit: limit)).Skip(skipInt);
-                            break;
+                        limit = limit + 10;
+                        skipInt = skipInt + 10;
+                        break;
                         case "year":
                             posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "year", limit: limit)).Skip(skipInt);
-                            break;
+                        limit = limit + 10;
+                        skipInt = skipInt + 10;
+                        break;
                         case "month":
                             posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "month", limit: limit)).Skip(skipInt);
-                            break;
+                        limit = limit + 10;
+                        skipInt = skipInt + 10;
+                        break;
                         case "week":
                             posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "week", limit: limit)).Skip(skipInt);
-                            break;
+                        limit = limit + 10;
+                        skipInt = skipInt + 10;
+                        break;
                         case "day":
                             posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "day", limit: limit)).Skip(skipInt);
-                            break;
+                        limit = limit + 10;
+                        skipInt = skipInt + 10;
+                        break;
                         case "Hot":
                             posts = subreddit.Posts.GetHot(limit: limit).Skip(skipInt);
-                            break;
+                        limit = limit + 10;
+                        skipInt = skipInt + 10;
+                        break;
                         case "New":
                             posts = subreddit.Posts.GetNew(limit: limit).Skip(skipInt);
-                            break;
+                        limit = limit + 10;
+                        skipInt = skipInt + 10;
+                        break;
                         case "Best":
                             posts = subreddit.Posts.GetBest(limit: limit).Skip(skipInt);
-                            break;
+                        limit = limit + 10;
+                        skipInt = skipInt + 10;
+                        break;
                         case "Rising":
                             posts = subreddit.Posts.GetRising(limit: limit).Skip(skipInt);
-                            break;
+                        limit = limit + 10;
+                        skipInt = skipInt + 10;
+                        break;
                         case "Controversial":
                             posts = subreddit.Posts.GetControversial(limit: limit).Skip(skipInt);
-                            break;
+                        limit = limit + 10;
+                        skipInt = skipInt + 10;
+                        break;
                     }
-                    limit = limit + 10;
-                    await Task.Run(() =>
+
+                await Task.Run(() =>
                      {
                          foreach (Post post in posts)
                          {
@@ -86,33 +106,7 @@ namespace Eco_Reddit.Helpers
                              });
                          }
                      });
-                    // Simulates a longer request...
-                    skipInt = skipInt + 10;
-              /*  }
-                else
-                {
-                    string refreshToken = localSettings.Values["refresh_token"].ToString();
-                    // Gets items from the collection according to pageIndex and pageSize parameters.
-                    PostCollection = new List<Posts>();
-                    var reddit = new RedditClient(appId, refreshToken, secret);
-                    var subreddit = reddit.Subreddit(Subreddit);
-                    posts = UserToGetPostsFrom.GetPostHistory(limit: limit).Skip(skipInt);
-                    limit = limit + 10;
-                    await Task.Run(() =>
-                    {
-                        foreach (Post post in posts)
-                        {
-                            PostCollection.Add(new Posts()
-                            {
-                                PostSelf = post,
-                                //PostCommentCount = "Comments: " + post.Comments.GetComments("new").Count.ToString(),
-                                // PostID = post.Id
-                                //  IsNSFW = Nsfw
-                            });
-                        }
-                    });
-                    // Simulates a longer request...
-                }*/
+                // Simulates a longer request...
             });
             return PostCollection;
         }

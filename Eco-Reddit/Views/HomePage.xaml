@@ -92,19 +92,49 @@
                                     <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="400" HorizontalAlignment="Center" Click="HomeButton_Click">Home</Button>
                                     <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="400" HorizontalAlignment="Center" Click="PopularButton_Click">popular</Button>
                                     <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="400" HorizontalAlignment="Center" Click="AllButton_Click">all</Button>
+                                    <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="400" HorizontalAlignment="Center" Click="TrendingButton_Click">Trending Subreddits</Button>
+                                    <controls:Expander Header="Recommended subredits: " Margin="5" IsEnabled="False">
+                                        <ListView IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="RecommendedSubs" Header="Recommended subreddits:" Width="400">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
+                                                        <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
+                                                        <TextBlock HorizontalAlignment="Left" Margin="5" Padding="10, 5, 10, 5" Text="IsNSFW" Visibility="{Binding IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </controls:Expander>
+
                                 </StackPanel>
                                 <Grid>
-                                    <ListView Loaded="SubscribedSubs_Loaded" IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" ItemClick="SubscribedSubs_ItemClick" Margin="0, 250, 0, 0" x:Name="SubscribedSubs" Header="Subscribed subreddits:" Width="400">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
-                                                    <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
-                                                    <TextBlock HorizontalAlignment="Left" Margin="5" Padding="10, 5, 10, 5" Text="IsNSFW" Visibility="{Binding IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
+                                    <StackPanel>
+                                        <controls:Expander Header="Moderated subredits: " Margin="5, 330, 5, 5" Expanded="Expander_Expanded">
+                                            <ListView IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="ModeratedSubs" Header="Moderated subreddits:" Width="400">
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
+                                                            <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
+                                                            <TextBlock HorizontalAlignment="Left" Margin="5" Padding="10, 5, 10, 5" Text="IsNSFW" Visibility="{Binding IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                        </controls:Expander>
+                                        <ListView Loaded="SubscribedSubs_Loaded" IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" ItemClick="SubscribedSubs_ItemClick" Margin="4" x:Name="SubscribedSubs" Header="Subscribed subreddits:" Width="400">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
+                                                        <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
+                                                        <TextBlock HorizontalAlignment="Left" Margin="5" Padding="10, 5, 10, 5" Text="IsNSFW" Visibility="{Binding IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </StackPanel>
                                 </Grid>
                             </Grid>
                         </SplitView.Pane>
@@ -156,12 +186,49 @@
                                         <AppBarButton Tag="{x:Bind PostSelf}" Icon="Globe" Label="Open post in web" Click="OpenPostInWebButton_Click"/>
                                         <AppBarSeparator/>
                                         <AppBarButton Tag="{x:Bind PostSelf}" Icon="ClosePane" Label="Hide" Click="HideButton_Click"/>
-                                        <AppBarButton Icon="Share" Label="Share" IsEnabled="False"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Share" Label="Share" Click="ShareButton_Click"/>
                                         <AppBarButton Tag="{x:Bind PostSelf}" Icon="Save" Label="Save" Click="SaveButton_Click"/>
-                                        <AppBarButton Icon="ReportHacked" Label="Report" IsEnabled="False"/>
-                                        <AppBarButton Icon="ReShare" Label="Crosspost" IsEnabled="False"/>
+                                        <AppBarButton Icon="ReportHacked" IsEnabled="False" Label="Report">
+                                            <AppBarButton.Flyout>
+                                                <Flyout>
+                                                    <StackPanel>
+                                                        <TextBox x:Name="Reason" Header="Reason:" PlaceholderText="e.g. Spam" Margin="5" Width="300"></TextBox>
+                                                        <TextBox x:Name="RuleReason" Header="Rule reason:" PlaceholderText="e.g. it breaks r/example rules" Margin="5" Width="300"></TextBox>
+                                                        <TextBox x:Name="SiteReason" Header="Site reason:" PlaceholderText="e.g. Infringes copyright" Margin="5" Width="300"></TextBox>
+                                                        <TextBox x:Name="AdditionalInfo" Header="Additional info" PlaceholderText="Addional info" Margin="5" Width="300"></TextBox>
+                                                        <TextBox x:Name="OtherInfo" Header="Other reason:" Margin="5" Width="300"></TextBox>
+                                                        <Button Tag="{x:Bind PostSelf}"  Margin="5" Content="Report" Click="ReportButton_Click"></Button>
+                                                    </StackPanel>
+                                                </Flyout>
+                                            </AppBarButton.Flyout>
+                                        </AppBarButton>
+                                        <AppBarButton Icon="ReShare" IsEnabled="False" Label="Crosspost">
+                                            <AppBarButton.Flyout>
+                                                <Flyout>
+                                                    <StackPanel>
+                                                        <TextBox x:Name="CrosspsotText" Header="Subreddit name:" PlaceholderText="Enter subreddit" Margin="5" Width="300"></TextBox>
+                                                        <Button Tag="{x:Bind PostSelf}"  Margin="5" Content="Crosspost" Click="CrosspostButton_Click"></Button>
+                                                    </StackPanel>
+                                                </Flyout>
+                                            </AppBarButton.Flyout>
+                                        </AppBarButton>
                                         <AppBarSeparator/>
-                                        <AppBarButton Icon="Delete" Label="Delete" IsEnabled="False"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Link" Label="PermaLink" Click="PermaLinkButton_Click"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Edit" IsEnabled="False" Label="Edit" Click="EditButton_Click"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Delete" Label="Delete" Click="DeleteButton_Click"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Priority" Label="Lock" Click="LockEditButton_Click"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="ReportHacked" Label="Spoiler" Click="SpoilerEditButton_Click"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="ReportHacked" Label="Mark NSFW" Click="NSFWEditButton_Click"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="ReportHacked" Label="Distinguish" Click="DistinguishButton_Click"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Delete" Label="Remove" Click="RemoveEditButton_Click"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Cut" Label="Sticky" Click="StickyButton_Click"/>
+                                        <AppBarSeparator/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="ClosePane" Label="UnHide" Click="UnHideEditButton_Click"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Save" Label="UnSave" Click="UnSaveditButton_Click"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Priority" Label="Unlock" Click="UnlockEditButton_Click"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="ReportHacked" Label="UnMark NSFW" Click="UNNSFWEditButton_Click"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="ReportHacked" Label="UnSpoiler" Click="UnSpoilerEditButton_Click"/>
+                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Cut" Label="UnSticky" Click="UnStickyEditButton_Click"/>
                                     </CommandBar>
                                     <Image x:Name="PostImage" RelativePanel.AlignBottomWithPanel="True" Margin="0, 10,0,0 " Stretch="Fill"/>
                                 </RelativePanel>

@@ -43,6 +43,10 @@ namespace Eco_Reddit.Views
             AuthorFriends.Text = "Friends: " + User.NumFriends.ToString();
             if (User.IsFriend == true)
             {
+                FriendUser.Visibility = Visibility.Visible;
+            }
+            if(User.Over18 == true)
+            {
                 NSFWUser.Visibility = Visibility.Visible;
             }
             if (User.IsGold == true)
@@ -70,7 +74,7 @@ namespace Eco_Reddit.Views
 
         private async void AppBarButton_Click_1(object sender, RoutedEventArgs e)
         {
-          // await CurrentUser.ReportAsync("", );
+            await CurrentUser.ReportAsync(reason: Reason.Text);
         }
 
         private void AppBarButton_Click_2(object sender, RoutedEventArgs e)
@@ -85,5 +89,6 @@ namespace Eco_Reddit.Views
             HomePage.MainTab.TabItems.Add(newTab);
             HomePage.MainTab.SelectedItem = newTab;
         }
+
     }
 }

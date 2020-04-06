@@ -8,8 +8,10 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -35,6 +37,8 @@ namespace Eco_Reddit.Views
         {
             this.InitializeComponent();
             var User = PostUser.About();
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += DataTransferManager_DataRequested;
             TitleAuthor.Text = "u/" + User.Name;
             FullNameAuthor.Text = "Id: " + User.Fullname;
             int Karma = User.CommentKarma + User.LinkKarma;
@@ -44,6 +48,10 @@ namespace Eco_Reddit.Views
             AuthorDate.Text = "Created: " + User.Created.ToString();
             AuthorFriends.Text = "Friends: " + User.NumFriends.ToString();
             if (User.IsFriend == true)
+            {
+                FriendUser.Visibility = Visibility.Visible;
+            }
+            if (User.Over18 == true)
             {
                 NSFWUser.Visibility = Visibility.Visible;
             }
@@ -80,6 +88,15 @@ namespace Eco_Reddit.Views
             Reddit.Controllers.Post post = SenderPost.PostSelf;
             await post.HideAsync();
         }
+        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            await CurrentUser.BlockAsync();
+        }
+
+        private async void AppBarButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            await CurrentUser.ReportAsync(reason: Reason.Text);
+        }
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -113,6 +130,140 @@ namespace Eco_Reddit.Views
                 AwardFrame.Navigate(typeof(AwardsFlyoutFrame));
                 AwardsFlyoutFrame.post = post;
         }
+        private async void ReportButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            // await PostLocal.ReportAsync(violatorUsername: PostLocal.Author, reason: Reason.Text, ruleReason: RuleReason.Text, banEvadingAccountsNames: PostLocal.Author, siteReason: SiteReason.Text, additionalInfo: AdditionalInfo.Text, customText: Reason.Text, otherReason: OtherInfo.Text, fromHelpCenter: false);
+        }
+        Post SharePost;
+        private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            DataRequest request = args.Request;
+            request.Data.SetText("https://www.reddit.com/r/" + SharePost.Subreddit + "/comments/" + SharePost.Id);
+            request.Data.Properties.Title = SharePost.Title;
+        }
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            //  PostLocal.set
+        }
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.DeleteAsync();
+        }
+        private async void DistinguishButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.DistinguishAsync(how: "yes");
+        }
+        private async void ShareButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            SharePost = (AppBarButtonObject).Tag as Post;
+            await Task.Delay(500);
+            DataTransferManager.ShowShareUI();
+        }
+        private async void StickyButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.SetSubredditStickyAsync(num: 1, toProfile: false);
+        }
+        private async void UnHideEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnhideAsync();
+        }
+        private async void UnSaveditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnsaveAsync();
+        }
+        private async void CrosspostButton_Click(object sender, RoutedEventArgs e)
+        {
+            /* AppBarButton AppBarButtonObject = (AppBarButton)sender;
+             Post PostLocal = (AppBarButtonObject).Tag as Post;
+             // try
+             // {
+             if (PostLocal.Listing.IsSelf == true)
+             {
+                 var newSelfPost = (PostLocal as SelfPost).About().XPostToAsync(CrosspsotText.Text);
+             }
+             else
+             {
+                 var newSelfPost = (PostLocal as LinkPost).About().XPostToAsync(CrosspsotText.Text);
+             }
+             /* }
+              catch
+              {
+                  return;
+              }*/
+        }
+        private async void RemoveEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.RemoveAsync();
+        }
+        private async void UnStickyEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnsetSubredditStickyAsync(num: 1, toProfile: false);
+        }
+        private async void SpoilerEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.SpoilerAsync();
+        }
+        private async void UnSpoilerEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnspoilerAsync();
+        }
+        private async void NSFWEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.MarkNSFWAsync();
+        }
+        private async void UNNSFWEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnmarkNSFWAsync();
+        }
+        private async void LockEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.LockAsync();
+        }
+        private async void UnlockEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.UnlockAsync();
+        }
+        private async void PermaLinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            string pl = PostLocal.Permalink;
+            DataPackage dataPackage = new DataPackage();
+            dataPackage.SetText("https://www.reddit.com" + pl);
+            Clipboard.SetContent(dataPackage);
+        }
+
         private void HomeList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
 
@@ -135,7 +286,7 @@ namespace Eco_Reddit.Views
                 throw new System.Exception("We should be in phase 1, but we are not.");
             }
 
-         /*   Posts SenderPost = args.Item as Eco_Reddit.Models.Posts;
+          Posts SenderPost = args.Item as Eco_Reddit.Models.Posts;
             Reddit.Controllers.Post post = SenderPost.PostSelf;
             var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
             var textBlock = templateRoot.Children[5] as HyperlinkButton;
@@ -169,17 +320,22 @@ namespace Eco_Reddit.Views
             }
             ///   TextFlairBlock.Foreground = post.Listing.LinkFlairBackgroundColor;
 
-            //  args.RegisterUpdateCallback(this.ShowPhase2);*/
+            //  args.RegisterUpdateCallback(this.ShowPhase2);
         }
 
         private async void UserList_Loaded(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(500);
-            GetUserPostsClass.limit = 10;
-            GetUserPostsClass.skipInt = 0;
-            GetUserPostsClass.UserToGetPostsFrom = PostUser;
-            var Postscollection = new IncrementalLoadingCollection<GetUserPostsClass, Posts>();
-            UserList.ItemsSource = Postscollection;
+            await Task.Run(async () =>
+            {
+                //  GetUserPostsClass.limit = 10;
+                //  GetUserPostsClass.skipInt = 0;
+                GetUserPostsClass.UserToGetPostsFrom = PostUser;
+                var Postscollection = new IncrementalLoadingCollection<GetUserPostsClass, Posts>();
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    UserList.ItemsSource = Postscollection;
+                });
+            });
         }
     }
 }

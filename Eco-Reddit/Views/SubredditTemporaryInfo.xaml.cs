@@ -36,7 +36,6 @@ namespace Eco_Reddit.Views
         {
             var subreddit = InfoSubReddit.About();
             Title.Text = "r/" + subreddit.Name;
-
             Header.Text = subreddit.Title;
             SubscribeButton.Visibility = Visibility.Visible;
             UnSubscribeButton.Visibility = Visibility.Visible;

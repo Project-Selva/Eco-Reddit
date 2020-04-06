@@ -24,6 +24,7 @@ namespace Eco_Reddit.Helpers
         private IEnumerable<Comment> Comments;
         public static Post PostToGetCommentsFrom { get; set; }
         public static String SortOrder { get; set; }
+
         public async Task<IEnumerable<Comments>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
             await Task.Run(async () =>
@@ -37,31 +38,31 @@ namespace Eco_Reddit.Helpers
                 {
 
                     case "Random":
-                        Comments = PostToGetCommentsFrom.Comments.GetRandom(limit: limit).Skip(skipInt);
+                        Comments = PostToGetCommentsFrom.Comments.GetRandom(PostToGetCommentsFrom.Comments.GetComments(SortOrder).Count).Skip(skipInt);
                         break;
                     case "Top":
-                        Comments = PostToGetCommentsFrom.Comments.GetTop(limit: limit).Skip(skipInt);
+                        Comments = PostToGetCommentsFrom.Comments.GetTop(PostToGetCommentsFrom.Comments.GetComments(SortOrder).Count).Skip(skipInt);
                         break;
                     case "Q and A":
-                        Comments = PostToGetCommentsFrom.Comments.GetQA(limit: limit).Skip(skipInt);
+                        Comments = PostToGetCommentsFrom.Comments.GetQA(PostToGetCommentsFrom.Comments.GetComments(SortOrder).Count).Skip(skipInt);
                         break;
                     case "New":
-                        Comments = PostToGetCommentsFrom.Comments.GetNew(limit: limit).Skip(skipInt);
+                        Comments = PostToGetCommentsFrom.Comments.GetNew(PostToGetCommentsFrom.Comments.GetComments(SortOrder).Count).Skip(skipInt);
                         break;
                     case "Old":
-                        Comments = PostToGetCommentsFrom.Comments.GetOld(limit: limit).Skip(skipInt);
+                        Comments = PostToGetCommentsFrom.Comments.GetOld(PostToGetCommentsFrom.Comments.GetComments(SortOrder).Count).Skip(skipInt);
                         break;
                     case "Live":
-                        Comments = PostToGetCommentsFrom.Comments.GetLive(limit: limit).Skip(skipInt);
+                        Comments = PostToGetCommentsFrom.Comments.GetLive(PostToGetCommentsFrom.Comments.GetComments(SortOrder).Count).Skip(skipInt);
                         break;
                     case "Controversial":
-                        Comments = PostToGetCommentsFrom.Comments.GetControversial(limit: limit).Skip(skipInt);
+                        Comments = PostToGetCommentsFrom.Comments.GetControversial(PostToGetCommentsFrom.Comments.GetComments(SortOrder).Count).Skip(skipInt);
                         break;
                     case "Confidence":
-                        Comments = PostToGetCommentsFrom.Comments.GetConfidence(limit: limit).Skip(skipInt);
+                        Comments = PostToGetCommentsFrom.Comments.GetConfidence(PostToGetCommentsFrom.Comments.GetComments(SortOrder).Count).Skip(skipInt);
                         break;
                 }
-                limit = limit + 10;
+          //      limit = limit + PostToGetCommentsFrom.Comments.GetComments("Top").Count;
                 await Task.Run(() =>
                 {
                     foreach (Comment comment in Comments)
@@ -73,7 +74,7 @@ namespace Eco_Reddit.Helpers
                     }
                 });
                 // Simulates a longer request...
-                skipInt = skipInt + 10;
+               skipInt = skipInt + PostToGetCommentsFrom.Comments.GetComments(SortOrder).Count;
 
             });
             return CommentCollection;
