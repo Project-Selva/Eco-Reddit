@@ -74,19 +74,22 @@
         </Style>
     </Page.Resources>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-        <Grid Margin="0,0,150,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel>
             <TextBlock FontSize="30">Login to reddit</TextBlock>
-            <TextBlock>Eco reddit pre alpha requires login</TextBlock>
+                <TextBlock FontSize="30" Width="300" TextWrapping="WrapWholeWords">Note: this preview alpha version doesnt plant any trees but is instead used for testing</TextBlock>
+                <TextBlock>Eco reddit pre alpha legacy requires login</TextBlock>
+                <TextBlock>This version is slower and older than the dev edition and contains more UI issues but has less fatal bugs than the dev edition</TextBlock>
             </StackPanel>
         </Grid>
-    <Grid Width="1000">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <WebView x:Name="webView"
                  Height="1000"
+                 Width="900"
                  NavigationCompleted="OnNavigationCompleted"
                  NavigationStarting="LoginView_NavigationStarting"
                  NavigationFailed="OnNavigationFailed" />

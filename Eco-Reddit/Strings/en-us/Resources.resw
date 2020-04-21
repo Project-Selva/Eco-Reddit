@@ -117,177 +117,175 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppDisplayName" xml:space="preserve">
-    <value>Eco_Reddit</value>
-    <comment>Application display name</comment>
+  <data name="add" xml:space="preserve">
+    <value />
   </data>
-  <data name="AppDescription" xml:space="preserve">
-    <value>Eco_Reddit</value>
-    <comment>Application description</comment>
+  <data name="ads" xml:space="preserve">
+    <value />
   </data>
-  <data name="Home_Title.Text" xml:space="preserve">
-    <value>Home</value>
-    <comment>Page title for HomePage</comment>
+  <data name="all" xml:space="preserve">
+    <value />
   </data>
-  <data name="Subreddit_Title.Text" xml:space="preserve">
-    <value>Subreddit</value>
-    <comment>Page title for SubredditPage</comment>
+  <data name="Author:" xml:space="preserve">
+    <value />
   </data>
-  <data name="Login_FailedMessage.Text" xml:space="preserve">
-    <value>Page failed to load. Check connection and retry.</value>
-    <comment>Load failure message for Login</comment>
+  <data name="block" xml:space="preserve">
+    <value />
   </data>
-  <data name="Login_Loading.Text" xml:space="preserve">
-    <value>Loading...</value>
-    <comment>Loading message for Login</comment>
+  <data name="Change language" xml:space="preserve">
+    <value />
   </data>
-  <data name="Login_Retry.Content" xml:space="preserve">
-    <value>retry</value>
-    <comment>Retry button for Login</comment>
+  <data name="Comment karma:" xml:space="preserve">
+    <value />
   </data>
-    <data name="Login_BrowserBackButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">    
-    <value>Back</value>
-    <comment>WebView back button automation name property for Login</comment>
+  <data name="Comments" xml:space="preserve">
+    <value />
   </data>
-  <data name="Login_BrowserBackButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Back</value>
-    <comment>Back button automation tooltip property for Login</comment>
+  <data name="controversial" xml:space="preserve">
+    <value />
   </data>
-  <data name="Login_BrowserForwardButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Forward</value>
-    <comment>Forward button automation name property for Login</comment>
+  <data name="Create a Post" xml:space="preserve">
+    <value />
   </data>
-  <data name="Login_BrowserForwardButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Forward</value>
-    <comment>Forward button automation tooltip property for Login</comment>
+  <data name="danish" xml:space="preserve">
+    <value />
   </data>
-  <data name="Login_RefreshBrowserButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Refresh</value>
-    <comment>Refresh button automation name property for Login</comment>
+  <data name="day" xml:space="preserve">
+    <value />
   </data>
-  <data name="Login_RefreshBrowserButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Refresh</value>
-    <comment>Refresh button automation tooltip property for Login</comment>
+  <data name="delete" xml:space="preserve">
+    <value />
   </data>
-  <data name="Login_OpenInBrowserButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
-    <value>Open in browser</value>
-    <comment>Open in browser button automation name property for Login</comment>
+  <data name="disable" xml:space="preserve">
+    <value />
   </data>
-  <data name="Login_OpenInBrowserButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
-    <value>Open in browser</value>
-    <comment>Open in browser button automation tooltip property for Login</comment>
+  <data name="e" xml:space="preserve">
+    <value />
   </data>
-  <data name="Profile_Title.Text" xml:space="preserve">
-    <value>Profile</value>
-    <comment>Page title for ProfilePage</comment>
+  <data name="eco ads" xml:space="preserve">
+    <value />
   </data>
-  <data name="PostContent_Title.Text" xml:space="preserve">
-    <value>PostContent</value>
-    <comment>Page title for PostContentPage</comment>
+  <data name="edit" xml:space="preserve">
+    <value />
   </data>
-  <data name="Search_Title.Text" xml:space="preserve">
-    <value>Search</value>
-    <comment>Page title for SearchPage</comment>
+  <data name="enable" xml:space="preserve">
+    <value />
   </data>
-  <data name="CommentsTitle.Text" xml:space="preserve">
-    <value>Comments</value>
-    <comment>Title for CommentsPage</comment>
+  <data name="english" xml:space="preserve">
+    <value />
   </data>
-  <data name="ExceptionSettingsStorageExtensionsFileNameIsNullOrEmpty" xml:space="preserve">
-    <value>File name is null or empty. Specify a valid file name</value>
-    <comment>File name is null or empty to save file in settings storage extensions</comment>
+  <data name="Error: Fatal exception" xml:space="preserve">
+    <value />
   </data>
-  <data name="Settings_Theme.Text" xml:space="preserve">
-    <value>Choose Theme</value>
-    <comment>Choose theme text for Settings</comment>
+  <data name="Flair:" xml:space="preserve">
+    <value />
   </data>
-  <data name="Settings_Theme_Dark.Content" xml:space="preserve">
-    <value>Dark</value>
-    <comment>Dark theme text for Settings</comment>
+  <data name="focus mode" xml:space="preserve">
+    <value />
   </data>
-  <data name="Settings_Theme_Default.Content" xml:space="preserve">
-    <value>Windows default</value>
-    <comment>Windows default theme text for Settings</comment>
+  <data name="followers" xml:space="preserve">
+    <value />
   </data>
-  <data name="Settings_Theme_Light.Content" xml:space="preserve">
-    <value>Light</value>
-    <comment>Light theme text for Settings</comment>
+  <data name="French" xml:space="preserve">
+    <value />
   </data>
-  <data name="Settings_About.Text" xml:space="preserve">    
-    <value>About this application</value>
-    <comment>About this application title for Settings</comment>
+  <data name="friends" xml:space="preserve">
+    <value />
   </data>
-  <data name="Settings_AboutDescription.Text" xml:space="preserve">    
-    <value>Settings page placeholder text.  Your app description goes here.</value>
-    <comment>About this application description for Settings</comment>
+  <data name="g" xml:space="preserve">
+    <value />
   </data>
-  <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">    
-    <value>Privacy Statement</value>
-    <comment>Privacy Statement link content for Settings</comment>
+  <data name="Hindi" xml:space="preserve">
+    <value />
   </data>
-  <data name="Settings_PrivacyTermsLink.NavigateUri" xml:space="preserve">  
-    <value>https://YourPrivacyUrlGoesHere/</value>
-    <comment>Here is your Privacy Statement url for Settings</comment>
+  <data name="hot" xml:space="preserve">
+    <value />
   </data>
-  <data name="Settings_Personalization.Text" xml:space="preserve">   
-    <value>Personalization</value>
-    <comment>Personalization text for Settings</comment>
+  <data name="incognito mode" xml:space="preserve">
+    <value />
   </data>
-  <data name="ExceptionEnumToBooleanConverterValueMustBeAnEnum" xml:space="preserve">   
-    <value>value must be an Enum!</value>
-    <comment>Value must be an Enum in enum to boolean converter</comment>
+  <data name="Karma:" xml:space="preserve">
+    <value />
   </data>
-  <data name="ExceptionEnumToBooleanConverterParameterMustBeAnEnumName" xml:space="preserve">   
-    <value>parameter must be an Enum name!</value>
-    <comment>Parameter must be an Enum name in enum to boolean converter</comment>
+  <data name="Link" xml:space="preserve">
+    <value />
   </data>
-  <data name="Settings_Title.Text" xml:space="preserve">
-    <value>Settings</value>
-    <comment>Page title for SettingsPage</comment>
+  <data name="month" xml:space="preserve">
+    <value />
   </data>
-  <data name="WhatsNew_Body.Text" xml:space="preserve">
-    <value>Replace the content of this dialog with whatever content is appropriate to your app.
-You might want to consider lists of bug fixes and new features.
-Don't feel restricted to just text. You can also include images and animations if you wish too.
-
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
-Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.
-Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.
-Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</value>
-    <comment>What's new prompt message body</comment>
+  <data name="new" xml:space="preserve">
+    <value />
   </data>
-  <data name="WhatsNewDialog.Title" xml:space="preserve">
-    <value>What's new in this version</value>
-    <comment>What's new prompt message title</comment>
+  <data name="Plant trees while you browse reddit" xml:space="preserve">
+    <value />
   </data>
-  <data name="WhatsNewDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ok</value>
-    <comment>What's new prompt message primary button text</comment>
+  <data name="Post" xml:space="preserve">
+    <value />
   </data>
-  <data name="FirstRun_Body.Text" xml:space="preserve">
-    <value>Replace the content of this dialog with whatever content is appropriate to your app.
-You might want to explain key features or functionality.
-Don't feel restricted to just text. You can also include images and animations if you wish too.
-
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
-
-Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.
-
-Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.
-
-Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.</value>
-    <comment>First use prompt message body</comment>
+  <data name="Post karma:" xml:space="preserve">
+    <value />
   </data>
-  <data name="FirstRunDialog.Title" xml:space="preserve">
-    <value>Welcome</value>
-    <comment>First use prompt message title</comment>
+  <data name="refresh" xml:space="preserve">
+    <value />
   </data>
-  <data name="FirstRunDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ok</value>
-    <comment>First use prompt message primary button text</comment>
+  <data name="rising" xml:space="preserve">
+    <value />
   </data>
-  <data name="FeedbackHub_Link.Content" xml:space="preserve">
-    <value>Feedback</value>
-    <comment>Displayed as the link to launching the Feedback Hub.</comment>
+  <data name="Search" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Search subreddits, posts and users" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Sidebar" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sidebar isnt supported in eco reddit alpha" xml:space="preserve">
+    <value />
+  </data>
+  <data name="submit" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Subreddit" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Thanks to the translators for translating the app:" xml:space="preserve">
+    <value />
+  </data>
+  <data name="this app is still in alpha" xml:space="preserve">
+    <value />
+  </data>
+  <data name="top" xml:space="preserve">
+    <value />
+  </data>
+  <data name="turkish" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Unfortunately we couldnt load comments" xml:space="preserve">
+    <value />
+  </data>
+  <data name="User" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value />
+  </data>
+  <data name="week" xml:space="preserve">
+    <value />
+  </data>
+  <data name="welcome" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Whats new" xml:space="preserve">
+    <value />
+  </data>
+  <data name="work mode" xml:space="preserve">
+    <value />
+  </data>
+  <data name="year" xml:space="preserve">
+    <value />
   </data>
 </root>
