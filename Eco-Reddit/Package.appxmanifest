@@ -11,7 +11,7 @@
   <Identity
     Name="2505FireCubeStudios.EcoredditalphapreviewDEVeditio"
     Publisher="CN=3C7C8FC9-7104-4B33-8730-EE1E929D5D3B"
-    Version="0.2.4.0" />
+    Version="0.3.69.0" />
 
   <mp:PhoneIdentity PhoneProductId="c9ab2b6c-35ee-4d77-b0ea-e7e2f41078d3" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

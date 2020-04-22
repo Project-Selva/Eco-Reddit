@@ -73,11 +73,11 @@
             </Setter>
         </Style>
     </Page.Resources>
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-        <Grid Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <StackPanel>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+        <Grid>
+            <StackPanel Width="400">
             <TextBlock Margin="5" FontSize="30">Login to reddit</TextBlock>
-                <TextBlock Margin="5">This is the Preview Alpha DEV version</TextBlock>
+                <TextBlock Margin="5">This is the alpha version</TextBlock>
                 <TextBlock Margin="5">This version</TextBlock>
                 <StackPanel Orientation="Horizontal">
                     <Button  Margin="5" Click="Button_Click" Style="{ThemeResource ButtonRevealStyle}">
@@ -90,13 +90,9 @@
                 <Frame x:Name="SettingsFrame"></Frame>
             </StackPanel>
         </Grid>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <WebView x:Name="webView"
-                 Height="1000"
+        <Grid HorizontalAlignment="Right">
+            <WebView x:Name="webView"
+                     Width="900"
                  NavigationCompleted="OnNavigationCompleted"
                  NavigationStarting="LoginView_NavigationStarting"
                  NavigationFailed="OnNavigationFailed" />

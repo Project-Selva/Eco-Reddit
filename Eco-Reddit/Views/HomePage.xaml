@@ -12,6 +12,13 @@
     Style="{StaticResource PageStyle}"   
     Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <Style x:Key="Tippstyle" TargetType="winui:TeachingTip">
+                <Setter Property="MaxWidth" Value="Infinity"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
     <Grid
             Grid.Row="1"        
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
@@ -71,15 +78,11 @@
 
         <winui:TeachingTip x:Name="SearchTip"
                            Width="9000"
+                       Style="{ThemeResource Tippstyle}"
 	Title="Search:">
-            <winui:TeachingTip.Style>
-                <Style TargetType="winui:TeachingTip">
-                    <Setter Property="MaxWidth" Value="Infinity"></Setter>
-                </Style>
-            </winui:TeachingTip.Style>
-        <winui:TeachingTip.Content>
+            <winui:TeachingTip.Content>
                 <StackPanel>
-                    <AutoSuggestBox Margin="9" PlaceholderText="Search subreddits, users and post (Pre Alpha)"
+                    <AutoSuggestBox Margin="9" PlaceholderText="Search subreddits and posts"
                             HorizontalAlignment="Center"
                                             x:Name="Search"
                                             Width="200"
@@ -91,7 +94,7 @@
                     <ComboBox x:Name="SortBox" Margin="5" HorizontalAlignment="Center" Header="Search options:" Width="200" SelectedIndex="0">
                         <x:String>Posts</x:String>
                         <x:String>Subreddits</x:String>
-                        <x:String>Users (experimental)</x:String>
+                       <!-- <x:String>Users (experimental)</x:String>-->
                     </ComboBox>
                 </StackPanel>
             </winui:TeachingTip.Content>

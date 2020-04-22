@@ -24,7 +24,7 @@
     </ContentDialog.TitleTemplate>
     <ScrollViewer>
         <StackPanel>
-            <TextBlock >comments support + more</TextBlock>
+            <TextBlock >lots of new reddit features + bug fixes and major performance improvements.</TextBlock>
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>
