@@ -33,16 +33,16 @@ namespace Eco_Reddit.Views
             dataTransferManager.DataRequested += DataTransferManager_DataRequested;
             Sub = Subreddit;
             SearchString = null;
-            TextSearched.Text = "Search results for: " + LocalSearchString + " in r/" + Subreddit;
-            Search.Text = LocalSearchString;
-            GetSearchResults.Input = LocalSearchString;
+            TextSearched.Text = "Search:";
+            // Search.Text = LocalSearchString;
+            // GetSearchResults.Input = LocalSearchString;
             GetSearchResults.Sub = Subreddit;
             GetSearchResults.limit = 10;
             GetSearchResults.TimeSort = "all";
             GetSearchResults.SearchSort = "relevance";
             GetSearchResults.skipInt = 0;
-            var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
-            SearchList.ItemsSource = Postscollection;
+            //  var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
+            //  SearchList.ItemsSource = Postscollection;
             Subreddit = null;
             //  UnloadObject(HomePage.L);
         }
@@ -76,7 +76,7 @@ namespace Eco_Reddit.Views
             storage = value;
             OnPropertyChanged(propertyName);
         }
-     
+
         private void HomeList_ItemClick(object sender, ItemClickEventArgs e)
         {
             Posts P = e.ClickedItem as Posts;

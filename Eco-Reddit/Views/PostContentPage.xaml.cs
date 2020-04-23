@@ -42,7 +42,20 @@ namespace Eco_Reddit.Views
             dataTransferManager.DataRequested += DataTransferManager_DataRequested;
             SingletonReference = this;
         }
-
+        private async void MarkdownText_ImageClicked(object sender, LinkClickedEventArgs e)
+        {
+            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
+            {
+                await Launcher.LaunchUriAsync(link);
+            }
+        }
+        private async void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
+            {
+                await Launcher.LaunchUriAsync(link);
+            }
+        }
         private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             DataRequest request = args.Request;
@@ -52,110 +65,110 @@ namespace Eco_Reddit.Views
 
         public async void StartUp(object sender, RoutedEventArgs e)
         {
-            await Task.Run(async() =>
+            await Task.Run(async () =>
             {
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                string refreshToken = localSettings.Values["refresh_token"].ToString();
-                var Client = new RedditClient(appId, refreshToken, secret);
-                Title.Text = PostLocal.Title;
-                Date.Text = "Created: " + PostLocal.Created;
-                User.Content = "u/" + PostLocal.Author;
-                Commentcount.Label = "Comments: " + PostLocal.Comments.GetComments("new").Count.ToString();
-                Subreddit.Content = "r/" + PostLocal.Subreddit;
-                UpvoteButton.Label = PostLocal.UpVotes.ToString();
-                UpvoteButton.IsChecked = PostLocal.IsUpvoted;
-                DownVoteButton.IsChecked = PostLocal.IsDownvoted;
-                Total.Text = "Total Awards: " + PostLocal.Awards.Count.ToString();
-                Gold.Text = "Platinum Awards: " + PostLocal.Awards.Platinum.ToString();
-                Silver.Text = "Gold Awards: " + PostLocal.Awards.Gold.ToString();
-                Bronze.Text = "Silver Awards: " + PostLocal.Awards.Silver.ToString();
-
-                if (PostLocal.NSFW == true)
                 {
-                    NSFW.Text = "NSFW";
-                }
-                else
-                {
-                    NSFW.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                }
-                try
-                {
-                    PostText.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    var p = PostLocal as LinkPost;
-                    if (p.URL.ToString().Contains("i.redd.it") == true || p.URL.ToString().Contains("i.imgur") == true)
-                    {
-                        BitmapImage img = new BitmapImage();
-                        img.UriSource = new Uri(p.URL);
-                        Image.Source = img;
-                        Link.NavigateUri = new Uri(p.URL);
-                        Image.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                        LinkView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    }
-                    else if (p.URL.ToString().Contains("v.redd.it") == true)
-                    {
+                    string refreshToken = localSettings.Values["refresh_token"].ToString();
+                    var Client = new RedditClient(appId, refreshToken, secret);
+                    Title.Text = PostLocal.Title;
+                    Date.Text = "Created: " + PostLocal.Created;
+                    User.Content = "u/" + PostLocal.Author;
+                    Commentcount.Label = "Comments: " + PostLocal.Comments.GetComments("new").Count.ToString();
+                    Subreddit.Content = "r/" + PostLocal.Subreddit;
+                    UpvoteButton.Label = PostLocal.UpVotes.ToString();
+                    UpvoteButton.IsChecked = PostLocal.IsUpvoted;
+                    DownVoteButton.IsChecked = PostLocal.IsDownvoted;
+                    Total.Text = "Total Awards: " + PostLocal.Awards.Count.ToString();
+                    Gold.Text = "Platinum Awards: " + PostLocal.Awards.Platinum.ToString();
+                    Silver.Text = "Gold Awards: " + PostLocal.Awards.Gold.ToString();
+                    Bronze.Text = "Silver Awards: " + PostLocal.Awards.Silver.ToString();
 
-                        MediaRedditPlayer.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                        MediaRedditPlayer.Source = MediaSource.CreateFromUri(new Uri(p.URL + "/DASHPlaylist.mpd"));
-                        Image.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                        LinkView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    }
-                    else if (p.URL.ToString().Contains("gfycat.com") == true)
+                    if (PostLocal.NSFW == true)
                     {
-                        Image.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                        LinkView.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                        MediaRedditPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                        LinkView.Navigate(new Uri("ms-appx-web:///WebFiles/FramePlayer.html"));
-                        ///current string of p.url is example https://gfycat.com/imaginaryfreeeuropeanfiresalamander but we need https://gfycat.com/ifr/imaginaryfreeeuropeanfiresalamander
-                        string gfystringID = p.URL.ToString().Remove(0, 19);
-                        string GfyCatVideo = "https://gfycat.com/ifr/" + gfystringID;
-
-                        await Task.Delay(300);
-                        await LinkView.InvokeScriptAsync("eval", new string[] { "document.getElementById('IframePlayer').src = '" + GfyCatVideo + "';" });
-                        //   string functionString = "document.getElementById('IframePlayer').src = '" + p.URL + "';";
-                        //  await LinkView.InvokeScriptAsync("eval", new string[] { functionString };
+                        NSFW.Text = "NSFW";
                     }
                     else
                     {
-                        LinkView.Source = new Uri(p.URL);
-                        Image.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                        LinkView.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                        NSFW.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    }
+                    try
+                    {
+                        PostText.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                        var p = PostLocal as LinkPost;
+                        if (p.URL.ToString().Contains("i.redd.it") == true || p.URL.ToString().Contains("i.imgur") == true)
+                        {
+                            BitmapImage img = new BitmapImage();
+                            img.UriSource = new Uri(p.URL);
+                            Image.Source = img;
+                            Link.NavigateUri = new Uri(p.URL);
+                            Image.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                            LinkView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                        }
+                        else if (p.URL.ToString().Contains("v.redd.it") == true)
+                        {
+
+                            MediaRedditPlayer.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                            MediaRedditPlayer.Source = MediaSource.CreateFromUri(new Uri(p.URL + "/DASHPlaylist.mpd"));
+                            Image.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                            LinkView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                        }
+                        else if (p.URL.ToString().Contains("gfycat.com") == true)
+                        {
+                            Image.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                            LinkView.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                            MediaRedditPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                            LinkView.Navigate(new Uri("ms-appx-web:///WebFiles/FramePlayer.html"));
+                            ///current string of p.url is example https://gfycat.com/imaginaryfreeeuropeanfiresalamander but we need https://gfycat.com/ifr/imaginaryfreeeuropeanfiresalamander
+                            string gfystringID = p.URL.ToString().Remove(0, 19);
+                            string GfyCatVideo = "https://gfycat.com/ifr/" + gfystringID;
+
+                            await Task.Delay(300);
+                            await LinkView.InvokeScriptAsync("eval", new string[] { "document.getElementById('IframePlayer').src = '" + GfyCatVideo + "';" });
+                            //   string functionString = "document.getElementById('IframePlayer').src = '" + p.URL + "';";
+                            //  await LinkView.InvokeScriptAsync("eval", new string[] { functionString };
+                        }
+                        else
+                        {
+                            LinkView.Source = new Uri(p.URL);
+                            Image.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                            LinkView.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                            MediaRedditPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                        }
+
+                        try
+                        {
+                            Flair.Text = PostLocal.Listing.LinkFlairText;
+                        }
+                        catch
+                        {
+                            UnloadObject(Flair);
+                        }
+                    }
+                    catch
+                    {
+
+                        var p = PostLocal as SelfPost;
+                        PostText.Text = p.SelfText;
+                        PostText.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                        LinkView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                         MediaRedditPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    }
+                        Image.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                        Link.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                        try
+                        {
+                            Flair.Text = PostLocal.Listing.LinkFlairText;
+                        }
+                        catch
+                        {
+                            Flair.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                        }
 
-                    try
-                    {
-                        Flair.Text = PostLocal.Listing.LinkFlairText;
                     }
-                    catch
-                    {
-                        UnloadObject(Flair);
-                    }
-                }
-                catch
-                {
-
-                    var p = PostLocal as SelfPost;
-                    PostText.Text = p.SelfText;
-                    PostText.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                    LinkView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    MediaRedditPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    Image.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    Link.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    try
-                    {
-                        Flair.Text = PostLocal.Listing.LinkFlairText;
-                    }
-                    catch
-                    {
-                        Flair.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    }
-      
-                }
-                LoadingControl.Visibility = Visibility.Collapsed;
-                await Task.Delay(100);
-                CommentCount.Text = "Comments: " + PostLocal.Comments.GetComments("new").Count.ToString();
-            });
+                    LoadingControl.Visibility = Visibility.Collapsed;
+                    await Task.Delay(100);
+                    CommentCount.Text = "Comments: " + PostLocal.Comments.GetComments("new").Count.ToString();
+                });
             });
         }
         private async void EnableRelpyEditButton_Click(object sender, RoutedEventArgs e)
@@ -239,7 +252,7 @@ namespace Eco_Reddit.Views
             var DatetextBlock = templateRoot.Children[3] as TextBlock;
             DatetextBlock.Text = comment.Created.ToString();
             var AuthortextBlock = templateRoot.Children[4] as HyperlinkButton;
-            AuthortextBlock.Content = comment.Author;    
+            AuthortextBlock.Content = comment.Author;
             var Upvoted = templateRoot.Children[0] as AppBarToggleButton;
             var Downvoted = templateRoot.Children[1] as AppBarToggleButton;
             Upvoted.Label = comment.UpVotes.ToString();
@@ -324,20 +337,6 @@ namespace Eco_Reddit.Views
             HomePage.MainTab.TabItems.Add(newTab);
             // }
         }
-        private async void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs e)
-        {
-            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
-            {
-                await Launcher.LaunchUriAsync(link);
-            }
-        }
-        private async void MarkdownText_ImageClicked(object sender, LinkClickedEventArgs e)
-        {
-            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
-            {
-                await Launcher.LaunchUriAsync(link);
-            }
-        }
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
@@ -360,21 +359,21 @@ namespace Eco_Reddit.Views
 
         private async void CrosspostButton_Click(object sender, RoutedEventArgs e)
         {
-           // try
-           // {
-                if (PostLocal.Listing.IsSelf == true)
-                {
-                    var newSelfComment = (PostLocal as SelfPost).About().XPostToAsync(CrosspsotText.Text);
-                }
-                else
-                {
-                    var newSelfComment = (PostLocal as LinkPost).About().XPostToAsync(CrosspsotText.Text);
-                }
-           /* }
-            catch
+            // try
+            // {
+            if (PostLocal.Listing.IsSelf == true)
             {
-                return;
-            }*/
+                var newSelfComment = (PostLocal as SelfPost).About().XPostToAsync(CrosspsotText.Text);
+            }
+            else
+            {
+                var newSelfComment = (PostLocal as LinkPost).About().XPostToAsync(CrosspsotText.Text);
+            }
+            /* }
+             catch
+             {
+                 return;
+             }*/
         }
         private async void ReportButton_Click(object sender, RoutedEventArgs e)
         {
@@ -383,15 +382,15 @@ namespace Eco_Reddit.Views
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-          //  PostLocal.set
+            //  PostLocal.set
         }
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-           await PostLocal.DeleteAsync();
+            await PostLocal.DeleteAsync();
         }
         private async void DistinguishButton_Click(object sender, RoutedEventArgs e)
         {
-           await PostLocal.DistinguishAsync(how: "yes");
+            await PostLocal.DistinguishAsync(how: "yes");
         }
         private async void StickyButton_Click(object sender, RoutedEventArgs e)
         {
@@ -399,7 +398,7 @@ namespace Eco_Reddit.Views
         }
         private async void UnHideEditButton_Click(object sender, RoutedEventArgs e)
         {
-           await PostLocal.UnhideAsync();
+            await PostLocal.UnhideAsync();
         }
         private async void UnSaveditButton_Click(object sender, RoutedEventArgs e)
         {
@@ -411,7 +410,7 @@ namespace Eco_Reddit.Views
         }
         private async void UnStickyEditButton_Click(object sender, RoutedEventArgs e)
         {
-           await PostLocal.UnsetSubredditStickyAsync(num: 1, toProfile: false);
+            await PostLocal.UnsetSubredditStickyAsync(num: 1, toProfile: false);
         }
         private async void SpoilerEditButton_Click(object sender, RoutedEventArgs e)
         {
@@ -423,7 +422,7 @@ namespace Eco_Reddit.Views
         }
         private async void NSFWEditButton_Click(object sender, RoutedEventArgs e)
         {
-           await PostLocal.MarkNSFWAsync();
+            await PostLocal.MarkNSFWAsync();
         }
         private async void UNNSFWEditButton_Click(object sender, RoutedEventArgs e)
         {
@@ -477,16 +476,24 @@ namespace Eco_Reddit.Views
             await Task.Run(async () =>
             {
                 GetComments.SortOrder = "Top";
-            GetComments.limit = PostLocal.Comments.GetComments("Top").Count;
-            GetComments.skipInt = 0;
-            GetComments.PostToGetCommentsFrom = PostLocal;
-            var CommentsCollection = new IncrementalLoadingCollection<GetComments, Eco_Reddit.Models.Comments>();
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                CommentList.ItemsSource = CommentsCollection;
-                SortOrderCommentButton.Visibility = Visibility.Visible;
+                GetComments.limit = PostLocal.Comments.GetComments("Top").Count;
+                GetComments.skipInt = 0;
+                GetComments.PostToGetCommentsFrom = PostLocal;
+                var CommentsCollection = new IncrementalLoadingCollection<GetComments, Eco_Reddit.Models.Comments>();
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    CommentList.ItemsSource = CommentsCollection;
+                    SortOrderCommentButton.Visibility = Visibility.Visible;
+                });
             });
-        });
+        }
+
+
+        private void CommentZone_TextChanged(object sender, RoutedEventArgs e)
+        {
+            String RichText;
+            CommentZone.TextDocument.GetText(Windows.UI.Text.TextGetOptions.None, out RichText);
+            MarkDownBlock.Text = RichText;
         }
     }
 }

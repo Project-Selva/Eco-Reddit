@@ -131,14 +131,14 @@
                     AreTransportControlsEnabled="True" />
                         <HyperlinkButton FontSize="30" HorizontalAlignment="Center" Content="Link" x:Name="Link"></HyperlinkButton>
                         <controls:MarkdownTextBlock
-                     Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
+                     Background="Transparent"
                     TextWrapping="Wrap"
                     Width="500"
                     IsTextSelectionEnabled="True"
                     x:Name="PostText"
                    Margin="6">
                         </controls:MarkdownTextBlock>
-                        <TextBlock Margin="5">Loading replies isnt supported in the pre - Alpha version</TextBlock>
+                        <TextBlock Margin="5">Loading comment replies isnt supported in the pre - Alpha version</TextBlock>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Margin="5" FontSize="25" x:Name="CommentCount"></TextBlock>
                             <AppBarButton Icon="Sort" Label="Top" x:Name="SortOrderCommentButton" Visibility="Collapsed" Margin="5">
@@ -157,19 +157,33 @@
                             </AppBarButton>
                         </StackPanel>
                         <controls:Expander Header="Create comment:" IsExpanded="false">
-                            <StackPanel>
-                                <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind CommentZone}" Background="{ThemeResource SystemControlAcrylicElementBrush}" Format="MarkDown"/>
+                            <StackPanel HorizontalAlignment="Center">
+                                <controls:TextToolbar HorizontalAlignment="Center" x:Name="Toolbar" Editor="{x:Bind CommentZone}" Background="{ThemeResource SystemControlAcrylicElementBrush}" Format="MarkDown"/>
                                 <RichEditBox Width="600" x:Name="CommentZone"
                      PlaceholderText="Enter Comment Here"
                      TextWrapping="Wrap"
                      VerticalContentAlignment="Stretch"
                      MinHeight="300"
+                                             TextChanged="CommentZone_TextChanged"
                      Padding="10,3"
                      BorderThickness="1"
                                      Margin="33,0,33,3"
                      BorderBrush="{ThemeResource SystemControlAcrylicElementBrush}"
                      Foreground="{ThemeResource SystemControlAcrylicElementBrush}"/>
-                                <Button Width="300" Style="{ThemeResource ButtonRevealStyle}" Margin="7" Click="CommentBox_QuerySubmitted">Send comment</Button>
+                                <TextBlock Margin="3">Live preview:</TextBlock>
+                                <controls:MarkdownTextBlock
+                                    Width="600"
+                     TextWrapping="Wrap"
+                     VerticalContentAlignment="Stretch"
+                     MinHeight="300"
+                                     Padding="10,3"
+                     BorderThickness="1"
+                                    x:Name="MarkDownBlock"
+                            ImageClicked="MarkdownText_ImageClicked"
+                                   LinkClicked="MarkdownText_LinkClicked"
+                                Margin="6">
+                                </controls:MarkdownTextBlock>
+                                <Button Width="300" Style="{ThemeResource ButtonRevealStyle}" HorizontalAlignment="Center" Margin="7" Click="CommentBox_QuerySubmitted">Send comment</Button>
                             </StackPanel>
                         </controls:Expander>
                         <Button x:Name="lOADCOM" HorizontalAlignment="Center" Click="LOADCOM_Click" Margin="15">Load comments (experimental)</Button>

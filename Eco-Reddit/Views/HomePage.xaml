@@ -68,7 +68,7 @@
                     </AppBarButton>
                     <AppBarButton Icon="Find" Label="Search" Click="SearchTipButton_Click">
                     </AppBarButton>
-                    <AppBarButton Icon="Mail" Label="Inbox" IsEnabled="False">
+                    <AppBarButton Icon="Mail" Label="Inbox" Click="InboxButton_Click">
                     </AppBarButton>
                     <AppBarButton Icon="Message" Label="Private Messages" IsEnabled="False">
                     </AppBarButton>
@@ -79,6 +79,7 @@
         <winui:TeachingTip x:Name="SearchTip"
                            Width="9000"
                        Style="{ThemeResource Tippstyle}"
+                           Subtitle="Note this is Temporary"
 	Title="Search:">
             <winui:TeachingTip.Content>
                 <StackPanel>
@@ -94,7 +95,7 @@
                     <ComboBox x:Name="SortBox" Margin="5" HorizontalAlignment="Center" Header="Search options:" Width="200" SelectedIndex="0">
                         <x:String>Posts</x:String>
                         <x:String>Subreddits</x:String>
-                       <!-- <x:String>Users (experimental)</x:String>-->
+                        <!-- <x:String>Users (experimental)</x:String>-->
                     </ComboBox>
                 </StackPanel>
             </winui:TeachingTip.Content>
@@ -107,15 +108,15 @@
                         <SplitView.Pane>
                             <Grid  Background="{ThemeResource SystemControlAcrylicElementBrush}">
                                 <StackPanel VerticalAlignment="Top" Background="{ThemeResource SystemControlAcrylicElementBrush}" Orientation="Vertical">
-                                <AutoSuggestBox PlaceholderText="r/"
+                                    <AutoSuggestBox PlaceholderText="r/"
                                       Header="Jump to..."
                                             x:Name="Jumper"
                                             Width="300"
                                             
         QueryIcon="Add"
         QuerySubmitted="Jumper_QuerySubmitted">
-                                </AutoSuggestBox>
-                                <CheckBox Content="Open in new tab"
+                                    </AutoSuggestBox>
+                                    <CheckBox Content="Open in new tab"
                                       x:Name="Openinnewtabjumpercheckbox" IsEnabled="False"/>
                                     <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="400" HorizontalAlignment="Center" Click="HomeButton_Click">Home</Button>
                                     <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="400" HorizontalAlignment="Center" Click="PopularButton_Click">popular</Button>
@@ -180,17 +181,17 @@
                                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;"/>
                                         </AppBarToggleButton.Icon>
                                     </AppBarToggleButton>
-                                    
+
                                     <TextBlock x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="Upvote" FontSize="15" Canvas.ZIndex="6" Margin="10, 20, 0, 0"  TextWrapping="WrapWholeWords" Width="400"></TextBlock>
 
                                     <TextBlock RelativePanel.RightOf="DownVote" RelativePanel.Below="TitleTextBlock" x:Name="Date" FontSize="11" Margin="0,13,3,0"></TextBlock>
                                     <HyperlinkButton x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date" Margin="3,6,0,0" FontSize="11" Tapped="HyperlinkButton_Tapped">
-                                                <FlyoutBase.AttachedFlyout>
+                                        <FlyoutBase.AttachedFlyout>
                                             <Flyout>
                                                 <Frame Tag="{x:Bind PostSelf}"  Loaded="Frame_Loaded"></Frame>
-                                                    </Flyout>
-                                                </FlyoutBase.AttachedFlyout>
-                                            </HyperlinkButton>
+                                            </Flyout>
+                                        </FlyoutBase.AttachedFlyout>
+                                    </HyperlinkButton>
                                     <HyperlinkButton Tapped="Subreddit_Tapped" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="User" x:Name="Subreddit" Margin="3,6,0,0" FontSize="11">
                                         <FlyoutBase.AttachedFlyout>
                                             <Flyout>
@@ -199,7 +200,7 @@
                                         </FlyoutBase.AttachedFlyout>
                                     </HyperlinkButton>
                                     <TextBlock Margin="3,0,0,0" x:Name="Flair" RelativePanel.Below="Subreddit" RelativePanel.RightOf="DownVote" Padding="10, 5, 10, 5"  HorizontalAlignment="Left" TextWrapping="WrapWholeWords"></TextBlock>
-                                        <!--<TextBlock Margin="3,0,0,0" HorizontalAlignment="Left"  Padding="10, 5, 10, 5" x:Name="NSFW" x:Phase="2" Text="{x:Bind IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>-->
+                                    <!--<TextBlock Margin="3,0,0,0" HorizontalAlignment="Left"  Padding="10, 5, 10, 5" x:Name="NSFW" x:Phase="2" Text="{x:Bind IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>-->
                                     <CommandBar x:Name="PostsBar" IsDynamicOverflowEnabled="True" RelativePanel.Above="PostImage" RelativePanel.RightOf="DownVote" RelativePanel.Below="Flair" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
                                         <AppBarButton Icon="Comment" />
                                         <AppBarButton Tag="{x:Bind PostSelf}" Icon="SolidStar" Label="Awards">
@@ -264,8 +265,8 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
-                </muxc:TwoPaneView.Pane1>
-                    <muxc:TwoPaneView.Pane2>
+            </muxc:TwoPaneView.Pane1>
+            <muxc:TwoPaneView.Pane2>
                 <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
                     <SplitView Canvas.ZIndex="5000" x:Name="SideBarsplitView" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
            IsPaneOpen="False" OpenPaneLength="312" PanePlacement="Right" CompactPaneLength="48" DisplayMode="Overlay">
@@ -328,7 +329,7 @@
                             <AppBarButton Height="50" Width="50" Icon="Delete" Click="ClearTabButton_Click">
                             </AppBarButton>
                         </winui:TabView.TabStripFooter>
-                </winui:TabView>
+                    </winui:TabView>
                 </Grid>
             </muxc:TwoPaneView.Pane2>
         </muxc:TwoPaneView>
@@ -350,11 +351,25 @@
                      PlaceholderText="Enter Text Here"
                      TextWrapping="Wrap"
                      VerticalContentAlignment="Stretch"
+                                         TextChanged="EditZone_TextChanged"
                      MinHeight="300"
                      Padding="10,3"
                      BorderThickness="1"
                      BorderBrush="{ThemeResource SystemControlAcrylicElementBrush}"
                      Foreground="{ThemeResource SystemControlAcrylicElementBrush}"/>
+                            <TextBlock Margin="3">Live preview:</TextBlock>
+                            <controls:MarkdownTextBlock
+                                    Width="600"
+                     TextWrapping="Wrap"
+                     VerticalContentAlignment="Stretch"
+                     MinHeight="300"
+                                     Padding="10,3"
+                     BorderThickness="1"
+                                    x:Name="MarkDownBlock"
+                            ImageClicked="MarkdownText_ImageClicked"
+                                LinkClicked="MarkdownText_LinkClicked"
+                                Margin="6">
+                            </controls:MarkdownTextBlock>
                         </StackPanel>
                     </PivotItem>
                     <PivotItem Header="Link">
