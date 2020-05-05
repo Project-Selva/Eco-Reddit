@@ -68,7 +68,7 @@
                     </AppBarButton>
                     <AppBarButton Icon="Find" Label="Search" Click="SearchTipButton_Click">
                     </AppBarButton>
-                    <AppBarButton Icon="Mail" Label="Inbox" Click="InboxButton_Click">
+                    <AppBarButton Icon="Mail" x:Name="InboxButton" Label="Inbox" Click="InboxButton_Click">
                     </AppBarButton>
                     <AppBarButton Icon="Message" Label="Private Messages" IsEnabled="False">
                     </AppBarButton>
@@ -107,64 +107,51 @@
            IsPaneOpen="False" OpenPaneLength="312" CompactPaneLength="48" DisplayMode="Overlay">
                         <SplitView.Pane>
                             <Grid  Background="{ThemeResource SystemControlAcrylicElementBrush}">
-                                <StackPanel VerticalAlignment="Top" Background="{ThemeResource SystemControlAcrylicElementBrush}" Orientation="Vertical">
-                                    <AutoSuggestBox PlaceholderText="r/"
+                                <ListView Loaded="SubscribedSubs_Loaded" IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" ItemClick="SubscribedSubs_ItemClick" Margin="4" x:Name="SubscribedSubs" Width="312">
+                                    <ListView.Header>
+                                        <StackPanel VerticalAlignment="Top" Background="{ThemeResource SystemControlAcrylicElementBrush}" Orientation="Vertical">
+                                            <AutoSuggestBox PlaceholderText="r/"
                                       Header="Jump to..."
                                             x:Name="Jumper"
-                                            Width="300"
+                                            Width="280"
                                             
         QueryIcon="Add"
         QuerySubmitted="Jumper_QuerySubmitted">
-                                    </AutoSuggestBox>
-                                    <CheckBox Content="Open in new tab"
+                                            </AutoSuggestBox>
+                                            <CheckBox Content="Open in new tab"
                                       x:Name="Openinnewtabjumpercheckbox" IsEnabled="False"/>
-                                    <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="400" HorizontalAlignment="Center" Click="HomeButton_Click">Home</Button>
-                                    <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="400" HorizontalAlignment="Center" Click="PopularButton_Click">popular</Button>
-                                    <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="400" HorizontalAlignment="Center" Click="AllButton_Click">all</Button>
-                                    <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="400" HorizontalAlignment="Center" Click="TrendingButton_Click">Trending Subreddits</Button>
-                                    <controls:Expander Header="Recommended subredits: " Margin="5" IsEnabled="False">
-                                        <ListView IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="RecommendedSubs" Header="Recommended subreddits:" Width="400">
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
-                                                        <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
-                                                        <TextBlock HorizontalAlignment="Left" Margin="5" Padding="10, 5, 10, 5" Text="IsNSFW" Visibility="{Binding IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
-                                    </controls:Expander>
-
-                                </StackPanel>
-                                <Grid>
-                                    <StackPanel>
-                                        <controls:Expander Header="Moderated subredits: " Margin="5, 330, 5, 5" Expanded="Expander_Expanded">
-                                            <ListView IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="ModeratedSubs" Header="Moderated subreddits:" Width="400">
-                                                <ListView.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
-                                                            <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
-                                                            <TextBlock HorizontalAlignment="Left" Margin="5" Padding="10, 5, 10, 5" Text="IsNSFW" Visibility="{Binding IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ListView.ItemTemplate>
-                                            </ListView>
-                                        </controls:Expander>
-                                        <ListView Loaded="SubscribedSubs_Loaded" IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" ItemClick="SubscribedSubs_ItemClick" Margin="4" x:Name="SubscribedSubs" Header="Subscribed subreddits:" Width="400">
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
-                                                        <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
-                                                        <TextBlock HorizontalAlignment="Left" Margin="5" Padding="10, 5, 10, 5" Text="IsNSFW" Visibility="{Binding IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
-                                    </StackPanel>
-                                </Grid>
+                                            <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" CornerRadius="0" Width="270" HorizontalAlignment="Center" Click="HomeButton_Click">Home</Button>
+                                            <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="270" HorizontalAlignment="Center" Click="PopularButton_Click">popular</Button>
+                                            <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="270" HorizontalAlignment="Center" Click="AllButton_Click">all</Button>
+                                            <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="270" HorizontalAlignment="Center" Click="TrendingButton_Click">Trending Subreddits</Button>
+                                            <StackPanel>
+                                                <controls:Expander Header="Moderated subredits: " Margin="5, 5, 5, 5" Expanded="Expander_Expanded">
+                                                    <ListView IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="ModeratedSubs" Header="Moderated subreddits:" Width="400">
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
+                                                                    <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
+                                                                    <TextBlock HorizontalAlignment="Left" Margin="5" Padding="10, 5, 10, 5" Text="IsNSFW" Visibility="{Binding IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </controls:Expander>
+                                                <TextBlock Margin="5">Subscirbed subreddits:</TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </ListView.Header>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
+                                                <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
+                                                <TextBlock HorizontalAlignment="Left" Margin="5" Padding="10, 5, 10, 5" Text="IsNSFW" Visibility="{Binding IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
                             </Grid>
                         </SplitView.Pane>
                     </SplitView>

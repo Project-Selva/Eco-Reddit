@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Eco_Reddit.Helpers;
+using Eco_Reddit.Models;
+using Microsoft.Toolkit.Uwp;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,8 +13,12 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
+using Reddit.Things;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Reddit;
+using Windows.UI.Core;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,9 +29,80 @@ namespace Eco_Reddit.Views
     /// </summary>
     public sealed partial class InboxPage : Page
     {
+        public Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+        public string appId = "mp8hDB_HfbctBg";
+        public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
         public InboxPage()
         {
             this.InitializeComponent();
+            var inbox = new IncrementalLoadingCollection<GetInboxClass, Inbox>();
+            InboxList.ItemsSource = inbox;
+        }
+        private void InboxList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+
+            if (args.Phase != 0)
+            {
+                throw new System.Exception("We should be in phase 0, but we are not.");
+            }
+
+            // It's phase 0, so this item's title will already be bound and displayed.
+
+            args.RegisterUpdateCallback(this.ShowPhase1);
+
+            args.Handled = true;
+        }
+        private async void ShowPhase1(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            if (args.Phase != 1)
+            {
+                throw new System.Exception("We should be in phase 1, but we are not.");
+            }
+
+            Inbox SenderMessage = args.Item as Inbox;
+            Message Message = SenderMessage.InboxSelf;
+            var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
+            var textBlock = templateRoot.Children[3] as HyperlinkButton;
+            var AuthorBlock = templateRoot.Children[2] as HyperlinkButton;
+            var TextDateBlock = templateRoot.Children[1] as TextBlock;
+            var TextTitleBlock = templateRoot.Children[0] as MarkdownTextBlock;
+            TextTitleBlock.Text = Message.Body;
+            textBlock.Content = Message.Subreddit;
+            AuthorBlock.Content = Message.Author;
+            TextDateBlock.Text = "Created: " + Message.CreatedUTC;
+        }
+        private async void Frame_Loaded(object sender, RoutedEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                Frame Frames = (Frame)sender;
+                Message pp = (Frames).Tag as Message;
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+                Reddit.Controllers.User PostUser = reddit.User(pp.Author);
+                UserTemporaryInfo.PostUser = PostUser;
+                Frame f = sender as Frame;
+                f.Navigate(typeof(UserTemporaryInfo));
+            });
+        }
+
+        private void HyperlinkButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+
+        private async void Frame_LoadedSubreddit(object sender, RoutedEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                Frame Frames = (Frame)sender;
+                Message pp = (Frames).Tag as Message;
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+                SubredditTemporaryInfo.InfoSubReddit = reddit.Subreddit(pp.Subreddit);
+                Frame f = sender as Frame;
+                f.Navigate(typeof(SubredditTemporaryInfo));
+            });
         }
     }
 }

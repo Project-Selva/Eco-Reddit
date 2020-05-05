@@ -49,6 +49,7 @@ namespace Eco_Reddit.Views
             dataTransferManager.DataRequested += DataTransferManager_DataRequested;
             SingletonReference = this;
             LoginFrameFrame = LoginFrame;
+
             /*   var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
                coreTitleBar.ExtendViewIntoTitleBar = true;*/
             try
@@ -78,7 +79,15 @@ namespace Eco_Reddit.Views
                 LoginFrame.Visibility = Visibility.Visible;
                 LoginFrame.Navigate(typeof(LoginPage));
             }
+            Client.Account.Messages.InboxUpdated += Messages_InboxUpdated;
 
+        }
+
+        private void Messages_InboxUpdated(object sender, Reddit.Controllers.EventArgs.MessagesUpdateEventArgs e)
+        {
+            string refreshtoken = localSettings.Values["refresh_token"].ToString();
+            var reddit = new RedditClient(appId, refreshtoken, secret);
+            InboxButton.Label = "Inbox: " + e.NewMessages.Count.ToString();
         }
 
         Post SharePost;
@@ -837,7 +846,7 @@ namespace Eco_Reddit.Views
                         }
                         SubredditCollection.Add(new SubredditList()
                         {
-                            TitleSubreddit = "r/" + subreddit.Name,
+                            TitleSubreddit = subreddit.SRDisplayNamePrefixed,
                             IsNSFW = Nsfw
                         });
                     }

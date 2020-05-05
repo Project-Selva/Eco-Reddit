@@ -158,6 +158,7 @@
     <Compile Include="Activation\WebToAppLinkActivationHandler.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\GetComments.cs" />
+    <Compile Include="Helpers\GetInbox.cs" />
     <Compile Include="Helpers\GetPostsClass.cs" />
     <Compile Include="Helpers\GetSearchSubreddits.cs" />
     <Compile Include="Helpers\GetSearchResults.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="Models\AuthViewModel.cs" />
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Models\Comments.cs" />
+    <Compile Include="Models\Inbox.cs" />
     <Compile Include="Models\Posts.cs" />
     <Compile Include="Models\SubredditList.cs" />
     <Compile Include="Models\Subreddits.cs" />

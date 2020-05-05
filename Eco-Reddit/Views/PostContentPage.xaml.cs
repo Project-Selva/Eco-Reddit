@@ -478,6 +478,7 @@ namespace Eco_Reddit.Views
                 GetComments.SortOrder = "Top";
                 GetComments.limit = PostLocal.Comments.GetComments("Top").Count;
                 GetComments.skipInt = 0;
+                lOADCOM.Visibility = Visibility.Collapsed;
                 GetComments.PostToGetCommentsFrom = PostLocal;
                 var CommentsCollection = new IncrementalLoadingCollection<GetComments, Eco_Reddit.Models.Comments>();
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>

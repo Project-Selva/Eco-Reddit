@@ -24,7 +24,7 @@
     </ContentDialog.TitleTemplate>
     <ScrollViewer>
         <StackPanel>
-            <TextBlock >lots of new reddit features + bug fixes and major performance improvements.</TextBlock>
+            <TextBlock >viewing inbox support and know whe ne winbox arrived in the app!</TextBlock>
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>
