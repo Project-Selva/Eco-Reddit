@@ -1,7 +1,4 @@
-﻿using Eco_Reddit.Helpers;
-using Eco_Reddit.Models;
-using Microsoft.Toolkit.Uwp;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,12 +10,15 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Reddit.Things;
 using Windows.UI.Xaml.Media;
+using Reddit.Things;
 using Windows.UI.Xaml.Navigation;
 using Reddit;
 using Windows.UI.Core;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp;
+using Eco_Reddit.Helpers;
+using Eco_Reddit.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -27,18 +27,20 @@ namespace Eco_Reddit.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class InboxPage : Page
+    public sealed partial class SentMessages : Page
     {
         public Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public string appId = "mp8hDB_HfbctBg";
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
-        public InboxPage()
+        public SentMessages()
         {
             this.InitializeComponent();
-            GetInboxClass.skipInt = 0;
-            GetInboxClass.limit = 10;
-            var inbox = new IncrementalLoadingCollection<GetInboxClass, Inbox>();
-            InboxList.ItemsSource = inbox;
+            GetSentMessagesClass.limit = 10;
+            GetSentMessagesClass.skipInt = 0;
+            string refreshToken = localSettings.Values["refresh_token"].ToString();
+            var PrivateMessages = new IncrementalLoadingCollection<GetSentMessagesClass, PrivateMessage>();
+            InboxList.ItemsSource = PrivateMessages;
+            var reddit = new RedditClient(appId, refreshToken, secret);
         }
         private void InboxList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
@@ -56,24 +58,23 @@ namespace Eco_Reddit.Views
         }
         private async void ShowPhase1(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
-
-                if (args.Phase != 1)
+            if (args.Phase != 1)
             {
                 throw new System.Exception("We should be in phase 1, but we are not.");
             }
 
-            Inbox SenderMessage = args.Item as Inbox;
-            Message Message = SenderMessage.InboxSelf;
+            PrivateMessage SenderMessage = args.Item as PrivateMessage;
+            Message Message = SenderMessage.MessageSelf;
             var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
-            var textBlock = templateRoot.Children[3] as HyperlinkButton;
-            var AuthorBlock = templateRoot.Children[2] as HyperlinkButton;
+         //   var textBlock = templateRoot.Children[2] as TextBlock;
+        //    var AuthorBlock = templateRoot.Children[2] as HyperlinkButton;
             var TextDateBlock = templateRoot.Children[1] as TextBlock;
             var TextTitleBlock = templateRoot.Children[0] as MarkdownTextBlock;
+          // var subjectix = templateRoot.Children[0] as TextBlock;
             TextTitleBlock.Text = Message.Body;
-            textBlock.Content = Message.Subreddit;
-            AuthorBlock.Content = Message.Author;
             TextDateBlock.Text = "Created: " + Message.CreatedUTC;
-            
+       //     AuthorBlock.Content = Message.Author;
+          //textBlock.Text = Message.Subject + "subject" + Message.Author;
         }
         private async void Frame_Loaded(object sender, RoutedEventArgs e)
         {
@@ -107,6 +108,13 @@ namespace Eco_Reddit.Views
                 Frame f = sender as Frame;
                 f.Navigate(typeof(SubredditTemporaryInfo));
             });
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            string refreshToken = localSettings.Values["refresh_token"].ToString();
+            var reddit = new RedditClient(appId, refreshToken, secret);
+            reddit.Account.Messages.MarkAllReadAsync();
         }
     }
 }

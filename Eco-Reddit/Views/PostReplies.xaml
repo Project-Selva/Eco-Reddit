@@ -1,0 +1,44 @@
+﻿<Page
+    x:Class="Eco_Reddit.Views.PostReplies"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Eco_Reddit.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:local1="using:Eco_Reddit.Models"
+    Unloaded="Page_Unloaded"
+    mc:Ignorable="d"
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+
+    <Grid>
+        <Grid HorizontalAlignment="Center" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+            <ListView ContainerContentChanging="InboxList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="InboxList" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Center" IsItemClickEnabled="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local1:PrivateMessage">
+                        <RelativePanel Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}" CornerRadius="10" Margin="0, 5,0, 5" BorderBrush="{StaticResource SystemControlBackgroundAccentRevealBorderBrush}">
+
+                            <controls:MarkdownTextBlock x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True" Background="Transparent" FontSize="15" Canvas.ZIndex="6" Margin="10, 20, 0, 0"  TextWrapping="WrapWholeWords" MinWidth="500"></controls:MarkdownTextBlock>
+
+                            <TextBlock RelativePanel.Below="TitleTextBlock" x:Name="Date" FontSize="11" Margin="5,13,3,0"></TextBlock>
+                            <HyperlinkButton Tapped="HyperlinkButton_Tapped" x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date" Margin="3,6,0,0" FontSize="11" >
+                                <FlyoutBase.AttachedFlyout>
+                                    <Flyout>
+                                        <Frame Tag="{x:Bind MessageSelf}" Loaded="Frame_Loaded"></Frame>
+                                    </Flyout>
+                                </FlyoutBase.AttachedFlyout>
+                            </HyperlinkButton>
+                            <HyperlinkButton Tapped="HyperlinkButton_Tapped" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="User" x:Name="Subreddit" Margin="3,6,0,0" FontSize="11">
+                                <FlyoutBase.AttachedFlyout>
+                                    <Flyout>
+                                        <Frame Tag="{x:Bind MessageSelf}" Loaded="Frame_LoadedSubreddit"></Frame>
+                                    </Flyout>
+                                </FlyoutBase.AttachedFlyout>
+                            </HyperlinkButton>
+                        </RelativePanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Grid>
+</Page>

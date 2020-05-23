@@ -63,8 +63,8 @@
                 <DataTemplate x:DataType="local1:Posts">
                     <RelativePanel Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="10" Margin="0, 5,0, 5">
 
-                        <AppBarToggleButton x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True" Margin="5" Icon="Up"></AppBarToggleButton>
-                        <AppBarToggleButton x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="Upvote" Margin="5">
+                        <AppBarToggleButton x:Name="Upvote" CornerRadius="10" RelativePanel.AlignLeftWithPanel="True" Margin="5" Icon="Up"></AppBarToggleButton>
+                        <AppBarToggleButton x:Name="DownVote" CornerRadius="10" RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="Upvote" Margin="5">
                             <AppBarToggleButton.Icon>
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;"/>
                             </AppBarToggleButton.Icon>
@@ -73,8 +73,8 @@
                         <TextBlock x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="Upvote" FontSize="15" Canvas.ZIndex="6" Margin="10, 20, 0, 0"  TextWrapping="WrapWholeWords" Width="400"></TextBlock>
 
                         <TextBlock RelativePanel.RightOf="DownVote" RelativePanel.Below="TitleTextBlock" x:Name="Date" FontSize="11" Margin="0,13,3,0"></TextBlock>
-                        <TextBlock x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date" Margin="3,0,0,0" FontSize="11" Loaded="User_Loaded"></TextBlock>
-                        <HyperlinkButton RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="User" x:Name="Subreddit" Margin="3,0,0,0" FontSize="11"/>
+                        <TextBlock x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date" Margin="3,12,0,0" FontSize="11" Loaded="User_Loaded"></TextBlock>
+                        <HyperlinkButton RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="User" x:Name="Subreddit" Margin="3,5,0,0" FontSize="11"/>
                         <TextBlock Margin="3,0,0,0" x:Name="Flair" RelativePanel.Below="Subreddit" RelativePanel.RightOf="DownVote" Padding="10, 5, 10, 5"  HorizontalAlignment="Left" TextWrapping="WrapWholeWords"></TextBlock>
                         <CommandBar x:Name="PostsBar" RelativePanel.Above="PostImage" RelativePanel.RightOf="DownVote" RelativePanel.Below="Flair" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
                             <AppBarButton Icon="Comment"/>

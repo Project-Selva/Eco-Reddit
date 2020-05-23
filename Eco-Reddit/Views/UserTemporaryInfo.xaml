@@ -9,9 +9,9 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
     <Grid Background="Transparent">
-        <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="9999" IsLoading="True">
+        <controls:Loading x:Name="LoadingControl" Height="350" Canvas.ZIndex="9999" IsLoading="True">
             <StackPanel>
-                <ProgressRing Loaded="StartUp" IsActive="True"/>
+                <ProgressRing Loaded="StartUp" Foreground="Blue" Visibility="Visible" IsActive="True"/>
                 <TextBlock>Loading user</TextBlock>
             </StackPanel>
         </controls:Loading>
@@ -43,7 +43,7 @@
                     <TextBlock x:Name="SuspendedUser" Text="Suspended" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
                 </Grid>
             </StackPanel>
-            <CommandBar Background="Transparent" DefaultLabelPosition="Right" OverflowButtonVisibility="Collapsed" IsDynamicOverflowEnabled="True">
+          <!--  <CommandBar Background="Transparent" DefaultLabelPosition="Right" OverflowButtonVisibility="Collapsed" IsDynamicOverflowEnabled="True">
                 <AppBarButton Label="Block" Click="AppBarButton_Click"></AppBarButton>
                 <AppBarButton Label="Report">
                     <AppBarButton.Flyout>
@@ -57,7 +57,7 @@
                 </AppBarButton>
                
             </CommandBar>
-            <Button Content="Open in new tab" Width="340" Click="AppBarButton_Click_2"></Button>
+            <Button Content="Open in new tab" Width="340" Click="AppBarButton_Click_2"></Button>-->
         </StackPanel>
     </Grid>
 </Page>

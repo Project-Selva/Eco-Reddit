@@ -327,8 +327,8 @@ namespace Eco_Reddit.Views
         {
             await Task.Run(async () =>
             {
-                //  GetUserPostsClass.limit = 10;
-                //  GetUserPostsClass.skipInt = 0;
+               //   GetUserPostsClass.limit = 10;
+              //    GetUserPostsClass.skipInt = 0;
                 GetUserPostsClass.UserToGetPostsFrom = PostUser;
                 var Postscollection = new IncrementalLoadingCollection<GetUserPostsClass, Posts>();
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>

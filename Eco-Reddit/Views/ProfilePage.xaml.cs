@@ -87,6 +87,7 @@ namespace Eco_Reddit.Views
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
             localSettings.Values["refresh_token"] = null;
+           await WebView.ClearTemporaryWebDataAsync();
             var m = new MessageDialog("Signed out please restart app to avoid possible crashes(pre - alpha issue)");
                await m.ShowAsync();
         }

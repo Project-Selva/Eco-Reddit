@@ -23,6 +23,7 @@ namespace Eco_Reddit.Helpers
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
         List<Posts> ResultsCollection;
         public static string Sub { get; set; }
+        public string thing;
         public static string Input { get; set; }
         public async Task<IEnumerable<Posts>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -38,62 +39,32 @@ namespace Eco_Reddit.Helpers
                 string ImageUrl = "e";
                 string Nsfw = "";
 
-                IEnumerable<Post> SearchResultsSearch = reddit.Subreddit(Sub).Search(new SearchGetSearchInput(Input, limit: limit, sort: SearchSort, t: TimeSort)).Skip(skipInt);
+                IEnumerable<Post> SearchResultsSearch = reddit.Subreddit(Sub).Search(new SearchGetSearchInput(Input, limit: 25, after: thing, sort: SearchSort, t: TimeSort));
                 /* if (SearchResultsSearch.Count == 0)
                  {
                      SearchResultsSearch = reddit.Subreddit("all").Search(new SearchGetSearchInput(Input, limit: limit, sort: "top")).Skip(skipInt);  // Search r/all
                  }*/
-                limit = limit + 10;
+              //  limit = limit + 10;
                 await Task.Run(() =>
                 {
 
                     foreach (Post post in SearchResultsSearch)
                     {
-                        try
-                        {
-                            var p = post as LinkPost;
-                            ImageUrl = p.URL;
-                            LinkPostType = Visibility.Visible;
-                        }
-                        catch
-                        {
-                            LinkPostType = Visibility.Collapsed;
-                        }
-                        if (post.NSFW == true)
-                        {
-                            Nsfw = "NSFW";
-                        }
-                        else
-                        {
-                            Nsfw = "";
-                        }
                         // Console.WriteLine("New Post by " + post.Author + ": " + post.Title);
                         ResultsCollection.Add(new Posts()
                         {
-                           // TitleText = post.Title,
                             PostSelf = post,
-                            //PostAuthor = "u/" + post.Author,
-                         //   PostDate = "Created: " + post.Created,
-                          //  PostUpvoted = post.IsUpvoted,
-                         //  PostSubreddit = "r/" + post.Subreddit,
-                          //  PostDownVoted = post.IsDownvoted,
-                           // PostUpvotes = post.UpVotes.ToString(),
-                            //PostCommentCount = "Comments: " + post.Comments.GetComments("new").Count.ToString(),
-                         //   PostFlair = Nsfw + "    Flair: " + post.Listing.LinkFlairText,
-                          //  PostFlairColor = post.Listing.LinkFlairBackgroundColor,
-                          //  PostType = LinkPostType,
-                          //  LinkSource = ImageUrl,
-                            //  IsNSFW = Nsfw
                         });
+                        thing = post.Fullname;
                     }
                 });
                 // Simulates a longer request...
-                skipInt = skipInt + 10;
+                // skipInt = skipInt + 10;
+
+                return ResultsCollection;
+
             });
-
-
             return ResultsCollection;
-
         }
     }
 }

@@ -37,8 +37,8 @@ namespace Eco_Reddit.Views
             var subreddit = InfoSubReddit.About();
             Title.Text = "r/" + subreddit.Name;
             Header.Text = subreddit.Title;
-            SubscribeButton.Visibility = Visibility.Visible;
-            UnSubscribeButton.Visibility = Visibility.Visible;
+            //SubscribeButton.Visibility = Visibility.Visible;
+         //   UnSubscribeButton.Visibility = Visibility.Visible;
             SideBar.Visibility = Visibility.Visible;
             Header.Visibility = Visibility.Visible;
             About.Visibility = Visibility.Visible;
@@ -63,8 +63,8 @@ namespace Eco_Reddit.Views
                       Himg.UriSource = new Uri(subreddit.HeaderImg.ToString());
                       HeaderIMG.Source = Himg;
                   }*/
-            SubscribeButton.Visibility = Visibility.Visible;
-            UnSubscribeButton.Visibility = Visibility.Visible;
+         //   SubscribeButton.Visibility = Visibility.Visible;
+         //   UnSubscribeButton.Visibility = Visibility.Visible;
             About.Text = subreddit.Description;
             Subs.Text = "Active Users: " + subreddit.ActiveUserCount.ToString();
             Users.Text = "Subscribers: " + subreddit.Subscribers.ToString();

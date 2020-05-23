@@ -74,7 +74,7 @@ namespace Eco_Reddit.Views
 
         private async void AppBarButton_Click_1(object sender, RoutedEventArgs e)
         {
-            await CurrentUser.ReportAsync(reason: Reason.Text);
+          //  await CurrentUser.ReportAsync(reason: Reason.Text);
         }
 
         private void AppBarButton_Click_2(object sender, RoutedEventArgs e)

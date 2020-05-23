@@ -12,22 +12,13 @@
 
     <Grid HorizontalAlignment="Center" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
         <ListView ContainerContentChanging="InboxList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="InboxList" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Center" IsItemClickEnabled="True">
-            <ListView.Header>
-                <controls:ScrollHeader Mode="QuickReturn">
-                    <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-                        <StackPanel HorizontalAlignment="Left">
-                            <TextBlock Margin="5" FontSize="25">Inbox: (beta)</TextBlock>
-                        </StackPanel>
-                    </Grid>
-                </controls:ScrollHeader>
-            </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local1:Inbox">
                     <RelativePanel Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}" CornerRadius="10" Margin="0, 5,0, 5" BorderBrush="{StaticResource SystemControlBackgroundAccentRevealBorderBrush}">
 
-                        <controls:MarkdownTextBlock x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True" Background="Transparent" FontSize="15" Canvas.ZIndex="6" Margin="10, 20, 0, 0"  TextWrapping="WrapWholeWords" Width="500"></controls:MarkdownTextBlock>
+                        <controls:MarkdownTextBlock x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True" Background="Transparent" FontSize="15" Canvas.ZIndex="6" Margin="10, 20, 0, 0"  TextWrapping="WrapWholeWords" MinWidth="500"></controls:MarkdownTextBlock>
 
-                        <TextBlock RelativePanel.Below="TitleTextBlock" x:Name="Date" FontSize="11" Margin="0,13,3,0"></TextBlock>
+                        <TextBlock RelativePanel.Below="TitleTextBlock" x:Name="Date" FontSize="11" Margin="10,13,3,0"></TextBlock>
                         <HyperlinkButton Tapped="HyperlinkButton_Tapped" x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date" Margin="3,6,0,0" FontSize="11" >
                             <FlyoutBase.AttachedFlyout>
                                 <Flyout>

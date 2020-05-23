@@ -79,7 +79,14 @@ namespace Eco_Reddit.Views
                 LoginFrame.Visibility = Visibility.Visible;
                 LoginFrame.Navigate(typeof(LoginPage));
             }
-            Client.Account.Messages.InboxUpdated += Messages_InboxUpdated;
+           try
+           {
+                Client.Account.Messages.InboxUpdated += Messages_InboxUpdated;
+           }
+           catch
+           {
+
+           }
 
         }
 
@@ -510,7 +517,20 @@ namespace Eco_Reddit.Views
 
         private void HyperlinkButton_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+            HyperlinkButton h = sender as HyperlinkButton;
+            string s = h.Content.ToString().Replace("u/", "");
+            var newTab = new WinUI.TabViewItem();
+            string refreshToken = localSettings.Values["refresh_token"].ToString();
+            newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Document };
+            var reddit = new RedditClient(appId, refreshToken, secret);
+            Reddit.Controllers.User u = reddit.User(s);
+            newTab.Header = "u/" + s;
+            Frame frame = new Frame();
+            newTab.Content = frame;
+            UserHomePage.PostUser = reddit.User(s);
+            frame.Navigate(typeof(UserHomePage));
+            HomePage.MainTab.TabItems.Add(newTab);
+            HomePage.MainTab.SelectedItem = newTab;
         }
 
         private void splitView_Loaded(object sender, RoutedEventArgs e)
@@ -534,7 +554,9 @@ namespace Eco_Reddit.Views
 
         private void Subreddit_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+            HyperlinkButton h = sender as HyperlinkButton;
+            string s = h.Content.ToString().Replace("r/", "");
+            NavigateJumper(s);
         }
         private IEnumerable<Subreddit> Subreddits;
         List<SubredditList> SubredditCollection;
@@ -1022,7 +1044,55 @@ namespace Eco_Reddit.Views
             newTab.Header = "Inbox";
             Frame frame = new Frame();
             newTab.Content = frame;
-            frame.Navigate(typeof(InboxPage));
+            frame.Navigate(typeof(InboxHubPage));
+            MainTabView.TabItems.Add(newTab);
+            MainTabView.SelectedItem = newTab;
+        }
+
+        private void ChatButton_Click(object sender, RoutedEventArgs e)
+        {
+            var newTab = new WinUI.TabViewItem();
+            newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Mail };
+            newTab.Header = "Chat";
+            Frame frame = new Frame();
+            newTab.Content = frame;
+            frame.Navigate(typeof(ChatWebViewPage));
+            MainTabView.TabItems.Add(newTab);
+            MainTabView.SelectedItem = newTab;
+        }
+
+        private void NetWorkButton_Click(object sender, RoutedEventArgs e)
+        {
+            var newTab = new WinUI.TabViewItem();
+            newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Mail };
+            newTab.Header = "Reddit Network";
+            Frame frame = new Frame();
+            newTab.Content = frame;
+            frame.Navigate(typeof(RPAN));
+            MainTabView.TabItems.Add(newTab);
+            MainTabView.SelectedItem = newTab;
+        }
+
+        private void PremiumButton_Click(object sender, RoutedEventArgs e)
+        {
+            var newTab = new WinUI.TabViewItem();
+            newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Mail };
+            newTab.Header = "Premium";
+            Frame frame = new Frame();
+            newTab.Content = frame;
+            frame.Navigate(typeof(Premium));
+            MainTabView.TabItems.Add(newTab);
+            MainTabView.SelectedItem = newTab;
+        }
+
+        private void GoldButton_Click(object sender, RoutedEventArgs e)
+        {
+            var newTab = new WinUI.TabViewItem();
+            newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Mail };
+            newTab.Header = "Coins";
+            Frame frame = new Frame();
+            newTab.Content = frame;
+            frame.Navigate(typeof(Gold));
             MainTabView.TabItems.Add(newTab);
             MainTabView.SelectedItem = newTab;
         }

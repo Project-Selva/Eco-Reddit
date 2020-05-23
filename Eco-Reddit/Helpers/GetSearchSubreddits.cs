@@ -19,6 +19,7 @@ namespace Eco_Reddit.Helpers
         public static string SearchSort { get; set; }
         public static int skipInt = 0;
         public string appId = "mp8hDB_HfbctBg";
+        public string thing;
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
         List<Models.Subreddits> SubredditCollection;
         private IEnumerable<Subreddit> Subreddits;
@@ -33,7 +34,7 @@ namespace Eco_Reddit.Helpers
                 // Gets items from the collection according to pageIndex and pageSize parameters.
                 SubredditCollection = new List<Models.Subreddits>();
                 var reddit = new RedditClient(appId, refreshToken, secret);
-                IEnumerable<Subreddit> SearchResultsSearch = reddit.SearchSubreddits(limit: limit, query: Input, sort: SearchSort);
+                IEnumerable<Subreddit> SearchResultsSearch = reddit.SearchSubreddits(limit: 25, query: Input, after:thing, sort: SearchSort);
                   limit = limit + 10;
                 await Task.Run(() =>
                 {
@@ -43,6 +44,7 @@ namespace Eco_Reddit.Helpers
                         {
                             SubredditSelf = Subreddit,
                         });
+                        thing = Subreddit.Fullname;
                     }
                 });
                 // Simulates a longer request...

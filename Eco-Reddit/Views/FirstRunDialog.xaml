@@ -24,9 +24,9 @@
     </ContentDialog.TitleTemplate>
     <ScrollViewer>
         <StackPanel>
-            <TextBlock FontSize="30" Width="300" TextWrapping="WrapWholeWords">Note: this preview alpha version doesnt plant any trees but is instead used for testing</TextBlock>
+            <TextBlock FontSize="15" Width="300" TextWrapping="WrapWholeWords">Note: this preview alpha version doesnt plant any trees but is instead used for testing</TextBlock>
             <TextBlock Width="300" TextWrapping="WrapWholeWords">Welcome to Eco reddit pre alpha dev edition. the reddit client that (will) plant trees while you browse reddit. Read more in r/projectecoreddit</TextBlock>
-            <TextBlock Width="300" TextWrapping="WrapWholeWords">This is the dev version. its faster and more up to date with less bugs and more features but it contains a disabled feature.</TextBlock>
+            <TextBlock Width="300" TextWrapping="WrapWholeWords">This is the dev version. its faster and more up to date with less bugs and more features.</TextBlock>
             <TextBlock Width="300" TextWrapping="WrapWholeWords">Please post bugs in the r/projectecoreddit subreddit.</TextBlock>
         </StackPanel>
     </ScrollViewer>

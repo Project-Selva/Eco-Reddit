@@ -4,50 +4,46 @@ using Microsoft.Toolkit.Uwp;
 using Reddit;
 using Reddit.Controllers;
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 using WinUI = Microsoft.UI.Xaml.Controls;
+
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+
 namespace Eco_Reddit.Views
 {
-    public sealed partial class SearchPage : Page, INotifyPropertyChanged
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class SearchPosts : Page
     {
-        public static string SearchString { get; set; }
-        public static string Subreddit { get; set; }
-        public string Sub;
-        string LocalSearchString { get; set; }
         public string appId = "mp8hDB_HfbctBg";
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
         public Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-        public SearchPage()
+        public SearchPosts()
         {
-            InitializeComponent();
-            LocalSearchString = SearchString;
+            this.InitializeComponent();
+            var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
+            SearchList.ItemsSource = Postscollection;
             DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += DataTransferManager_DataRequested;
-            Sub = Subreddit;
-            SearchString = null;
-            TextSearched.Text = "Search:";
-            // Search.Text = LocalSearchString;
-            // GetSearchResults.Input = LocalSearchString;
-            GetSearchResults.Sub = Subreddit;
-            GetSearchResults.limit = 10;
-            GetSearchResults.TimeSort = "all";
-            GetSearchResults.SearchSort = "relevance";
-            GetSearchResults.skipInt = 0;
-            nvSearch.SelectedItem = Posts;
-            //  var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
-            //  SearchList.ItemsSource = Postscollection;
-            Subreddit = null;
-            //  UnloadObject(HomePage.L);
         }
         Post SharePost;
+
         private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             DataRequest request = args.Request;
@@ -64,18 +60,6 @@ namespace Eco_Reddit.Views
         private void Subreddit_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
-        {
-            if (Equals(storage, value))
-            {
-                return;
-            }
-
-            storage = value;
-            OnPropertyChanged(propertyName);
         }
 
         private void HomeList_ItemClick(object sender, ItemClickEventArgs e)
@@ -127,10 +111,28 @@ namespace Eco_Reddit.Views
             AuthorBlock.Content = post.Author;
             TextDateBlock.Text = "Created: " + post.Created;
             TextFlairBlock.Text = "    Flair: " + post.Listing.LinkFlairText;
-
+            var img = templateRoot.Children[8] as Image;
+            var Upvoted = templateRoot.Children[0] as AppBarToggleButton;
+            var Downvoted = templateRoot.Children[1] as AppBarToggleButton;
+            Upvoted.Label = post.UpVotes.ToString();
+            Upvoted.IsChecked = post.IsUpvoted;
+            Downvoted.IsChecked = post.IsDownvoted;
+            //Downvoted.IsChecked = post.IsDownvoted;
+            try
+            {
+                var p = post as LinkPost;
+                BitmapImage bit = new BitmapImage();
+                bit.UriSource = new Uri(p.URL);
+                img.Source = bit;
+                img.Visibility = Visibility.Visible;
+            }
+            catch
+            {
+                img.Visibility = Visibility.Collapsed;
+            }
             ///   TextFlairBlock.Foreground = post.Listing.LinkFlairBackgroundColor;
 
-            args.RegisterUpdateCallback(this.ShowPhase2);
+            //    args.RegisterUpdateCallback(this.ShowPhase2);
         }
         private async void ReportButton_Click(object sender, RoutedEventArgs e)
         {
@@ -264,28 +266,7 @@ namespace Eco_Reddit.Views
             {
                 throw new System.Exception("We should be in phase 2, but we are not.");
             }
-            Posts SenderPost = args.Item as Eco_Reddit.Models.Posts;
-            Reddit.Controllers.Post post = SenderPost.PostSelf;
-            var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
-            var img = templateRoot.Children[8] as Image;
-            var Upvoted = templateRoot.Children[0] as AppBarToggleButton;
-            var Downvoted = templateRoot.Children[1] as AppBarToggleButton;
-            Upvoted.Label = post.UpVotes.ToString();
-            Upvoted.IsChecked = post.IsUpvoted;
-            Downvoted.IsChecked = post.IsDownvoted;
-            //Downvoted.IsChecked = post.IsDownvoted;
-            try
-            {
-                var p = post as LinkPost;
-                BitmapImage bit = new BitmapImage();
-                bit.UriSource = new Uri(p.URL);
-                img.Source = bit;
-                img.Visibility = Visibility.Visible;
-            }
-            catch
-            {
-                img.Visibility = Visibility.Collapsed;
-            }
+          
         }
         private void NewTabButton_Click(object sender, RoutedEventArgs e)
         {
@@ -366,47 +347,6 @@ namespace Eco_Reddit.Views
                 Frame f = sender as Frame;
                 f.Navigate(typeof(SubredditTemporaryInfo));
             });
-        }
-        private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-        private void Search_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            if (nvSearch.SelectedItem == Posts)
-            {
-                TextSearched.Text = "Search results for: " + Search.Text + " in r/" + Sub;
-                Search.Text = Search.Text;
-                GetSearchResults.Input = Search.Text;
-                GetSearchResults.Sub = Sub;
-                GetSearchResults.limit = 10;
-                GetSearchResults.TimeSort = TimeBox.SelectedItem.ToString();
-                GetSearchResults.SearchSort = SortBox.SelectedItem.ToString();
-                GetSearchResults.skipInt = 0;
-                contentFrame.Navigate(typeof(SearchPosts));
-            }
-            else if (nvSearch.SelectedItem == Posts)
-            {
-
-            }
-        }
-
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (nvSearch.SelectedItem == Posts)
-            {
-                TextSearched.Text = "Search results for: " + Search.Text + " in r/" + Sub;
-                Search.Text = Search.Text;
-                GetSearchResults.Input = Search.Text;
-                GetSearchResults.Sub = Sub;
-                GetSearchResults.limit = 10;
-                GetSearchResults.TimeSort = TimeBox.SelectedItem.ToString();
-                GetSearchResults.SearchSort = SortBox.SelectedItem.ToString();
-                GetSearchResults.skipInt = 0;
-                contentFrame.Navigate(typeof(SearchPosts));
-            }
-            else if(nvSearch.SelectedItem == Posts)
-            {
-
-            }
         }
     }
 }

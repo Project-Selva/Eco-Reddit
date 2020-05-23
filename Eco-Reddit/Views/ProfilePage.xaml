@@ -12,7 +12,7 @@
     <Grid>
         <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="9999" IsLoading="True">
             <StackPanel>
-                <ProgressRing Loaded="StartUp" Foreground="Blue" IsActive="True"/>
+                <ProgressRing Loaded="StartUp" Foreground="Blue" Visibility="Visible" IsActive="True"/>
                 <TextBlock>Loading account</TextBlock>
             </StackPanel>
         </controls:Loading>

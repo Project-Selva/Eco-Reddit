@@ -24,6 +24,7 @@ namespace Eco_Reddit.Helpers
         public static int limit = 10;
         public static int skipInt = 0;
         public string appId = "mp8hDB_HfbctBg";
+        public string thing;
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
         List<Inbox> MessageCollection;
         private IEnumerable<Message> Messages;
@@ -35,7 +36,7 @@ namespace Eco_Reddit.Helpers
                 string refreshToken = localSettings.Values["refresh_token"].ToString();
                 MessageCollection = new List<Inbox>();
                 var reddit = new RedditClient(appId, refreshToken, secret);
-                Messages = reddit.Account.Messages.GetMessagesInbox();
+                Messages = reddit.Account.Messages.GetMessagesInbox(limit: limit).Skip(skipInt);
                 await Task.Run(() =>
                 {
                     foreach (Message message in Messages)
@@ -44,9 +45,12 @@ namespace Eco_Reddit.Helpers
                         {
                             InboxSelf = message
                         });
+                        thing = message.Fullname;
                     }
                 });
                 // Simulates a longer request...
+                skipInt = skipInt + 10;
+                limit = limit + 10;
             });
             return MessageCollection;
         }

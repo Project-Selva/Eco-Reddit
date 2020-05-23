@@ -26,6 +26,7 @@ namespace Eco_Reddit.Helpers
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
         List<Posts> PostCollection;
         private IEnumerable<Post> posts;
+        public string thing;
         public static String Subreddit { get; set; }
         public static String SortOrder { get; set; }
         public async Task<IEnumerable<Posts>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
@@ -42,52 +43,52 @@ namespace Eco_Reddit.Helpers
                     {
 
                         case "all":
-                            posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "all", limit: limit)).Skip(skipInt);
+                            posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "all", limit: 25, after: thing));
                         limit = limit + 10;
                         skipInt = skipInt + 10;
                         break;
                         case "year":
-                            posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "year", limit: limit)).Skip(skipInt);
+                            posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "year", limit: 25, after: thing));
                         limit = limit + 10;
                         skipInt = skipInt + 10;
                         break;
                         case "month":
-                            posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "month", limit: limit)).Skip(skipInt);
+                            posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "month", limit: 25, after: thing));
                         limit = limit + 10;
                         skipInt = skipInt + 10;
                         break;
                         case "week":
-                            posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "week", limit: limit)).Skip(skipInt);
+                            posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "week", limit: 25, after: thing));
                         limit = limit + 10;
                         skipInt = skipInt + 10;
                         break;
                         case "day":
-                            posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "day", limit: limit)).Skip(skipInt);
+                            posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "day", limit: 25, after: thing));
                         limit = limit + 10;
                         skipInt = skipInt + 10;
                         break;
                         case "Hot":
-                            posts = subreddit.Posts.GetHot(limit: limit).Skip(skipInt);
+                            posts = subreddit.Posts.GetHot(limit: 25, after: thing);
                         limit = limit + 10;
                         skipInt = skipInt + 10;
                         break;
                         case "New":
-                            posts = subreddit.Posts.GetNew(limit: limit).Skip(skipInt);
+                            posts = subreddit.Posts.GetNew(limit: 25, after: thing);
                         limit = limit + 10;
                         skipInt = skipInt + 10;
                         break;
                         case "Best":
-                            posts = subreddit.Posts.GetBest(limit: limit).Skip(skipInt);
+                            posts = subreddit.Posts.GetBest(limit: 25, after: thing);
                         limit = limit + 10;
                         skipInt = skipInt + 10;
                         break;
                         case "Rising":
-                            posts = subreddit.Posts.GetRising(limit: limit).Skip(skipInt);
+                            posts = subreddit.Posts.GetRising(limit: 25, after: thing);
                         limit = limit + 10;
                         skipInt = skipInt + 10;
                         break;
                         case "Controversial":
-                            posts = subreddit.Posts.GetControversial(limit: limit).Skip(skipInt);
+                            posts = subreddit.Posts.GetControversial(limit: 25, after: thing);
                         limit = limit + 10;
                         skipInt = skipInt + 10;
                         break;
@@ -104,6 +105,7 @@ namespace Eco_Reddit.Helpers
                                  // PostID = post.Id
                                  //  IsNSFW = Nsfw
                              });
+                             thing = post.Fullname;
                          }
                      });
                 // Simulates a longer request...

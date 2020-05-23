@@ -473,8 +473,7 @@ namespace Eco_Reddit.Views
 
         private async void LOADCOM_Click(object sender, RoutedEventArgs e)
         {
-            await Task.Run(async () =>
-            {
+
                 GetComments.SortOrder = "Top";
                 GetComments.limit = PostLocal.Comments.GetComments("Top").Count;
                 GetComments.skipInt = 0;
@@ -486,7 +485,7 @@ namespace Eco_Reddit.Views
                     CommentList.ItemsSource = CommentsCollection;
                     SortOrderCommentButton.Visibility = Visibility.Visible;
                 });
-            });
+    
         }
 
 

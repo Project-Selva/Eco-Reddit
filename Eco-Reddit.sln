@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eco-Reddit", "Eco-Reddit\Ec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eco-Reddit.Core", "Eco-Reddit.Core\Eco-Reddit.Core.csproj", "{FA73FE9E-52FA-4212-9C8C-3B2281D952DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eco-Reddit UnitTest", "Eco-Reddit UnitTest\Eco-Reddit UnitTest.csproj", "{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnoPlatform", "UnoPlatform", "{009BE826-606D-45E4-AD36-13741B2CAE42}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +71,26 @@ Global
 		{FA73FE9E-52FA-4212-9C8C-3B2281D952DE}.Release|x64.Build.0 = Release|Any CPU
 		{FA73FE9E-52FA-4212-9C8C-3B2281D952DE}.Release|x86.ActiveCfg = Release|Any CPU
 		{FA73FE9E-52FA-4212-9C8C-3B2281D952DE}.Release|x86.Build.0 = Release|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Debug|ARM.Build.0 = Debug|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Debug|x64.Build.0 = Debug|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Debug|x86.Build.0 = Debug|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Release|ARM.ActiveCfg = Release|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Release|ARM.Build.0 = Release|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Release|ARM64.Build.0 = Release|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Release|x64.ActiveCfg = Release|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Release|x64.Build.0 = Release|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Release|x86.ActiveCfg = Release|Any CPU
+		{8CC1E726-7C20-4A2C-9E85-60455AFC34BC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

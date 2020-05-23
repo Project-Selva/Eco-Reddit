@@ -113,9 +113,7 @@ namespace Eco_Reddit.Views
                 if(String.IsNullOrEmpty(refreshToken) == false)// if user accepts
                 { 
                 localSettings.Values["refresh_token"] = result.RefreshToken;
-                    HomePage.LoginFrameFrame.Visibility = Visibility.Visible;
-                    MessageDialog m = new MessageDialog("Please re open app to finish login (pre Alpha)");
-                    await m.ShowAsync();
+                    HomePage.LoginFrameFrame.Navigate(typeof(HomePage));
                /* MainPage.UniversalTabView.TabItems.Remove(MainPage.UniversalTabView.SelectedItem); // delete login tab
                 var newTab = new TabViewItem();
                 newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Document }; // create new home Tab

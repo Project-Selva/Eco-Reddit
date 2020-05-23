@@ -21,8 +21,9 @@ namespace Eco_Reddit.Helpers
         public string appId = "mp8hDB_HfbctBg";
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
         public static User UserToGetPostsFrom { get; set; }
+        public string thing;
         List<Posts> PostCollection;
-          
+        IEnumerable<Post> posts;
         public async Task<IEnumerable<Posts>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
             await Task.Run(async () =>
@@ -32,7 +33,9 @@ namespace Eco_Reddit.Helpers
                 PostCollection = new List<Posts>();
                 var reddit = new RedditClient(appId, refreshToken, secret);
                 limit = limit + 10;
-                IEnumerable<Post> posts = reddit.Account.Me.GetPostHistory(limit: limit).Skip(skipInt);
+
+                //posts = UserToGetPostsFrom.GetPostHistory(limit: limit).Skip(skipInt);
+                posts = UserToGetPostsFrom.GetPostHistory(limit: 25, after: thing);
                 await Task.Run(() =>
                     {
                         foreach (Post post in posts)
@@ -41,6 +44,7 @@ namespace Eco_Reddit.Helpers
                             {
                                 PostSelf = post,
                             });
+                            thing = post.Fullname;
                         }
                     });
 

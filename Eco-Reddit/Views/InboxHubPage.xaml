@@ -1,0 +1,34 @@
+﻿<Page
+    x:Class="Eco_Reddit.Views.InboxHubPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Eco_Reddit.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
+        <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock Margin="5" FontSize="25">Inbox: </TextBlock>
+                <NavigationView x:Name="nvInbox" Margin="4" Background="Transparent" HorizontalAlignment="Stretch" ItemInvoked="NvInbox_ItemInvoked" IsSettingsVisible="False" IsBackButtonVisible="Collapsed" PaneDisplayMode="Top">
+                    <NavigationView.MenuItems>
+                        <NavigationViewItem x:Name="All" Content="All"/>
+                        <NavigationViewItem x:Name="Unread" Content="Unread"/>
+                        <NavigationViewItem  Content="User mentions"/>
+                        <NavigationViewItem  Content="Comment replies"/>
+                        <NavigationViewItem  Content="Post replies"/>
+                        <NavigationViewItem IsEnabled="False" Content="Messages"/>
+                        <NavigationViewItem  Content="Sent messages"/>
+                        <NavigationViewItem  Content="Mod news letter"/>
+                    </NavigationView.MenuItems>
+                    <Frame x:Name="contentFrame"/>
+                </NavigationView>
+            </StackPanel>
+        </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

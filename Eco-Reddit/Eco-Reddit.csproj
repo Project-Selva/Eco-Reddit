@@ -134,11 +134,17 @@
     <PackageReference Include="Microsoft.Services.Store.SDK">
       <Version>10.1705.16001</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.HighPerformance">
+      <Version>6.1.0-preview1.2</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
       <Version>5.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
       <Version>5.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Media">
+      <Version>7.0.0-preview1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.2.190917002</Version>
@@ -159,6 +165,9 @@
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\GetComments.cs" />
     <Compile Include="Helpers\GetInbox.cs" />
+    <Compile Include="Helpers\GetSentMessages.cs" />
+    <Compile Include="Helpers\GetUniversalMessages.cs" />
+    <Compile Include="Helpers\GetMessages.cs" />
     <Compile Include="Helpers\GetPostsClass.cs" />
     <Compile Include="Helpers\GetSearchSubreddits.cs" />
     <Compile Include="Helpers\GetSearchResults.cs" />
@@ -171,6 +180,7 @@
     <Compile Include="Models\Comments.cs" />
     <Compile Include="Models\Inbox.cs" />
     <Compile Include="Models\Posts.cs" />
+    <Compile Include="Models\PrivateMessage.cs" />
     <Compile Include="Models\SubredditList.cs" />
     <Compile Include="Models\Subreddits.cs" />
     <Compile Include="Models\TabViewItemData.cs" />
@@ -185,6 +195,36 @@
     <Compile Include="Views\AwardsFlyoutFrame.xaml.cs">
       <DependentUpon>AwardsFlyoutFrame.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ChatWebViewPage.xaml.cs">
+      <DependentUpon>ChatWebViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Errordialog.xaml.cs">
+      <DependentUpon>Errordialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Premium.xaml.cs">
+      <DependentUpon>Premium.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Gold.xaml.cs">
+      <DependentUpon>Gold.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RPAN.xaml.cs">
+      <DependentUpon>RPAN.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SearchPosts.xaml.cs">
+      <DependentUpon>SearchPosts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SentMessages.xaml.cs">
+      <DependentUpon>SentMessages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ModNewsLetter.xaml.cs">
+      <DependentUpon>ModNewsLetter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserMentions.xaml.cs">
+      <DependentUpon>UserMentions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PostReplies.xaml.cs">
+      <DependentUpon>PostReplies.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CommentsPage.xaml.cs">
       <DependentUpon>CommentsPage.xaml</DependentUpon>
     </Compile>
@@ -194,6 +234,9 @@
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\InboxHubPage.xaml.cs">
+      <DependentUpon>InboxHubPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\InboxPage.xaml.cs">
       <DependentUpon>InboxPage.xaml</DependentUpon>
     </Compile>
@@ -202,6 +245,12 @@
     </Compile>
     <Compile Include="Views\PostContentPage.xaml.cs">
       <DependentUpon>PostContentPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CommentReplies.xaml.cs">
+      <DependentUpon>CommentReplies.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrivateMessagesUnread.xaml.cs">
+      <DependentUpon>PrivateMessagesUnread.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProfilePage.xaml.cs">
       <DependentUpon>ProfilePage.xaml</DependentUpon>
@@ -259,6 +308,46 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ChatWebViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Errordialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Premium.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Gold.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RPAN.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SearchPosts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SentMessages.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ModNewsLetter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UserMentions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PostReplies.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\CommentsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -271,6 +360,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\InboxHubPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\InboxPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -282,6 +375,14 @@
     <Page Include="Views\PostContentPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CommentReplies.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PrivateMessagesUnread.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ProfilePage.xaml">
       <Generator>MSBuild:Compile</Generator>
