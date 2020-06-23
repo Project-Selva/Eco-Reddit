@@ -10,7 +10,7 @@
         Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     mc:Ignorable="d">
     <Grid HorizontalAlignment="Center" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-        <ListView ContainerContentChanging="HomeList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="SearchList" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="HomeList_ItemClick">
+        <ListView SelectionMode="None" ContainerContentChanging="HomeList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="SearchList" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="HomeList_ItemClick">
             <ListView.Header>
                 <controls:ScrollHeader Mode="QuickReturn">
                     <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
@@ -28,23 +28,6 @@
                     </Grid>
                 </controls:ScrollHeader>
             </ListView.Header>
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local1:Subreddits">
-                    <RelativePanel  Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="10" Margin="5">
-                        <PersonPicture Width="60" Height="60" Margin="5" ProfilePicture="/Images/IconSub.png" x:Name="Person"/>
-                        <TextBlock x:Name="TitleTitleTextBlock" FontSize="30" Margin="0,13,3,0" RelativePanel.RightOf="Person"></TextBlock>
-                        <TextBlock RelativePanel.Below="TitleTitleTextBlock" x:Name="TitleTextBlock" FontSize="11" Margin="0,13,3,0" RelativePanel.RightOf="Person"></TextBlock>
-                        <CommandBar  RelativePanel.RightOf="Person" x:Name="CommentsBar" IsDynamicOverflowEnabled="True" RelativePanel.Below="TitleTextBlock" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
-                            <AppBarButton Tag="{x:Bind SubredditSelf}" Icon="Globe" Label="Open in web" Click="AppBarButton_Click"/>
-                            <AppBarSeparator/>
-                            <AppBarButton Tag="{x:Bind SubredditSelf}" Icon="Link" Label="Permalink" Click="PermaLinkSubredditButton_Click"/>
-                            <AppBarSeparator/>
-                            <AppBarButton Tag="{x:Bind SubredditSelf}" Icon="OutlineStar" Label="Subscribe" Click="SubEditButton_Click"/>
-                            <AppBarButton Tag="{x:Bind SubredditSelf}" Icon="UnFavorite" Label="Unsubscribe" Click="unsubEditButton_Click"/>
-                        </CommandBar>
-                    </RelativePanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
         </ListView>
     </Grid>
 </Page>

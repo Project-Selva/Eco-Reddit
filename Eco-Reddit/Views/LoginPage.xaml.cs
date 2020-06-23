@@ -252,7 +252,7 @@ namespace Eco_Reddit.Views
             Uri targetUri = new Uri(Constants.Constants.redditApiBaseUrl + "authorize?" + urlParams);
             webView.Navigate(targetUri);
             SettingsFrame.Navigate(typeof(SettingsPage));
-            //  UnloadObject(loginView);
+             // UnloadObject(loginView);
         }
         public event PropertyChangedEventHandler PropertyChanged;
 

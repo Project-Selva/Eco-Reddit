@@ -45,7 +45,7 @@ namespace Eco_Reddit.Views
             Subs.Visibility = Visibility.Visible;
             Users.Visibility = Visibility.Visible;
             Time.Visibility = Visibility.Visible;
-            if (String.IsNullOrEmpty(subreddit.IconImg.ToString()) == false)
+           /* if (String.IsNullOrEmpty(subreddit.IconImg.ToString()) == false)
             {
                 BitmapImage img = new BitmapImage();
                 //  img.UriSource = new Uri("/Images/1409938.png");
@@ -56,7 +56,7 @@ namespace Eco_Reddit.Views
                 BitmapImage Bimg = new BitmapImage();
                 //   Bimg.UriSource = new Uri("/Images/1409938.png");
                 //  BannerIMG.Source = Bimg;
-            }
+            }*/
             /*      if (String.IsNullOrEmpty(subreddit.HeaderImg.ToString()) == false)
                   {
                       BitmapImage Himg = new BitmapImage();

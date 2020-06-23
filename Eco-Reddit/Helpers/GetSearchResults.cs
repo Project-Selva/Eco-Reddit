@@ -34,17 +34,8 @@ namespace Eco_Reddit.Helpers
                 // Gets items from the collection according to pageIndex and pageSize parameters.
                 ResultsCollection = new List<Posts>();
                 var reddit = new RedditClient(appId, refreshToken, secret);
-                //  posts = GenericUriParser;
-                var LinkPostType = Visibility.Collapsed;
-                string ImageUrl = "e";
-                string Nsfw = "";
+                IEnumerable<Post> SearchResultsSearch = reddit.Subreddit(Sub).Search(new SearchGetSearchInput(Input, limit: 10, after: thing, sort: SearchSort, t: TimeSort));
 
-                IEnumerable<Post> SearchResultsSearch = reddit.Subreddit(Sub).Search(new SearchGetSearchInput(Input, limit: 25, after: thing, sort: SearchSort, t: TimeSort));
-                /* if (SearchResultsSearch.Count == 0)
-                 {
-                     SearchResultsSearch = reddit.Subreddit("all").Search(new SearchGetSearchInput(Input, limit: limit, sort: "top")).Skip(skipInt);  // Search r/all
-                 }*/
-              //  limit = limit + 10;
                 await Task.Run(() =>
                 {
 
@@ -58,8 +49,6 @@ namespace Eco_Reddit.Helpers
                         thing = post.Fullname;
                     }
                 });
-                // Simulates a longer request...
-                // skipInt = skipInt + 10;
 
                 return ResultsCollection;
 

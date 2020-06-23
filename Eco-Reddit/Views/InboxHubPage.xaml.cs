@@ -65,17 +65,15 @@ namespace Eco_Reddit.Views
                 case "User mentions":
                     contentFrame.Navigate(typeof(UserMentions));
                     break;
-
-                case "Messages":
-                    contentFrame.Navigate(typeof(PrivateMessagesUnread));
-                    break;
-
                 case "Sent messages":
                     contentFrame.Navigate(typeof(SentMessages));
                     break;
 
                 case "Post replies":
                     contentFrame.Navigate(typeof(PostReplies));
+                    break;
+                case "Messages":
+                    contentFrame.Navigate(typeof(Recievedmessages));
                     break;
                 case "Comment replies":
                     contentFrame.Navigate(typeof(CommentReplies));

@@ -13,7 +13,7 @@
 
     <Grid>
         <Grid HorizontalAlignment="Center" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-            <ListView ContainerContentChanging="InboxList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="InboxList" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Center" IsItemClickEnabled="True">
+            <ListView SelectionMode="None" ContainerContentChanging="InboxList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="InboxList" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Center" IsItemClickEnabled="True">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local1:PrivateMessage">
                         <RelativePanel Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}" CornerRadius="10" Margin="0, 5,0, 5" BorderBrush="{StaticResource SystemControlBackgroundAccentRevealBorderBrush}">

@@ -9,35 +9,148 @@
         xmlns:local1="using:Eco_Reddit.Models"
     Style="{StaticResource PageStyle}"
     mc:Ignorable="d">
-    <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-        <StackPanel HorizontalAlignment="Center">
-            <TextBlock Margin="5" FontSize="25" VerticalAlignment="Top" x:Name="TextSearched"></TextBlock>
-            <AutoSuggestBox Header="Search:" QueryIcon="Find" Margin="5" x:Name="Search" QuerySubmitted="Search_QuerySubmitted" PlaceholderText="Search posts"></AutoSuggestBox>
-            <StackPanel Margin="5" HorizontalAlignment="Left" Orientation="Horizontal">
-                <ComboBox x:Name="SortBox" Margin="5" Header="Search options:" Width="200" SelectedIndex="0">
-                    <x:String>Relevance</x:String>
-                    <x:String>Comments</x:String>
-                    <x:String>hot</x:String>
-                    <x:String>top</x:String>
-                    <x:String>new</x:String>
-                </ComboBox>
-                <ComboBox x:Name="TimeBox" Margin="5" Header="Time options:" SelectedIndex="0" Width="200">
-                    <x:String>all</x:String>
-                    <x:String>year</x:String>
-                    <x:String>month</x:String>
-                    <x:String>week</x:String>
-                    <x:String>day</x:String>
-                </ComboBox>
-                <Button Margin="5, 27, 5, 5" Style="{StaticResource ButtonRevealStyle}" Click="SearchButton_Click">Search</Button>
-            </StackPanel>
-            <NavigationView Background="Transparent" x:Name="nvSearch" Margin="4" HorizontalAlignment="Stretch" IsSettingsVisible="False" IsBackButtonVisible="Collapsed" PaneDisplayMode="Top">
-                <NavigationView.MenuItems>
-                    <NavigationViewItem x:Name="Posts" Content="Posts"/>
-                    <NavigationViewItem x:Name="Subreddits" Content="Subreddits"/>
-                    <NavigationViewItem  Content="Users"/>
-                </NavigationView.MenuItems>
-                <Frame x:Name="contentFrame"/>
-            </NavigationView>
-        </StackPanel>
-    </Grid>
+    <Page.Resources>
+        <DataTemplate x:Name="POST" x:DataType="local1:Posts">
+            <RelativePanel  MaxWidth="800"  Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="2" Margin="0, 2,0, 2" Width="540">
+                <AppBarToggleButton CornerRadius="10" x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True" IsChecked="{x:Bind PostSelf.IsUpvoted}" Label="{x:Bind PostSelf.UpVotes}" Width="70" Margin="5" Icon="Up"></AppBarToggleButton>
+                <AppBarToggleButton CornerRadius="10" IsChecked="{x:Bind PostSelf.IsDownvoted}" x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" Width="70" RelativePanel.Below="Upvote" Margin="5">
+                    <AppBarToggleButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;"/>
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+
+                <TextBlock Text="{x:Bind PostSelf.Title}" x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="Upvote" FontSize="15" Canvas.ZIndex="6" Margin="10, 20, 0, 0" TextWrapping="WrapWholeWords" Width="400"></TextBlock>
+                <TextBlock Name="datecreatedstring" RelativePanel.RightOf="DownVote" RelativePanel.Below="TitleTextBlock" Text="Created:" FontSize="11" Margin="10,13,3,0"></TextBlock>
+                <TextBlock RelativePanel.RightOf="datecreatedstring" RelativePanel.Below="TitleTextBlock" x:Name="Date" Text="{x:Bind PostSelf.Created}" FontSize="11" Margin="1,13,3,0"></TextBlock>
+                <HyperlinkButton x:Name="User" RelativePanel.Below="TitleTextBlock" Content="{x:Bind PostSelf.Author}" RelativePanel.RightOf="Date" Margin="3,6,0,0" FontSize="11" Tapped="HyperlinkButton_Tapped">
+                    <ToolTipService.ToolTip>
+                        <Frame Tag="{x:Bind PostSelf}" Loaded="Frame_Loaded"></Frame>
+                    </ToolTipService.ToolTip>
+                </HyperlinkButton>
+                <HyperlinkButton Tapped="Subreddit_Tapped" RelativePanel.Below="TitleTextBlock" Content="{x:Bind PostSelf.Subreddit}" RelativePanel.RightOf="User" x:Name="Subreddit" Margin="3,6,0,0" FontSize="11">
+                    <ToolTipService.ToolTip>
+                        <Frame Tag="{x:Bind PostSelf}" Loaded="Frame_LoadedSubreddit"></Frame>
+                    </ToolTipService.ToolTip>
+                </HyperlinkButton>
+                <TextBlock Name="flairstring" RelativePanel.RightOf="DownVote" RelativePanel.Below="Subreddit" Text="Flair: " Padding="10, 5, 1, 5"></TextBlock>
+                <TextBlock Margin="1,0,0,0" Text="{x:Bind PostSelf.Listing.LinkFlairText}" x:Name="Flair" RelativePanel.Below="Subreddit" RelativePanel.RightOf="flairstring" Padding="1, 5, 10, 5"  HorizontalAlignment="Left" TextWrapping="WrapWholeWords"></TextBlock>
+                <!--<TextBlock Margin="3,0,0,0" HorizontalAlignment="Left"  Padding="10, 5, 10, 5" x:Name="NSFW" x:Phase="2" Text="{x:Bind IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>-->
+                <CommandBar x:Name="PostsBar" IsDynamicOverflowEnabled="True" Margin="3" RelativePanel.Above="PostImage" RelativePanel.RightOf="DownVote" RelativePanel.Below="Flair" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
+                    <CommandBar.Resources>
+                        <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                    </CommandBar.Resources>
+                    <AppBarButton Icon="Comment" />
+                    <AppBarButton Tag="{x:Bind PostSelf}" Icon="SolidStar" Foreground="Gold">
+                        <AppBarButton.Flyout>
+                            <Flyout>
+                                <Frame Tag="{x:Bind PostSelf}" Loaded="Award_Loaded"></Frame>
+                            </Flyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                    <AppBarSeparator/>
+                    <AppBarButton Tag="{x:Bind PostSelf}" Icon="Add" Click="NewTabButton_Click" Label="Open in new tab"/>
+                    <AppBarButton Tag="{x:Bind PostSelf}" Icon="Globe" Label="Open online" Click="OpenPostInWebButton_Click"/>
+                    <CommandBar.SecondaryCommands>
+                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="ClosePane" Label="Hide" Click="HideButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Share" Label="Share" Click="ShareButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Save" Label="Save" Click="SaveButton_Click"/>
+                        <AppBarButton Icon="ReportHacked" IsEnabled="False" Label="Report">
+                            <AppBarButton.Flyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <TextBox x:Name="Reason" Header="Reason:" PlaceholderText="e.g. Spam" Margin="5" Width="300"></TextBox>
+                                        <TextBox x:Name="RuleReason" Header="Rule reason:" PlaceholderText="e.g. it breaks r/example rules" Margin="5" Width="300"></TextBox>
+                                        <TextBox x:Name="SiteReason" Header="Site reason:" PlaceholderText="e.g. Infringes copyright" Margin="5" Width="300"></TextBox>
+                                        <TextBox x:Name="AdditionalInfo" Header="Additional info" PlaceholderText="Addional info" Margin="5" Width="300"></TextBox>
+                                        <TextBox x:Name="OtherInfo" Header="Other reason:" Margin="5" Width="300"></TextBox>
+                                        <Button Tag="{x:Bind PostSelf}"  Margin="5" Content="Report" Click="ReportButton_Click"></Button>
+                                    </StackPanel>
+                                </Flyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
+                        <AppBarButton Icon="ReShare" IsEnabled="False" Label="Crosspost">
+                            <AppBarButton.Flyout>
+                                <Flyout>
+                                    <StackPanel>
+                                        <TextBox x:Name="CrosspsotText" Header="Subreddit name:" PlaceholderText="Enter subreddit" Margin="5" Width="300"></TextBox>
+                                        <Button Tag="{x:Bind PostSelf}"  Margin="5" Content="Crosspost" Click="CrosspostButton_Click"></Button>
+                                    </StackPanel>
+                                </Flyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
+                        <AppBarSeparator/>
+                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Link" Label="PermaLink" Click="PermaLinkButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Edit" IsEnabled="False" Label="Edit" Click="EditButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Delete" Label="Delete" Click="DeleteButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Priority" Label="Lock" Click="LockEditButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="ReportHacked" Label="Spoiler" Click="SpoilerEditButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="ReportHacked" Label="Mark NSFW" Click="NSFWEditButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="ReportHacked" Label="Distinguish" Click="DistinguishButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Delete" Label="Remove" Click="RemoveEditButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Cut" Label="Sticky" Click="StickyButton_Click"/>
+                        <AppBarSeparator/>
+                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="ClosePane" Label="UnHide" Click="UnHideEditButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Save" Label="UnSave" Click="UnSaveditButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Priority" Label="Unlock" Click="UnlockEditButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="ReportHacked" Label="UnMark NSFW" Click="UNNSFWEditButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="ReportHacked" Label="UnSpoiler" Click="UnSpoilerEditButton_Click"/>
+                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Cut" Label="UnSticky" Click="UnStickyEditButton_Click"/>
+                    </CommandBar.SecondaryCommands>
+                </CommandBar>
+                <Image x:Name="PostImage" RelativePanel.AlignBottomWithPanel="True" Margin="0, 10,0,0 " Stretch="Fill"/>
+            </RelativePanel>
+        </DataTemplate>
+        <DataTemplate x:Name="SubredditTemplate" x:DataType="local1:Subreddits">
+            <RelativePanel  Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="10" MaxWidth="800" Margin="5">
+                <PersonPicture Width="60" Height="60" Margin="5" ProfilePicture="/Images/IconSub.png" x:Name="Person"/>
+                <TextBlock x:Name="TitleTitleTextBlock" FontSize="30" Margin="0,13,3,0" RelativePanel.RightOf="Person"></TextBlock>
+                <TextBlock RelativePanel.Below="TitleTitleTextBlock" x:Name="TitleTextBlock" FontSize="15" Margin="0,13,3,0" RelativePanel.RightOf="Person"></TextBlock>
+            </RelativePanel>
+        </DataTemplate>
+        <DataTemplate x:Name="UserTemplate" x:DataType="local1:Users">
+            <RelativePanel  Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="10" Width="400" Margin="5">
+                <PersonPicture Width="60" Height="60" Margin="5" ProfilePicture="/Images/IconSub.png" x:Name="Person"/>
+                <TextBlock x:Name="TitleTitleTextBlock" FontSize="30" Margin="5,13,3,0" RelativePanel.RightOf="Person"></TextBlock>
+            </RelativePanel>
+        </DataTemplate>
+    </Page.Resources>
+    <ListView SelectionMode="None" ContainerContentChanging="HomeList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="SearchList" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="HomeList_ItemClick">
+            <ListView.Header>
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Margin="5" FontSize="25" VerticalAlignment="Top" x:Name="TextSearched"></TextBlock>
+                    <AutoSuggestBox Header="Search:" QueryIcon="Find" Margin="5" x:Name="Search" QuerySubmitted="Search_QuerySubmitted" PlaceholderText="Search..."></AutoSuggestBox>
+                    <StackPanel Margin="5" HorizontalAlignment="Left" Orientation="Horizontal">
+                        <ComboBox x:Name="SortBox" Margin="5" Header="Search options:" Width="200" SelectedIndex="0">
+                            <x:String>Relevance</x:String>
+                            <x:String>Comments</x:String>
+                            <x:String>hot</x:String>
+                            <x:String>top</x:String>
+                            <x:String>new</x:String>
+                        </ComboBox>
+                        <ComboBox x:Name="TimeBox" Margin="5" Header="Time options:" SelectedIndex="0" Width="200">
+                            <x:String>all</x:String>
+                            <x:String>year</x:String>
+                            <x:String>month</x:String>
+                            <x:String>week</x:String>
+                            <x:String>day</x:String>
+                        </ComboBox>
+                    <StackPanel Orientation="Vertical" x:Name="PostSearchPanel">
+                        <RadioButton Margin="5" x:Name="AllSearch" Content="All subreddits" Checked="AllSearch_Checked"/>
+                        <RadioButton Margin="5" x:Name="MainSubSearch" Content="" Checked="MainSubSearch_Checked"/>
+                        <RadioButton Margin="5" x:Name="OtherSubSearch" Content="Other subreddit" Checked="OtherSubSearch_Checked"/>
+                        <TextBox Margin="5" x:Name="OtherSubText" PlaceholderText="r/" Visibility="Collapsed" TextChanged="OtherSubText_TextChanged"></TextBox>
+                    </StackPanel>
+                        <Button Margin="5, 27, 5, 5" Style="{StaticResource ButtonRevealStyle}" Click="SearchButton_Click">Search</Button>
+                    </StackPanel>
+                    <NavigationView SelectionChanged="NvSearch_SelectionChanged" Background="Transparent" x:Name="nvSearch" Margin="4" HorizontalAlignment="Stretch" IsSettingsVisible="False" IsBackButtonVisible="Collapsed" PaneDisplayMode="Top">
+                        <NavigationView.MenuItems>
+                            <NavigationViewItem x:Name="Posts" Content="Posts"/>
+                            <NavigationViewItem x:Name="Subreddits" Content="Subreddits"/>
+                            <NavigationViewItem  Content="Users (experimental)"/>
+                        </NavigationView.MenuItems>
+                    </NavigationView>
+                </StackPanel>
+            </ListView.Header>
+        </ListView>
+   
 </Page>

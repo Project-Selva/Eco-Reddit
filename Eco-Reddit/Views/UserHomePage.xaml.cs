@@ -289,22 +289,7 @@ namespace Eco_Reddit.Views
           Posts SenderPost = args.Item as Eco_Reddit.Models.Posts;
             Reddit.Controllers.Post post = SenderPost.PostSelf;
             var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
-            var textBlock = templateRoot.Children[5] as HyperlinkButton;
-            var TextDateBlock = templateRoot.Children[3] as TextBlock;
-            var TextFlairBlock = templateRoot.Children[6] as TextBlock;
-            var TextTitleBlock = templateRoot.Children[2] as TextBlock;
-            TextTitleBlock.Text = post.Title;
-            textBlock.Content = post.Subreddit;
-            TextDateBlock.Text = "Created: " + post.Created;
-            TextFlairBlock.Text = "    Flair: " + post.Listing.LinkFlairText;
-            // Posts SenderPost = args.Item as Eco_Reddit.Models.Posts;
-            //  Reddit.Controllers.Post post = SenderPost.PostSelf;
-            //  var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
-            var img = templateRoot.Children[8] as Image;
-            var Upvoted = templateRoot.Children[0] as AppBarToggleButton;
-            var Downvoted = templateRoot.Children[1] as AppBarToggleButton;
-            Upvoted.Label = post.UpVotes.ToString();
-            Upvoted.IsChecked = post.IsUpvoted;
+            var img = templateRoot.Children[10] as Image;
             //Downvoted.IsChecked = post.IsDownvoted;
             try
             {

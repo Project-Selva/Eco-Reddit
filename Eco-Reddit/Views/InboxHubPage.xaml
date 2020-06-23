@@ -21,7 +21,7 @@
                         <NavigationViewItem  Content="User mentions"/>
                         <NavigationViewItem  Content="Comment replies"/>
                         <NavigationViewItem  Content="Post replies"/>
-                        <NavigationViewItem IsEnabled="False" Content="Messages"/>
+                        <NavigationViewItem Content="Messages"/>
                         <NavigationViewItem  Content="Sent messages"/>
                         <NavigationViewItem  Content="Mod news letter"/>
                     </NavigationView.MenuItems>

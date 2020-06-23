@@ -19,7 +19,7 @@ namespace Eco_Reddit.Services
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
                 CoreDispatcherPriority.Normal, async () =>
                 {
-                    if (SystemInformation.IsFirstRun && !shown)
+                    if (SystemInformation.Instance.IsFirstRun == true)
                     {
                         shown = true;
                         var dialog = new FirstRunDialog();

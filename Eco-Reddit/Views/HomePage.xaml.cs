@@ -6,12 +6,15 @@ using Reddit;
 using Reddit.Controllers;
 using Reddit.Inputs.LinksAndComments;
 using Reddit.Inputs.Subreddits;
+using Reddit.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Timers;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Media.Core;
@@ -51,9 +54,9 @@ namespace Eco_Reddit.Views
             LoginFrameFrame = LoginFrame;
 
             /*   var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-               coreTitleBar.ExtendViewIntoTitleBar = true;*/
-            try
-            {
+              coreTitleBar.ExtendViewIntoTitleBar = true;*/
+          try
+           {
                 string refreshToken = localSettings.Values["refresh_token"].ToString();
                 string BackuprefreshToken = "344019503430-ek4oMXyYO7QJci-Cb9jUeuoEhIM";
                 if (localSettings.Values["refresh_token"].ToString() == BackuprefreshToken) //remove and replace, this is when user is not signed in and should show different ui
@@ -67,36 +70,32 @@ namespace Eco_Reddit.Views
                     GetPostsClass.SortOrder = "Best";
                     PostsSortOrder = "Best";
                     IsHomeEnabled = true;
-
+                    string refreshtoken = localSettings.Values["refresh_token"].ToString();
+                    var reddit = new RedditClient(appId, refreshtoken, secret);
                     var PostsCollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
 
                     HomeList.ItemsSource = PostsCollection;
-                    //   localSettings.Values["refresh_token"] = BackuprefreshToken;
-                }
+                System.Timers.Timer uTimer = new System.Timers.Timer();
+                uTimer.Elapsed += new ElapsedEventHandler(TimerElapsed);
+                uTimer.Interval = 20000;
+                uTimer.Enabled = true;
+                uTimer.AutoReset = true;
+
+                //   localSettings.Values["refresh_token"] = BackuprefreshToken;
+            }
             }
             catch
             {
                 LoginFrame.Visibility = Visibility.Visible;
-                LoginFrame.Navigate(typeof(LoginPage));
+               LoginFrame.Navigate(typeof(LoginPage));
             }
-           try
-           {
-                Client.Account.Messages.InboxUpdated += Messages_InboxUpdated;
-           }
-           catch
-           {
-
-           }
-
         }
-
-        private void Messages_InboxUpdated(object sender, Reddit.Controllers.EventArgs.MessagesUpdateEventArgs e)
+        public void TimerElapsed(object source, ElapsedEventArgs e)
         {
-            string refreshtoken = localSettings.Values["refresh_token"].ToString();
-            var reddit = new RedditClient(appId, refreshtoken, secret);
-            InboxButton.Label = "Inbox: " + e.NewMessages.Count.ToString();
+           string refreshtoken = localSettings.Values["refresh_token"].ToString();
+           var reddit = new RedditClient(appId, refreshtoken, secret);
+          InboxButton.Label = "Inbox: " + reddit.Account.Messages.Unread.Count.ToString();
         }
-
         Post SharePost;
         private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
@@ -194,6 +193,10 @@ namespace Eco_Reddit.Views
                     SubsSidebar.Visibility = Visibility.Collapsed;
                     UserssSidebar.Visibility = Visibility.Collapsed;
                     TimeSidebar.Visibility = Visibility.Collapsed;
+                    ModeratedSubsX.Visibility = Visibility.Visible;
+                    TrendingSubsdayX.Visibility = Visibility.Visible;
+                    SubsdayX.Visibility = Visibility.Visible;
+                    TinySubsdayX.Visibility = Visibility.Visible;
                 }
                 else
                 {
@@ -205,12 +208,16 @@ namespace Eco_Reddit.Views
                     SubscribeButton.Visibility = Visibility.Visible;
                     UnSubscribeButton.Visibility = Visibility.Visible;
                     SideBarSidebar.Visibility = Visibility.Visible;
+                    ModeratedSubsX.Visibility = Visibility.Collapsed;
+                    TrendingSubsdayX.Visibility = Visibility.Collapsed;
+                    SubsdayX.Visibility = Visibility.Collapsed;
+                    TinySubsdayX.Visibility = Visibility.Collapsed;
                     HeaderSideBar.Visibility = Visibility.Visible;
                     AboutSidebar.Visibility = Visibility.Visible;
                     SubsSidebar.Visibility = Visibility.Visible;
                     UserssSidebar.Visibility = Visibility.Visible;
                     TimeSidebar.Visibility = Visibility.Visible;
-                    if (String.IsNullOrEmpty(subreddit.IconImg.ToString()) == false)
+                /*    if (String.IsNullOrEmpty(subreddit.IconImg.ToString()) == false)
                     {
                         BitmapImage img = new BitmapImage();
                         //  img.UriSource = new Uri("/Images/1409938.png");
@@ -316,17 +323,26 @@ namespace Eco_Reddit.Views
                     try
                     {
                         CurrentSub = Client.Subreddit(args.QueryText);
+                        try
+                        {
+                            var subreddit = CurrentSub.About();
+                        }
+                        catch
+                        {
+                            var m = new MessageDialog("Subreddit doesnt exist");
+                            await m.ShowAsync();
+                            return;
+                        }
                         Subreddit.Text = "r/" + CurrentSub.Name;
                         GetPostsClass.Subreddit = CurrentSub.Name;
                         GetPostsClass.limit = 10;
                         GetPostsClass.skipInt = 0;
-
                         IsHomeEnabled = false;
                         PostsSortOrder = "Hot";
                         SortOrderButton.Label = "Hot";
                         GetPostsClass.SortOrder = "Hot";
-                        var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
-                        HomeList.ItemsSource = Postscollection;
+                            var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
+                            HomeList.ItemsSource = Postscollection;
                         SortOrderButton.Visibility = Visibility.Visible;
                     }
                     catch
@@ -576,9 +592,12 @@ namespace Eco_Reddit.Views
                 SubredditList P = e.ClickedItem as SubredditList;
                 string refreshToken = localSettings.Values["refresh_token"].ToString();
                 var reddit = new RedditClient(appId, refreshToken, secret);
-                try
-                {
-                    CurrentSub = Client.Subreddit(P.SubredditSelf);
+              try
+               {
+ 
+                    CurrentSub = Client.Subreddit(P.SubredditSelf.Name);
+                    var m = new MessageDialog(CurrentSub.Name.ToLower());
+                    await m.ShowAsync();
                     Subreddit.Text = "r/" + CurrentSub.Name;
                     GetPostsClass.Subreddit = CurrentSub.Name;
                     GetPostsClass.limit = 10;
@@ -591,7 +610,7 @@ namespace Eco_Reddit.Views
                     var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
                     HomeList.ItemsSource = Postscollection;
                     SortOrderButton.Visibility = Visibility.Visible;
-                }
+             }
                 catch
                 {
                     var m = new MessageDialog("Subreddit doesnt exist");
@@ -759,25 +778,7 @@ namespace Eco_Reddit.Views
             Posts SenderPost = args.Item as Posts;
             Reddit.Controllers.Post post = SenderPost.PostSelf;
             var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
-            var textBlock = templateRoot.Children[5] as HyperlinkButton;
-            var AuthorBlock = templateRoot.Children[4] as HyperlinkButton;
-            var TextDateBlock = templateRoot.Children[3] as TextBlock;
-            var TextFlairBlock = templateRoot.Children[6] as TextBlock;
-            var TextTitleBlock = templateRoot.Children[2] as TextBlock;
-            TextTitleBlock.Text = post.Title;
-            textBlock.Content = post.Subreddit;
-            AuthorBlock.Content = post.Author;
-            TextDateBlock.Text = "Created: " + post.Created;
-            TextFlairBlock.Text = "    Flair: " + post.Listing.LinkFlairText;
-            // Posts SenderPost = args.Item as Eco_Reddit.Models.Posts;
-            //  Reddit.Controllers.Post post = SenderPost.PostSelf;
-            //  var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
-            var img = templateRoot.Children[8] as Image;
-            var Upvoted = templateRoot.Children[0] as AppBarToggleButton;
-            var Downvoted = templateRoot.Children[1] as AppBarToggleButton;
-            Upvoted.Label = post.UpVotes.ToString();
-            Upvoted.IsChecked = post.IsUpvoted;
-            Downvoted.IsChecked = post.IsDownvoted;
+            var img = templateRoot.Children[10] as Image;
             //Downvoted.IsChecked = post.IsDownvoted;
             try
             {
@@ -795,14 +796,6 @@ namespace Eco_Reddit.Views
 
             //  args.RegisterUpdateCallback(this.ShowPhase2);
         }
-        private void ShowPhase2(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (args.Phase != 2)
-            {
-                throw new System.Exception("We should be in phase 2, but we are not.");
-            }
-
-        }
 
         private async void SubscribedSubs_Loaded(object sender, RoutedEventArgs e)
         {
@@ -813,7 +806,7 @@ namespace Eco_Reddit.Views
                 string refreshToken = localSettings.Values["refresh_token"].ToString();
                 var reddit = new RedditClient(appId, refreshToken, secret);
                 Subreddits = reddit.Account.MySubscribedSubreddits();
-                SubredditCollection = new List<SubredditList>();
+                List <SubredditList>   SubredditCollection = new List<SubredditList>();
                 await Task.Run(() =>
                 {
                     foreach (Subreddit subreddit in Subreddits)
@@ -837,6 +830,10 @@ namespace Eco_Reddit.Views
                     }
                 });
                 SubscribedSubs.ItemsSource = SubredditCollection;
+                Expander_Expanded();
+                Expander_Expanded_1();
+                Expander_Expanded_2();
+                Expander_Expanded_3();
             }
             catch
             {
@@ -844,7 +841,7 @@ namespace Eco_Reddit.Views
             }
         }
 
-        private async void Expander_Expanded(object sender, EventArgs e)
+        private async void Expander_Expanded()
         {
             try
             {
@@ -868,12 +865,13 @@ namespace Eco_Reddit.Views
                         }
                         SubredditCollection.Add(new SubredditList()
                         {
-                            TitleSubreddit = subreddit.SRDisplayNamePrefixed,
+                            TitleSubreddit = subreddit.SRDisplayNamePrefixed.Replace("r/",""),
                             IsNSFW = Nsfw
                         });
                     }
                 });
                 ModeratedSubs.ItemsSource = SubredditCollection;
+                ModeratedSubsX.ItemsSource = SubredditCollection;
             }
             catch
             {
@@ -1095,6 +1093,138 @@ namespace Eco_Reddit.Views
             frame.Navigate(typeof(Gold));
             MainTabView.TabItems.Add(newTab);
             MainTabView.SelectedItem = newTab;
+        }
+
+        private async void Expander_Expanded_1()
+        {
+          try
+           {
+                GetSubreddit.Load = true;
+                //   var SubredditsCollection = new IncrementalLoadingCollection<GetSubreddit, SubredditList>();
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+            var subreddit = reddit.Subreddit("subredditoftheday");
+           List<Post> post = subreddit.Posts.GetNew(limit: 1);
+            string s = "";
+            await Task.Run(() =>
+            { 
+                 foreach (Post posts in post)
+                 {
+                    SelfPost p = posts as SelfPost;
+                    s = p.SelfText;
+                 }
+             });
+            string first = new StringReader(s).ReadLine();
+            string ss = first.Replace("####/r/", "");
+          //  string ssss = sss.Replace("####", "");
+            //string ss = ssss.Replace(" /r/", "");
+            var subredditD = reddit.Subreddit(ss);
+            List<SubredditList> SubredditCollectionD = new List<SubredditList>();
+            SubredditCollectionD.Add(new SubredditList()
+            {
+                IsNSFW = Nsfw,
+                TitleSubreddit = subredditD.Name,
+                SubredditSelf = subredditD,
+                SubredditIcon = subredditD.CommunityIcon
+            });
+                Subsday.ItemsSource = SubredditCollectionD;
+            SubsdayX.ItemsSource = SubredditCollectionD;
+               }
+                
+               catch
+               {
+                   return;
+               }
+        }
+        private async void Expander_Expanded_2()
+        {
+              try
+            {
+            GetSubreddit.Load = true;
+            //   var SubredditsCollection = new IncrementalLoadingCollection<GetSubreddit, SubredditList>();
+            string refreshToken = localSettings.Values["refresh_token"].ToString();
+            var reddit = new RedditClient(appId, refreshToken, secret);
+            var subreddit = reddit.Subreddit("tinysubredditoftheday");
+            List<Post> post = subreddit.Posts.GetNew(limit: 1);
+            string s = "";
+            await Task.Run(() =>
+            {
+                foreach (Post posts in post)
+                {
+                    LinkPost p = posts as LinkPost;
+                    s = p.URL;
+                }
+            });
+            string first = new StringReader(s).ReadLine();
+            string ss = first.Replace("/", "");
+            string sss = ss.Replace("http:www.reddit.comr", "");
+            var subredditD = reddit.Subreddit(sss);
+            List<SubredditList> SubredditCollectionD = new List<SubredditList>();
+            SubredditCollectionD.Add(new SubredditList()
+            {
+                IsNSFW = Nsfw,
+                TitleSubreddit = subredditD.Name,
+                SubredditSelf = subredditD,
+                SubredditIcon = subredditD.CommunityIcon
+            });
+            TinySubsday.ItemsSource = SubredditCollectionD;
+            TinySubsdayX.ItemsSource = SubredditCollectionD;
+               }
+               catch
+               {
+                   return;
+               }
+        }
+        private async void Expander_Expanded_3()
+        {
+            try
+            {
+                GetSubreddit.Load = true;
+                //   var SubredditsCollection = new IncrementalLoadingCollection<GetSubreddit, SubredditList>();
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+                var subreddit = reddit.Subreddit("trendingsubreddits");
+                List<Post> post = subreddit.Posts.GetNew(limit: 1);
+                List<SubredditList> SubredditCollectionD = new List<SubredditList>();
+                string s = "";
+                await Task.Run(() =>
+                {
+                    foreach (Post posts in post)
+                    {
+                        s = posts.Title;
+                    }
+                });
+                string first = new StringReader(s).ReadLine();
+                string ss = first.Remove(0, 36);
+                string[] sss = ss.Split(",");
+                foreach (var wordss in sss)
+                {
+                    string eee = wordss.Replace("/r/", "");
+                    //   Regex.Replace(eee, @"\s+", "");
+                    var subredditD = reddit.Subreddit(eee);
+
+                    SubredditCollectionD.Add(new SubredditList()
+                    {
+                        IsNSFW = Nsfw,
+                        TitleSubreddit = subredditD.Name,
+                        SubredditSelf = subredditD,
+                        SubredditIcon = subredditD.CommunityIcon
+                    });
+                }
+                TrendingSubsday.ItemsSource = SubredditCollectionD;
+                TrendingSubsdayX.ItemsSource = SubredditCollectionD;
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        private void InboxButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            string refreshtoken = localSettings.Values["refresh_token"].ToString();
+            var reddit = new RedditClient(appId, refreshtoken, secret);
+            InboxButton.Label = "Inbox: " + reddit.Account.Messages.Unread.Count.ToString();
         }
     }
 

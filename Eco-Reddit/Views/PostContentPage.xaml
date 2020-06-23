@@ -10,7 +10,7 @@
     Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     mc:Ignorable="d">
     <Grid x:Name="ContentArea">
-        <ListView ContainerContentChanging="CommentList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="CommentList" BorderThickness="1" IsItemClickEnabled="False" HorizontalAlignment="Center">
+        <ListView SelectionMode="None" ContainerContentChanging="CommentList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="CommentList" BorderThickness="1" IsItemClickEnabled="False" HorizontalAlignment="Center">
             <ListView.Header>
                 <Grid Margin="0, 5,0, 5">
                     <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="9999" IsLoading="True">
@@ -133,6 +133,8 @@
                         <controls:MarkdownTextBlock
                      Background="Transparent"
                     TextWrapping="Wrap"
+                            LinkClicked="MarkdownText_LinkClicked"
+                            ImageClicked="MarkdownText_ImageClicked"
                     Width="500"
                     IsTextSelectionEnabled="True"
                     x:Name="PostText"

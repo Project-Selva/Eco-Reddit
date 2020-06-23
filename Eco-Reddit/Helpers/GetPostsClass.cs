@@ -31,12 +31,11 @@ namespace Eco_Reddit.Helpers
         public static String SortOrder { get; set; }
         public async Task<IEnumerable<Posts>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await Task.Run(async() =>
-            {
+                await Task.Run(async () =>
+                {
 
                     string refreshToken = localSettings.Values["refresh_token"].ToString();
-                    // Gets items from the collection according to pageIndex and pageSize parameters.
-                    PostCollection = new List<Posts>();
+             PostCollection = new List<Posts>();
                     var reddit = new RedditClient(appId, refreshToken, secret);
                     var subreddit = reddit.Subreddit(Subreddit);
                     switch (SortOrder)
@@ -44,73 +43,63 @@ namespace Eco_Reddit.Helpers
 
                         case "all":
                             posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "all", limit: 25, after: thing));
-                        limit = limit + 10;
-                        skipInt = skipInt + 10;
-                        break;
+
+                            break;
                         case "year":
                             posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "year", limit: 25, after: thing));
-                        limit = limit + 10;
-                        skipInt = skipInt + 10;
-                        break;
+
+                            break;
                         case "month":
                             posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "month", limit: 25, after: thing));
-                        limit = limit + 10;
-                        skipInt = skipInt + 10;
-                        break;
+
+                            break;
                         case "week":
                             posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "week", limit: 25, after: thing));
-                        limit = limit + 10;
-                        skipInt = skipInt + 10;
-                        break;
+                      
+                            break;
                         case "day":
                             posts = subreddit.Posts.GetTop(new TimedCatSrListingInput(t: "day", limit: 25, after: thing));
-                        limit = limit + 10;
-                        skipInt = skipInt + 10;
-                        break;
+
+                            break;
                         case "Hot":
                             posts = subreddit.Posts.GetHot(limit: 25, after: thing);
-                        limit = limit + 10;
-                        skipInt = skipInt + 10;
-                        break;
+
+                            break;
                         case "New":
                             posts = subreddit.Posts.GetNew(limit: 25, after: thing);
-                        limit = limit + 10;
-                        skipInt = skipInt + 10;
-                        break;
+
+                            break;
                         case "Best":
                             posts = subreddit.Posts.GetBest(limit: 25, after: thing);
-                        limit = limit + 10;
-                        skipInt = skipInt + 10;
-                        break;
+
+                            break;
                         case "Rising":
                             posts = subreddit.Posts.GetRising(limit: 25, after: thing);
-                        limit = limit + 10;
-                        skipInt = skipInt + 10;
-                        break;
+
+                            break;
                         case "Controversial":
                             posts = subreddit.Posts.GetControversial(limit: 25, after: thing);
-                        limit = limit + 10;
-                        skipInt = skipInt + 10;
-                        break;
+
+                            break;
                     }
 
-                await Task.Run(() =>
-                     {
-                         foreach (Post post in posts)
+                    await Task.Run(() =>
                          {
-                             PostCollection.Add(new Posts()
+                             foreach (Post post in posts)
                              {
-                                 PostSelf = post,
+                                 PostCollection.Add(new Posts()
+                                 {
+                                     PostSelf = post,
                                  //PostCommentCount = "Comments: " + post.Comments.GetComments("new").Count.ToString(),
                                  // PostID = post.Id
                                  //  IsNSFW = Nsfw
                              });
-                             thing = post.Fullname;
-                         }
-                     });
+                                 thing = post.Fullname;
+                             }
+                         });
                 // Simulates a longer request...
             });
-            return PostCollection;
+                return PostCollection;
         }
     }
    }

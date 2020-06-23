@@ -32,10 +32,10 @@ namespace Eco_Reddit.Helpers
                 // Gets items from the collection according to pageIndex and pageSize parameters.
                 PostCollection = new List<Posts>();
                 var reddit = new RedditClient(appId, refreshToken, secret);
-                limit = limit + 10;
+             //   limit = limit + 10;
 
                 //posts = UserToGetPostsFrom.GetPostHistory(limit: limit).Skip(skipInt);
-                posts = UserToGetPostsFrom.GetPostHistory(limit: 25, after: thing);
+                posts = UserToGetPostsFrom.GetPostHistory(limit: 10, after: thing);
                 await Task.Run(() =>
                     {
                         foreach (Post post in posts)
@@ -49,7 +49,7 @@ namespace Eco_Reddit.Helpers
                     });
 
                 // Simulates a longer request...
-                skipInt = skipInt + 10;
+             //  skipInt = skipInt + 10;
             });
             return PostCollection;
         }
