@@ -195,8 +195,8 @@
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:Posts">
                                 <RelativePanel  Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="2" Margin="0, 2,0, 2" Width="540">
-                                    <AppBarToggleButton CornerRadius="10" x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True" IsChecked="{x:Bind PostSelf.IsUpvoted}" Label="{x:Bind PostSelf.UpVotes}" Width="70" Margin="5" Icon="Up"></AppBarToggleButton>
-                                    <AppBarToggleButton CornerRadius="10" IsChecked="{x:Bind PostSelf.IsDownvoted}" x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" Width="70" RelativePanel.Below="Upvote" Margin="5">
+                                    <AppBarToggleButton CornerRadius="10" x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True"  IsChecked="{x:Bind PostSelf.IsUpvoted}" Label="{x:Bind PostSelf.UpVotes}" Checked="{x:Bind PostSelf.UpvoteAsync}" Width="70" Margin="5" Icon="Up"></AppBarToggleButton>
+                                    <AppBarToggleButton CornerRadius="10" IsChecked="{x:Bind PostSelf.IsDownvoted}" x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" Width="70" RelativePanel.Below="Upvote" Checked="{x:Bind PostSelf.DownvoteAsync}" Margin="5">
                                         <AppBarToggleButton.Icon>
                                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;"/>
                                         </AppBarToggleButton.Icon>

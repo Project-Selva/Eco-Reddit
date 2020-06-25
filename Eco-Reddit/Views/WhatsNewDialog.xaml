@@ -24,7 +24,7 @@
     </ContentDialog.TitleTemplate>
     <ScrollViewer>
         <StackPanel>
-            <TextBlock >viewing inbox support and know whe ne winbox arrived in the app!</TextBlock>
+            <TextBlock > Arm 64 support for 0.5, major speed improvements, view sent messages, upvote and downvote, navigate to subreddits bug fixed, universal tooltip roll out, search users, inbox support preview count and many many more</TextBlock>
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>

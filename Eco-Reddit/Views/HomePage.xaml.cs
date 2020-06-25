@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using Windows.ApplicationModel.Core;
@@ -1115,7 +1116,9 @@ namespace Eco_Reddit.Views
                  }
              });
             string first = new StringReader(s).ReadLine();
-            string ss = first.Replace("####/r/", "");
+                string eeee = first.Replace(" ", "");
+                Regex.Replace(eeee, @"\s+", "");
+                string ss = eeee.Replace("####/r/", "");
           //  string ssss = sss.Replace("####", "");
             //string ss = ssss.Replace(" /r/", "");
             var subredditD = reddit.Subreddit(ss);
@@ -1200,8 +1203,9 @@ namespace Eco_Reddit.Views
                 foreach (var wordss in sss)
                 {
                     string eee = wordss.Replace("/r/", "");
-                    //   Regex.Replace(eee, @"\s+", "");
-                    var subredditD = reddit.Subreddit(eee);
+                    string eeee = eee.Replace(" ", "");
+                     Regex.Replace(eeee, @"\s+", "");
+                    var subredditD = reddit.Subreddit(eeee);
 
                     SubredditCollectionD.Add(new SubredditList()
                     {
@@ -1225,6 +1229,21 @@ namespace Eco_Reddit.Views
             string refreshtoken = localSettings.Values["refresh_token"].ToString();
             var reddit = new RedditClient(appId, refreshtoken, secret);
             InboxButton.Label = "Inbox: " + reddit.Account.Messages.Unread.Count.ToString();
+        }
+
+        private async void Upvote_Checked(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+          PostLocal.Upvote();
+
+        }
+
+        private async void DownVote_Checked(object sender, RoutedEventArgs e)
+        {
+            AppBarButton AppBarButtonObject = (AppBarButton)sender;
+            Post PostLocal = (AppBarButtonObject).Tag as Post;
+            await PostLocal.DownvoteAsync();
         }
     }
 

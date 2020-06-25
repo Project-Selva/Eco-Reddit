@@ -61,8 +61,8 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local1:Posts">
                 <RelativePanel  MaxWidth="800"  Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="2" Margin="0, 2,0, 2" >
-                    <AppBarToggleButton CornerRadius="10" x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True" IsChecked="{x:Bind PostSelf.IsUpvoted}" Label="{x:Bind PostSelf.UpVotes}" Width="70" Margin="5" Icon="Up"></AppBarToggleButton>
-                    <AppBarToggleButton CornerRadius="10" IsChecked="{x:Bind PostSelf.IsDownvoted}" x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" Width="70" RelativePanel.Below="Upvote" Margin="5">
+                    <AppBarToggleButton CornerRadius="10" x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True"  IsChecked="{x:Bind PostSelf.IsUpvoted}" Label="{x:Bind PostSelf.UpVotes}" Checked="{x:Bind PostSelf.UpvoteAsync}" Width="70" Margin="5" Icon="Up"></AppBarToggleButton>
+                    <AppBarToggleButton CornerRadius="10" IsChecked="{x:Bind PostSelf.IsDownvoted}" x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" Width="70" RelativePanel.Below="Upvote" Checked="{x:Bind PostSelf.DownvoteAsync}" Margin="5">
                         <AppBarToggleButton.Icon>
                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;"/>
                         </AppBarToggleButton.Icon>
@@ -72,7 +72,10 @@
                     <TextBlock Name="datecreatedstring" RelativePanel.RightOf="DownVote" RelativePanel.Below="TitleTextBlock" Text="Created:" FontSize="11" Margin="10,13,3,0"></TextBlock>
                     <TextBlock RelativePanel.RightOf="datecreatedstring" RelativePanel.Below="TitleTextBlock" x:Name="Date" Text="{x:Bind PostSelf.Created}" FontSize="11" Margin="1,13,3,0"></TextBlock>
                     <TextBlock x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date" Margin="3,12,0,0" FontSize="11" Loaded="User_Loaded"></TextBlock>
-                    <HyperlinkButton RelativePanel.Below="TitleTextBlock" Content="{x:Bind PostSelf.Subreddit}" RelativePanel.RightOf="User" x:Name="Subreddit" Margin="3,6,0,0" FontSize="11">
+                    <HyperlinkButton RelativePanel.Below="TitleTextBlock" Content="{x:Bind PostSelf.Subreddit}" RelativePanel.RightOf="User" x:Name="Subreddit" Margin="3,6,0,0" Tapped="Subreddit_Tapped" FontSize="11">
+                        <ToolTipService.ToolTip>
+                            <Frame Tag="{x:Bind PostSelf}" Loaded="Frame_LoadedSubreddit"></Frame>
+                        </ToolTipService.ToolTip>
                     </HyperlinkButton>
                     <TextBlock Name="flairstring" RelativePanel.RightOf="DownVote" RelativePanel.Below="Subreddit" Text="Flair: " Padding="10, 5, 1, 5"></TextBlock>
                     <TextBlock Margin="1,0,0,0" x:Name="Flair" Text="{x:Bind PostSelf.Listing.LinkFlairText}" RelativePanel.Below="Subreddit" RelativePanel.RightOf="flairstring" Padding="1, 5, 10, 5"  HorizontalAlignment="Left" TextWrapping="WrapWholeWords"></TextBlock>

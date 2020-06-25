@@ -12,13 +12,12 @@
     <Page.Resources>
         <DataTemplate x:Name="POST" x:DataType="local1:Posts">
             <RelativePanel  MaxWidth="800"  Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="2" Margin="0, 2,0, 2" Width="540">
-                <AppBarToggleButton CornerRadius="10" x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True" IsChecked="{x:Bind PostSelf.IsUpvoted}" Label="{x:Bind PostSelf.UpVotes}" Width="70" Margin="5" Icon="Up"></AppBarToggleButton>
-                <AppBarToggleButton CornerRadius="10" IsChecked="{x:Bind PostSelf.IsDownvoted}" x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" Width="70" RelativePanel.Below="Upvote" Margin="5">
+                <AppBarToggleButton CornerRadius="10" x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True"  IsChecked="{x:Bind PostSelf.IsUpvoted}" Label="{x:Bind PostSelf.UpVotes}" Checked="{x:Bind PostSelf.UpvoteAsync}" Width="70" Margin="5" Icon="Up"></AppBarToggleButton>
+                <AppBarToggleButton CornerRadius="10" IsChecked="{x:Bind PostSelf.IsDownvoted}" x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" Width="70" RelativePanel.Below="Upvote" Checked="{x:Bind PostSelf.DownvoteAsync}" Margin="5">
                     <AppBarToggleButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;"/>
                     </AppBarToggleButton.Icon>
                 </AppBarToggleButton>
-
                 <TextBlock Text="{x:Bind PostSelf.Title}" x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="Upvote" FontSize="15" Canvas.ZIndex="6" Margin="10, 20, 0, 0" TextWrapping="WrapWholeWords" Width="400"></TextBlock>
                 <TextBlock Name="datecreatedstring" RelativePanel.RightOf="DownVote" RelativePanel.Below="TitleTextBlock" Text="Created:" FontSize="11" Margin="10,13,3,0"></TextBlock>
                 <TextBlock RelativePanel.RightOf="datecreatedstring" RelativePanel.Below="TitleTextBlock" x:Name="Date" Text="{x:Bind PostSelf.Created}" FontSize="11" Margin="1,13,3,0"></TextBlock>

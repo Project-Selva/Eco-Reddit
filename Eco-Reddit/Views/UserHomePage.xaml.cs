@@ -1,6 +1,7 @@
 ﻿using Eco_Reddit.Helpers;
 using Eco_Reddit.Models;
 using Microsoft.Toolkit.Uwp;
+using Reddit;
 using Reddit.Controllers;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,9 @@ namespace Eco_Reddit.Views
     public sealed partial class UserHomePage : Page
     {
         public static User PostUser { get; set; }
+        public string appId = "mp8hDB_HfbctBg";
+        public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
+        public Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         User CurrentUser;
         public UserHomePage()
         {
@@ -73,7 +77,12 @@ namespace Eco_Reddit.Views
             }
             CurrentUser = PostUser;
         }
-
+        private void Subreddit_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            HyperlinkButton h = sender as HyperlinkButton;
+            string s = h.Content.ToString().Replace("r/", "");
+           HomePage.SingletonReference.NavigateJumper(s);
+        }
         private void User_Loaded(object sender, RoutedEventArgs e)
         {
             TextBlock Text = sender as TextBlock;
@@ -307,7 +316,19 @@ namespace Eco_Reddit.Views
 
             //  args.RegisterUpdateCallback(this.ShowPhase2);
         }
-
+        private async void Frame_LoadedSubreddit(object sender, RoutedEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                Frame Frames = (Frame)sender;
+                Post pp = (Frames).Tag as Post;
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+                SubredditTemporaryInfo.InfoSubReddit = reddit.Subreddit(pp.Subreddit);
+                Frame f = sender as Frame;
+                f.Navigate(typeof(SubredditTemporaryInfo));
+            });
+        }
         private async void UserList_Loaded(object sender, RoutedEventArgs e)
         {
             await Task.Run(async () =>
