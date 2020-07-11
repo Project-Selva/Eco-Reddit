@@ -168,6 +168,7 @@ namespace Eco_Reddit.Views
                     LoadingControl.Visibility = Visibility.Collapsed;
                     await Task.Delay(100);
                     CommentCount.Text = "Comments: " + PostLocal.Comments.GetComments("new").Count.ToString();
+                    CommentFrame.Navigate(typeof(PostCommentPage), "https://www.reddit.com/" + PostLocal.Id);
                 });
             });
         }
@@ -244,26 +245,57 @@ namespace Eco_Reddit.Views
             {
                 throw new System.Exception("We should be in phase 1, but we are not.");
             }
-
-            Eco_Reddit.Models.Comments SenderComment = args.Item as Eco_Reddit.Models.Comments;
-            Reddit.Controllers.Comment comment = SenderComment.CommentSelf;
-            var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
-            var textBlock = templateRoot.Children[2] as MarkdownTextBlock;
-            var DatetextBlock = templateRoot.Children[3] as TextBlock;
-            DatetextBlock.Text = comment.Created.ToString();
-            var AuthortextBlock = templateRoot.Children[4] as HyperlinkButton;
-            AuthortextBlock.Content = comment.Author;
-            var Upvoted = templateRoot.Children[0] as AppBarToggleButton;
-            var Downvoted = templateRoot.Children[1] as AppBarToggleButton;
-            Upvoted.Label = comment.UpVotes.ToString();
-            Upvoted.IsChecked = comment.IsUpvoted;
-            Downvoted.IsChecked = comment.IsDownvoted;
             try
             {
-                textBlock.Text = comment.Body;
+                Eco_Reddit.Models.Comments SenderComment = args.Item as Eco_Reddit.Models.Comments;
+                Reddit.Controllers.Comment comment = SenderComment.CommentSelf;
+                var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
+                var textBlock = templateRoot.Children[2] as MarkdownTextBlock;
+                var DatetextBlock = templateRoot.Children[3] as TextBlock;
+                DatetextBlock.Text = comment.Created.ToString();
+                var AuthortextBlock = templateRoot.Children[4] as HyperlinkButton;
+                AuthortextBlock.Content = comment.Author;
+                var Upvoted = templateRoot.Children[0] as AppBarToggleButton;
+                var Downvoted = templateRoot.Children[1] as AppBarToggleButton;
+                Upvoted.Label = comment.UpVotes.ToString();
+                Upvoted.IsChecked = comment.IsUpvoted;
+                Downvoted.IsChecked = comment.IsDownvoted;
+                Thickness t = new Thickness();
+                t.Left = comment.Depth * 100;
+                templateRoot.Margin = t;
+                try
+                {
+                    textBlock.Text = comment.Body;
+                }
+                catch
+                {
+                }
             }
             catch
-            {
+                {
+                Eco_Reddit.Models.Comments SenderComment = args.Item as Eco_Reddit.Models.Comments;
+                Reddit.Things.Comment comment = SenderComment.CommentSelfThing;
+                var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
+                var textBlock = templateRoot.Children[2] as MarkdownTextBlock;
+                var DatetextBlock = templateRoot.Children[3] as TextBlock;
+                DatetextBlock.Text = comment.Created.ToString();
+                var AuthortextBlock = templateRoot.Children[4] as HyperlinkButton;
+                AuthortextBlock.Content = comment.Author;
+                var Upvoted = templateRoot.Children[0] as AppBarToggleButton;
+                var Downvoted = templateRoot.Children[1] as AppBarToggleButton;
+                Upvoted.Label = comment.Likes.ToString();
+            //    Upvoted.IsChecked = comment.Score.ToString();
+               // Downvoted.IsChecked = comment.IsDownvoted;
+                Thickness t = new Thickness();
+                t.Left = comment.Depth * 100;
+                templateRoot.Margin = t;
+                try
+                {
+                    textBlock.Text = comment.Body;
+                }
+                catch
+                {
+                }
             }
         }
         private async void HideButton_Click(object sender, RoutedEventArgs e)
@@ -452,17 +484,17 @@ namespace Eco_Reddit.Views
 
         private async void SortMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            MenuFlyoutItem Sort = sender as MenuFlyoutItem;
+          /*  MenuFlyoutItem Sort = sender as MenuFlyoutItem;
             GetComments.SortOrder = Sort.Text;
             SortOrderCommentButton.Label = Sort.Text;
             GetComments.limit = 100;
             GetComments.skipInt = 0;
             GetComments.PostToGetCommentsFrom = PostLocal;
-            var CommentsCollection = new IncrementalLoadingCollection<GetComments, Eco_Reddit.Models.Comments>();
+           // var CommentsCollection = new IncrementalLoadingCollection<GetComments, Eco_Reddit.Models.Comments>();
 
-            CommentList.ItemsSource = CommentsCollection;
+          //  CommentList.ItemsSource = CommentsCollection;
             await Task.Delay(500);
-            CommentCount.Text = "Comments: " + PostLocal.Comments.GetComments("new").Count.ToString();
+            CommentCount.Text = "Comments: " + PostLocal.Comments.GetComments("new").Count.ToString();*/
         }
 
         private void ReplyBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -471,7 +503,7 @@ namespace Eco_Reddit.Views
             CommentLocal.ReplyAsync(sender.Text);
         }
 
-        private async void LOADCOM_Click(object sender, RoutedEventArgs e)
+       /* private async void LOADCOM_Click(object sender, RoutedEventArgs e)
         {
 
                 GetComments.SortOrder = "Top";
@@ -486,7 +518,7 @@ namespace Eco_Reddit.Views
                     SortOrderCommentButton.Visibility = Visibility.Visible;
                 });
     
-        }
+        }*/
 
 
         private void CommentZone_TextChanged(object sender, RoutedEventArgs e)

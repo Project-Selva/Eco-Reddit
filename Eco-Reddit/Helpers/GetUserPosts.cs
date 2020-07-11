@@ -33,7 +33,6 @@ namespace Eco_Reddit.Helpers
                 PostCollection = new List<Posts>();
                 var reddit = new RedditClient(appId, refreshToken, secret);
              //   limit = limit + 10;
-
                 //posts = UserToGetPostsFrom.GetPostHistory(limit: limit).Skip(skipInt);
                 posts = UserToGetPostsFrom.GetPostHistory(limit: 10, after: thing);
                 await Task.Run(() =>

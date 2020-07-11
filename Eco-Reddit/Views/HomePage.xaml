@@ -407,46 +407,7 @@
                Background="{ThemeResource SystemControlAcrylicElementBrush}"
         DefaultButton="Primary">
 
-            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <TextBox PlaceholderText="Title" Header="Title:" x:Name="TitleBox"></TextBox>
-                <Pivot x:Name="CreatePostPivot">
-                    <PivotItem Header="Text">
-                        <StackPanel>
-                            <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind EditZone}" Background="{ThemeResource SystemControlAcrylicElementBrush}" Format="MarkDown"/>
-                            <RichEditBox x:Name="EditZone"
-                     PlaceholderText="Enter Text Here"
-                     TextWrapping="Wrap"
-                     VerticalContentAlignment="Stretch"
-                                         TextChanged="EditZone_TextChanged"
-                     MinHeight="300"
-                     Padding="10,3"
-                     BorderThickness="1"
-                     BorderBrush="{ThemeResource SystemControlAcrylicElementBrush}"
-                     Foreground="{ThemeResource SystemControlAcrylicElementBrush}"/>
-                            <TextBlock Margin="3">Live preview:</TextBlock>
-                            <controls:MarkdownTextBlock
-                                    Width="600"
-                     TextWrapping="Wrap"
-                     VerticalContentAlignment="Stretch"
-                     MinHeight="300"
-                                     Padding="10,3"
-                     BorderThickness="1"
-                                    x:Name="MarkDownBlock"
-                            ImageClicked="MarkdownText_ImageClicked"
-                                LinkClicked="MarkdownText_LinkClicked"
-                                Margin="6">
-                            </controls:MarkdownTextBlock>
-                        </StackPanel>
-                    </PivotItem>
-                    <PivotItem Header="Link">
-                        <TextBox PlaceholderText="Enter link" x:Name="Link"></TextBox>
-                    </PivotItem>
-                    <PivotItem Header="Ink" IsEnabled="False">
-                        <TextBlock>coming soon</TextBlock>
-                    </PivotItem>
 
-                </Pivot>
-            </StackPanel>
 
         </ContentDialog>
     </Grid>

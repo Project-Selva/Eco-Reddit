@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
+using Eco_Reddit.Helpers;
 using Eco_Reddit.Services;
 using Eco_Reddit.Views;
 using Microsoft.AppCenter;
@@ -87,9 +88,28 @@ namespace Eco_Reddit
             await ActivationService.ActivateAsync(args);
         }
 
+        public Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         private ActivationService CreateActivationService()
         {
-            return new ActivationService(this, typeof(Views.HomePage));
+          try
+           {
+                string BackuprefreshToken = "344019503430-ek4oMXyYO7QJci-Cb9jUeuoEhIM";
+                if (localSettings.Values["refresh_token"].ToString() == BackuprefreshToken) //remove and replace, this is when user is not signed in and should show different ui
+                {
+                    return new ActivationService(this, typeof(Views.LoginPage));
+                }
+                else
+                {
+                        //Refresh Token flow
+                    
+       
+                    return new ActivationService(this, typeof(Views.HomePage));
+                }
+          }
+           catch
+            {
+                return new ActivationService(this, typeof(Views.LoginPage));
+            }
         }
     }
 }

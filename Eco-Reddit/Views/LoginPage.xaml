@@ -74,6 +74,7 @@
         </Style>
     </Page.Resources>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+        <Frame x:Name="FinishedFrame" Visibility="Collapsed"/>
         <Grid>
             <StackPanel Width="400">
             <TextBlock Margin="5" FontSize="30">Login to reddit</TextBlock>

@@ -42,6 +42,7 @@ namespace Eco_Reddit.Views
         public string PostsSortOrder;
         public static WinUI.TabView MainTab { get; set; }
         public static ListView L { get; set; }
+   
         public static Frame LoginFrameFrame { get; set; }
         public static HomePage SingletonReference { get; set; }
         public HomePage()
@@ -60,13 +61,13 @@ namespace Eco_Reddit.Views
            {
                 string refreshToken = localSettings.Values["refresh_token"].ToString();
                 string BackuprefreshToken = "344019503430-ek4oMXyYO7QJci-Cb9jUeuoEhIM";
-                if (localSettings.Values["refresh_token"].ToString() == BackuprefreshToken) //remove and replace, this is when user is not signed in and should show different ui
+               /* if (localSettings.Values["refresh_token"].ToString() == BackuprefreshToken) //remove and replace, this is when user is not signed in and should show different ui
                 {
                     LoginFrame.Visibility = Visibility.Visible;
                     LoginFrame.Navigate(typeof(LoginPage));
                 }
                 else
-                {
+                {*/
                     Client = new RedditClient(appId, refreshToken, secret);
                     GetPostsClass.SortOrder = "Best";
                     PostsSortOrder = "Best";
@@ -83,7 +84,7 @@ namespace Eco_Reddit.Views
                 uTimer.AutoReset = true;
 
                 //   localSettings.Values["refresh_token"] = BackuprefreshToken;
-            }
+           // }
             }
             catch
             {
@@ -91,6 +92,7 @@ namespace Eco_Reddit.Views
                LoginFrame.Navigate(typeof(LoginPage));
             }
         }
+ 
         public void TimerElapsed(object source, ElapsedEventArgs e)
         {
            string refreshtoken = localSettings.Values["refresh_token"].ToString();
@@ -597,8 +599,8 @@ namespace Eco_Reddit.Views
                {
  
                     CurrentSub = Client.Subreddit(P.SubredditSelf.Name);
-                    var m = new MessageDialog(CurrentSub.Name.ToLower());
-                    await m.ShowAsync();
+               //     var m = new MessageDialog(CurrentSub.Name.ToLower());
+               //     await m.ShowAsync();
                     Subreddit.Text = "r/" + CurrentSub.Name;
                     GetPostsClass.Subreddit = CurrentSub.Name;
                     GetPostsClass.limit = 10;
@@ -723,16 +725,30 @@ namespace Eco_Reddit.Views
 
         private async void AddBarButton_Click(object sender, RoutedEventArgs e)
         {
+                 var newTab = new WinUI.TabViewItem();
+                newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Add };
+            newTab.Header = "Create new post";
+                Frame frame = new Frame();
+                newTab.Content = frame;
             if (IsHomeEnabled == false)
             {
-                CreatePostDialog.Title = "Create post to r/" + CurrentSub.Name;
-                await CreatePostDialog.ShowAsync();
+                CreateNewPost.currentsubSTATIC = CurrentSub.Name;
             }
+            else
+            {
+                CreateNewPost.currentsubSTATIC = "HOME";
+            }
+                frame.Navigate(typeof(CreateNewPost));
+
+                //  PostContentPage.SingletonReference.StartUp();
+                MainTabView.TabItems.Add(newTab);
+                MainTabView.SelectedItem = newTab;
+            
         }
 
         private async void CreatePostDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            string refreshToken = localSettings.Values["refresh_token"].ToString();
+          /*  string refreshToken = localSettings.Values["refresh_token"].ToString();
             var reddit = new RedditClient(appId, refreshToken, secret);
             PivotItem pivotitem = (PivotItem)CreatePostPivot.SelectedItem;
             String RichText;
@@ -744,7 +760,7 @@ namespace Eco_Reddit.Views
             else
             {
                 reddit.Models.LinksAndComments.Submit(new LinksAndCommentsSubmitInput(title: TitleBox.Text, url: Link.Text, sr: CurrentSub.Name));
-            }
+            }*/
         }
 
         private async void OpenPostInWebButton_Click(object sender, RoutedEventArgs e)
@@ -1029,12 +1045,7 @@ namespace Eco_Reddit.Views
             MainTabView.SelectedItem = newTab;
         }
 
-        private void EditZone_TextChanged(object sender, RoutedEventArgs e)
-        {
-            String RichText;
-            EditZone.TextDocument.GetText(Windows.UI.Text.TextGetOptions.None, out RichText);
-            MarkDownBlock.Text = RichText;
-        }
+    
 
         private void InboxButton_Click(object sender, RoutedEventArgs e)
         {

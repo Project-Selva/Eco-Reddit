@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Web;
+using Windows.ApplicationModel.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -107,23 +108,31 @@ namespace Eco_Reddit.Views
             if (args.Uri.AbsoluteUri.Contains("http://127.0.0.1:3000/reddit_callback"))
             {
                 var result = await loginHelper.Login_Stage2(args.Uri);
+                var m = new MessageDialog(result.RefreshToken + " access: " + result.AccessToken);
+                await m.ShowAsync();
                 accessToken = result.AccessToken;
                 refreshToken = result.RefreshToken;
                 // NewPivotItem.Header = result.RefreshToken;
                 if(String.IsNullOrEmpty(refreshToken) == false)// if user accepts
                 { 
                 localSettings.Values["refresh_token"] = result.RefreshToken;
-                    HomePage.LoginFrameFrame.Navigate(typeof(HomePage));
-               /* MainPage.UniversalTabView.TabItems.Remove(MainPage.UniversalTabView.SelectedItem); // delete login tab
-                var newTab = new TabViewItem();
-                newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Document }; // create new home Tab
-                newTab.Header = "Home";
+                    localSettings.Values["access_token"] = result.AccessToken;
+                  Eco_Reddit.Models.TokenSharpData.Reddit = new RedditSharp.Reddit(result.AccessToken);
+                    await Eco_Reddit.Models.TokenSharpData.Reddit.InitOrUpdateUserAsync();
+                    FinishedFrame.Visibility = Visibility.Visible;
+                    FinishedFrame.Navigate(typeof(HomePage));
+               ///     HomePage.LoginFrameFrame.Navigate(typeof(HomePage));
+               ///     
+                    /* MainPage.UniversalTabView.TabItems.Remove(MainPage.UniversalTabView.SelectedItem); // delete login tab
+                     var newTab = new TabViewItem();
+                     newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Document }; // create new home Tab
+                     newTab.Header = "Home";
 
-                // The Content of a TabViewItem is often a frame which hosts a page.
-                Frame frame = new Frame();
-                newTab.Content = frame;
-                frame.Navigate(typeof(HomePage));
-                MainPage.UniversalTabView.TabItems.Add(newTab);*/
+                     // The Content of a TabViewItem is often a frame which hosts a page.
+                     Frame frame = new Frame();
+                     newTab.Content = frame;
+                     frame.Navigate(typeof(HomePage));
+                     MainPage.UniversalTabView.TabItems.Add(newTab);*/
                 }
                 else// if user declines then show login page again
                 {

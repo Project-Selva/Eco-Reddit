@@ -1,4 +1,5 @@
-﻿using Eco_Reddit.Models;
+﻿using AutoMapper;
+using Eco_Reddit.Models;
 using Microsoft.Toolkit.Collections;
 using Reddit;
 using Reddit.Controllers;
@@ -20,6 +21,7 @@ namespace Eco_Reddit.Helpers
         public static int skipInt = 0;
         public string appId = "mp8hDB_HfbctBg";
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
+        private readonly IMapper _mapper;
         List<Comments> CommentCollection;
         private IEnumerable<Comment> Comments;
         public static Post PostToGetCommentsFrom { get; set; }
@@ -41,7 +43,7 @@ namespace Eco_Reddit.Helpers
                         Comments = PostToGetCommentsFrom.Comments.GetRandom(PostToGetCommentsFrom.Comments.GetComments(SortOrder).Count).Skip(skipInt);
                         break;
                     case "Top":
-                        Comments = PostToGetCommentsFrom.Comments.GetTop(PostToGetCommentsFrom.Comments.GetComments(SortOrder).Count).Skip(skipInt);
+                        Comments = PostToGetCommentsFrom.Comments.GetTop(PostToGetCommentsFrom.Comments.GetComments(SortOrder).Count, showMore: true).Skip(skipInt);
                         break;
                     case "Q and A":
                         Comments = PostToGetCommentsFrom.Comments.GetQA(PostToGetCommentsFrom.Comments.GetComments(SortOrder).Count).Skip(skipInt);
@@ -71,6 +73,37 @@ namespace Eco_Reddit.Helpers
                         {
                             CommentSelf = comment,
                         });
+                        var children = reddit.Models.LinksAndComments.MoreChildren(
+          new Reddit.Inputs.LinksAndComments.LinksAndCommentsMoreChildrenInput(linkId: PostToGetCommentsFrom.Id, children: comment.Id));
+
+                   //  List<Comment> l = new List<Comment>(children.Comments);
+
+                       foreach (var item in children.Comments)
+                       {
+                          //  if (item.Replies == null)
+                            //    item.Replies = new List<Comment>();
+                          CommentCollection.Add(new Comments()
+                            {
+                                CommentSelfThing = item,
+                            });
+                            /* item.Replies.AddRange(
+                                 mapped.Where(x => x.ParentFullname == item.Fullname)
+                                       .OrderByDescending(x => x.Score)
+                                       .ThenByDescending(x => x.Created)
+                                       .ToList());*/
+                       }
+                        // var Replies = new Reddit.Things.MoreChildren();
+                        /*          if (comment.replies != null && comment.replies.Count > 0)
+                                  {
+                                      foreach (Reddit.Controllers.Comment commentReply in comment.replies)
+                                      {
+                                          //    Replies.Comments.Add(commentReply.Listing);
+                                          CommentCollection.Add(new Comments()
+                                          {
+                                              CommentSelf = commentReply,
+                                          });
+                                      }
+                                  }*/
                     }
                 });
                 // Simulates a longer request...

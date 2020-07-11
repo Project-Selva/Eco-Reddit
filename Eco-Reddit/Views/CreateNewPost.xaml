@@ -1,0 +1,80 @@
+﻿<Page
+    x:Class="Eco_Reddit.Views.CreateNewPost"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Eco_Reddit.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    Background="Transparent">
+
+    <ScrollViewer>
+        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <TextBox PlaceholderText="Title" Header="Title:" x:Name="TitleBox" Margin="5"></TextBox>
+            <StackPanel Orientation="Horizontal">
+                
+                <muxc:RadioButtons Margin="4" Header="Options">
+                    <RadioButton x:Name="CurrentSubreddit" Content="Current subreddit" Checked="CurrentSubreddit_Checked" Unchecked="CurrentSubreddit_Unchecked" IsEnabled="{x:Bind IsSubVisible}"/>
+                    <RadioButton x:Name="OtherSubreddit" Content="Other subreddit: " Checked="OtherSubreddit_Checked_1" Unchecked="OtherSubreddit_Unchecked_1" IsChecked="{x:Bind IsOtherSubVisible}"/>
+                </muxc:RadioButtons>
+                <TextBox Header="Subreddit name:" PlaceholderText="dont include 'r/'" Height="60" Margin="5" Width="300" />
+              
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Margin="4" Content="Is nsfw" />
+                <CheckBox Margin="4" Content="Is spoiler" />
+                <CheckBox Margin="4" Content="Original content (oc)" />
+            </StackPanel>
+            <Pivot x:Name="CreatePostPivot">
+                <PivotItem Header="Text">
+                    <StackPanel>
+                        <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind EditZone}" Background="{ThemeResource SystemControlAcrylicElementBrush}" Format="MarkDown"/>
+                        <RichEditBox x:Name="EditZone"
+                     PlaceholderText="Enter Text Here"
+                     TextWrapping="Wrap"
+                     VerticalContentAlignment="Stretch"
+                                         TextChanged="EditZone_TextChanged"
+                     MinHeight="300"
+                     Padding="10,3"
+                     BorderThickness="1"
+                     BorderBrush="{ThemeResource SystemControlAcrylicElementBrush}"
+                     Foreground="{ThemeResource SystemControlAcrylicElementBrush}"/>
+                        <TextBlock Margin="3">Live preview:</TextBlock>
+                        <controls:MarkdownTextBlock
+                                 
+                     TextWrapping="Wrap"
+                     VerticalContentAlignment="Stretch"
+                     MinHeight="300"
+                                     Padding="10,3"
+                     BorderThickness="1"
+                                    x:Name="MarkDownBlock"
+                            ImageClicked="MarkdownText_ImageClicked"
+                            Background="Black"
+                                LinkClicked="MarkdownText_LinkClicked"
+                               >
+                        </controls:MarkdownTextBlock>
+                    </StackPanel>
+                </PivotItem>
+                <PivotItem Header="Link">
+                    <TextBox PlaceholderText="Enter link" x:Name="Link"></TextBox>
+                </PivotItem>
+                <PivotItem Header="Image" IsEnabled="False">
+                    <TextBlock>coming soon</TextBlock>
+                </PivotItem>
+                <PivotItem Header="Album" IsEnabled="False">
+                    <TextBlock>coming soon</TextBlock>
+                </PivotItem>
+                <PivotItem Header="Ink" IsEnabled="False">
+                    <TextBlock>coming soon</TextBlock>
+                </PivotItem>
+
+            </Pivot>
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="4" Background="{ThemeResource SystemAccentColor}">Submit post</Button>
+                <Button Margin="4">Save as draft</Button>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

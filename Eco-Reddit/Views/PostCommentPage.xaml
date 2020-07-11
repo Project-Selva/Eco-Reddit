@@ -1,0 +1,108 @@
+﻿<Page
+    x:Class="Eco_Reddit.Views.PostCommentPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Eco_Reddit.Views"
+    xmlns:converters="using:Eco_Reddit.Converters"
+    xmlns:utils="using:Eco_Reddit.Models"
+      xmlns:templateselector="using:Eco_Reddit.Templates"
+     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="using:System"
+    xmlns:models="using:RedditSharp.Things"
+    mc:Ignorable="d"
+    Background="Transparent">
+    <Page.Resources>
+        <!--Depth to Margin Converter-->
+        <converters:DepthToMarginConverter x:Key="DepthToMarginConverter" />
+
+        <!--Data Template for Comment-->
+        <DataTemplate x:Key="CommentDataTemplate" x:DataType="models:Comment">
+         <!--   <Grid VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Column="0" Margin="{x:Bind Depth, Converter={StaticResource DepthToMarginConverter}}" Padding="10 5 10 5" Background="{ThemeResource SystemControlBaseHighAcrylicElementMediumHighBrush}" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                    <StackPanel Padding="3" Margin="0 7 0 0" Background="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock FontSize="12" Text="{x:Bind Upvotes}" Margin="0 0 8 0"/>
+                        <TextBlock FontSize="12" Text="{x:Bind utils:Utils.UnixTimeStampToLocalTime(Created, sys:String.Empty)}" Margin="0 0 8 0" />
+                        <TextBlock FontSize="12" Text="{x:Bind AuthorName}" />
+                    </StackPanel>
+                    <controls:MarkdownTextBlock Padding="0 5 0 0" FontSize="15" TextWrapping="WrapWholeWords" Text="{x:Bind Body}" Background="{ThemeResource SystemControlDisabledTransparentBrush}" />
+                </StackPanel>
+            </Grid>-->
+            <RelativePanel  Background="{ThemeResource SystemControlAltHighAcrylicElementBrush}"  Margin="{x:Bind Depth, Converter={StaticResource DepthToMarginConverter}}" CornerRadius="10">
+
+                <AppBarToggleButton CornerRadius="10" Label="{x:Bind Upvotes}" x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True" Margin="5" Icon="Up"></AppBarToggleButton>
+                <AppBarToggleButton CornerRadius="10" x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="Upvote" Margin="5">
+                    <AppBarToggleButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;"/>
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+
+                <controls:MarkdownTextBlock
+                                         RelativePanel.AlignTopWithPanel="True"
+                    Text="{x:Bind Body}"
+                     Background="Transparent"
+                    TextWrapping="Wrap"
+                    IsTextSelectionEnabled="True"
+                        LinkClicked="MarkdownText_LinkClicked"
+                        ImageClicked="MarkdownText_ImageClicked"
+                    x:Name="TitleTextBlock"
+                   Margin="80,5,5,5"/>
+
+                <TextBlock RelativePanel.RightOf="DownVote" RelativePanel.Below="TitleTextBlock" x:Name="Date" Text="{x:Bind utils:Utils.UnixTimeStampToLocalTime(Created, sys:String.Empty)}" FontSize="11" Margin="0,13,3,0"></TextBlock>
+                <HyperlinkButton x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date" Content="{x:Bind AuthorName}"  Margin="3,6,0,0" FontSize="11" >
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout>
+                          <!--  <Frame Loaded="Frame_Loaded"></Frame>-->
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
+                </HyperlinkButton>
+                <CommandBar x:Name="CommentsBar" IsDynamicOverflowEnabled="True" RelativePanel.RightOf="DownVote" RelativePanel.Below="User" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
+                    <AppBarButton Icon="Edit" Label="Edit" IsEnabled="False"/>
+                    <!-- <AppBarButton  Icon="Link" Label="Permalink" Click="PermaLinkCommentButton_Click"/>
+                    <AppBarButton Icon="Edit" Label="Edit" IsEnabled="False"/>
+                    <AppBarButton  Icon="Delete" Label="Delete" Click="DeleteCommentButton_Click"/>
+                    <AppBarButton  Icon="Save" Label="Save" Click="saveEditButton_Click"/>
+                    <AppBarButton  Icon="ReportHacked" Label="Distinguish" Click="DistinguishEditButton_Click"/>
+                    <AppBarButton  Icon="PostUpdate" Label="Enable replies" Click="EnableRelpyEditButton_Click"/>
+                    <AppBarButton  Icon="Remove" Label="Remove" Click="RemoveComEditButton_Click"/>
+                    <AppBarSeparator/>
+                    <AppBarButton  Icon="DisableUpdates" Label="Disable replies" Click="disableRelpyEditButton_Click"/>
+                    <AppBarButton  Icon="UnSyncFolder" Label="Unsave" Click="UnsaveEditButton_Click"/>-->
+                </CommandBar>
+                <AutoSuggestBox PlaceholderText="Enter your reply here..." Width="300" QueryIcon="Send" Header="Reply:" x:Name="replyBox"  RelativePanel.RightOf="DownVote" RelativePanel.Below="CommentsBar" Margin="10, 3, 10, 3" ></AutoSuggestBox>
+            </RelativePanel>
+        </DataTemplate>
+
+        <!--Data Template for More-->
+        <DataTemplate x:Key="MoreDataTemplate" x:DataType="models:More">
+            <Grid  VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                <TextBlock x:Name="moreText" Padding="{x:Bind Depth, Converter={StaticResource DepthToMarginConverter}}" Text="Load more comments"/>
+            </Grid>
+        </DataTemplate>
+
+        <!--Template Selector for Grid-->
+        <templateselector:CommentsTemplateSelector x:Key="CommentsTemplateSelector" CommentDataTemplate="{StaticResource CommentDataTemplate}" MoreDataTemplate="{StaticResource MoreDataTemplate}"></templateselector:CommentsTemplateSelector>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!---Comment List-->
+        <ListView  Background="Transparent" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" x:Name="comments" ItemsSource="{x:Bind commentTree}" ItemTemplateSelector="{StaticResource CommentsTemplateSelector}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="Comments_ItemClick">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
+</Page>
