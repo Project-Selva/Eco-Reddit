@@ -106,8 +106,8 @@ namespace Eco_Reddit.Helpers
                                 }
                             }
                         });
-                        skipInt = skipInt + 10;
-                        limit = limit + 10;
+                        skipInt = skipInt + 50;
+                        limit = limit + 50;
                         break;
                     case "PostReplies":
                         MessagesInbox = reddit.Account.Messages.GetMessagesInbox(limit: limit).Skip(skipInt);
@@ -170,8 +170,8 @@ namespace Eco_Reddit.Helpers
                                }
                             }
                         });
-                        skipInt = skipInt + 10;
-                        limit = limit + 10;
+                        skipInt = skipInt + 50;
+                        limit = limit + 50;
                         break;
                         // Simulates a longer request...
                 }

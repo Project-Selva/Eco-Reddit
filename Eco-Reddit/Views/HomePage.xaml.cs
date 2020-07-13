@@ -199,6 +199,7 @@ namespace Eco_Reddit.Views
                     ModeratedSubsX.Visibility = Visibility.Visible;
                     TrendingSubsdayX.Visibility = Visibility.Visible;
                     SubsdayX.Visibility = Visibility.Visible;
+                 //   RecommendX.Visibility = Visibility.Collapsed;
                     TinySubsdayX.Visibility = Visibility.Visible;
                 }
                 else
@@ -206,15 +207,27 @@ namespace Eco_Reddit.Views
                     string refreshToken = localSettings.Values["refresh_token"].ToString();
                     var reddit = new RedditClient(appId, refreshToken, secret);
                     var subreddit = CurrentSub.About();
+                   /* RecommendX.Visibility = Visibility.Visible;
+                    var recommended = reddit.Models.Subreddits.Recommended(CurrentSub.Name, new SubredditsRecommendInput());
+                    List<SubredditList> SubredditCollection = new List<SubredditList>();
+                    foreach (Reddit.Things.SubredditRecommendations r in recommended)
+                    {
+                        SubredditCollection.Add(new SubredditList()
+                        {
+                            TitleSubreddit = r.Name
+                        });
+                    }
+                    RecommendX.ItemsSource = SubredditCollection;*/
                     TitleSidebar.Text = "r/" + subreddit.Name;
                     HeaderSideBar.Text = subreddit.Title;
                     SubscribeButton.Visibility = Visibility.Visible;
                     UnSubscribeButton.Visibility = Visibility.Visible;
                     SideBarSidebar.Visibility = Visibility.Visible;
-                    ModeratedSubsX.Visibility = Visibility.Collapsed;
-                    TrendingSubsdayX.Visibility = Visibility.Collapsed;
-                    SubsdayX.Visibility = Visibility.Collapsed;
-                    TinySubsdayX.Visibility = Visibility.Collapsed;
+           
+                    //  ModeratedSubsX.Visibility = Visibility.Collapsed;
+                    //   TrendingSubsdayX.Visibility = Visibility.Collapsed;
+                    // SubsdayX.Visibility = Visibility.Collapsed;
+                    // TinySubsdayX.Visibility = Visibility.Collapsed;
                     HeaderSideBar.Visibility = Visibility.Visible;
                     AboutSidebar.Visibility = Visibility.Visible;
                     SubsSidebar.Visibility = Visibility.Visible;
@@ -621,6 +634,40 @@ namespace Eco_Reddit.Views
                 }
             });
         }
+
+        private async void ModeratedSubs_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                SubredditList P = e.ClickedItem as SubredditList;
+                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var reddit = new RedditClient(appId, refreshToken, secret);
+                try
+                {
+
+                    CurrentSub = Client.Subreddit(P.TitleSubreddit);
+                    //     var m = new MessageDialog(CurrentSub.Name.ToLower());
+                    //     await m.ShowAsync();
+                    Subreddit.Text = "r/" + CurrentSub.Name;
+                    GetPostsClass.Subreddit = CurrentSub.Name;
+                    GetPostsClass.limit = 10;
+
+                    GetPostsClass.skipInt = 0;
+                    IsHomeEnabled = false;
+                    PostsSortOrder = "Hot";
+                    SortOrderButton.Label = "Hot";
+                    GetPostsClass.SortOrder = "Hot";
+                    var Postscollection = new IncrementalLoadingCollection<GetPostsClass, Posts>();
+                    HomeList.ItemsSource = Postscollection;
+                    SortOrderButton.Visibility = Visibility.Visible;
+                }
+                catch
+                {
+                    var m = new MessageDialog("Subreddit doesnt exist");
+                    await m.ShowAsync();
+                }
+            });
+        }
         private async void HomeButton_Click(object sender, RoutedEventArgs e)
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
@@ -795,8 +842,25 @@ namespace Eco_Reddit.Views
             Posts SenderPost = args.Item as Posts;
             Reddit.Controllers.Post post = SenderPost.PostSelf;
             var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
-            var img = templateRoot.Children[10] as Image;
+           var img = templateRoot.Children[11] as Image;
+            var Text = templateRoot.Children[9] as MarkdownTextBlock;
             //Downvoted.IsChecked = post.IsDownvoted;
+            try
+            {
+                SelfPost s = (SelfPost)SenderPost.PostSelf;
+                if (s.SelfText.Length < 800)
+                {
+                    Text.Text = s.SelfText;
+                }
+                else
+                {
+                    Text.Text = s.SelfText.Substring(0, 800) + "...";
+                }
+            }
+            catch
+            {
+
+            }
             try
             {
                 var p = post as LinkPost;
@@ -1130,9 +1194,10 @@ namespace Eco_Reddit.Views
                 string eeee = first.Replace(" ", "");
                 Regex.Replace(eeee, @"\s+", "");
                 string ss = eeee.Replace("####/r/", "");
-          //  string ssss = sss.Replace("####", "");
-            //string ss = ssss.Replace(" /r/", "");
-            var subredditD = reddit.Subreddit(ss);
+                //  string ssss = sss.Replace("####", "");
+                //string ss = ssss.Replace(" /r/", "");
+                string ssss = ss.Replace("r/", "");
+                var subredditD = reddit.Subreddit(ssss);
             List<SubredditList> SubredditCollectionD = new List<SubredditList>();
             SubredditCollectionD.Add(new SubredditList()
             {
@@ -1141,7 +1206,7 @@ namespace Eco_Reddit.Views
                 SubredditSelf = subredditD,
                 SubredditIcon = subredditD.CommunityIcon
             });
-                Subsday.ItemsSource = SubredditCollectionD;
+                //Subsday.ItemsSource = SubredditCollectionD;
             SubsdayX.ItemsSource = SubredditCollectionD;
                }
                 
@@ -1172,7 +1237,8 @@ namespace Eco_Reddit.Views
             string first = new StringReader(s).ReadLine();
             string ss = first.Replace("/", "");
             string sss = ss.Replace("http:www.reddit.comr", "");
-            var subredditD = reddit.Subreddit(sss);
+                string ssss = sss.Replace("r/", "");
+                var subredditD = reddit.Subreddit(ssss);
             List<SubredditList> SubredditCollectionD = new List<SubredditList>();
             SubredditCollectionD.Add(new SubredditList()
             {
@@ -1181,7 +1247,7 @@ namespace Eco_Reddit.Views
                 SubredditSelf = subredditD,
                 SubredditIcon = subredditD.CommunityIcon
             });
-            TinySubsday.ItemsSource = SubredditCollectionD;
+            //TinySubsday.ItemsSource = SubredditCollectionD;
             TinySubsdayX.ItemsSource = SubredditCollectionD;
                }
                catch
@@ -1226,7 +1292,7 @@ namespace Eco_Reddit.Views
                         SubredditIcon = subredditD.CommunityIcon
                     });
                 }
-                TrendingSubsday.ItemsSource = SubredditCollectionD;
+                //TrendingSubsday.ItemsSource = SubredditCollectionD;
                 TrendingSubsdayX.ItemsSource = SubredditCollectionD;
             }
             catch

@@ -1,12 +1,14 @@
 ﻿using Eco_Reddit.Helpers;
 using Eco_Reddit.Models;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Reddit;
 using Reddit.Controllers;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -14,6 +16,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Imaging;
 using WinUI = Microsoft.UI.Xaml.Controls;
+using User = Reddit.Controllers.User;
+using Windows.Web.Http;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
 namespace Eco_Reddit.Views
 {
     public sealed partial class SearchPage : Page, INotifyPropertyChanged
@@ -119,7 +126,7 @@ namespace Eco_Reddit.Views
             args.Handled = true;
         }
 
-        private void ShowPhase1(ListViewBase sender, ContainerContentChangingEventArgs args)
+        private async void ShowPhase1(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             if (args.Phase != 1)
             {
@@ -130,7 +137,25 @@ namespace Eco_Reddit.Views
                 Posts SenderPost = args.Item as Eco_Reddit.Models.Posts;
                 Reddit.Controllers.Post post = SenderPost.PostSelf;
                 var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
-                var img = templateRoot.Children[10] as Image;
+                var img = templateRoot.Children[11] as Image;
+                var Text = templateRoot.Children[9] as MarkdownTextBlock;
+                //Downvoted.IsChecked = post.IsDownvoted;
+                try
+                {
+                    SelfPost s = (SelfPost)SenderPost.PostSelf;
+                    if (s.SelfText.Length < 800)
+                    {
+                        Text.Text = s.SelfText;
+                    }
+                    else
+                    {
+                        Text.Text = s.SelfText.Substring(0, 800) + "...";
+                    }
+                }
+                catch
+                {
+
+                }
                 //Downvoted.IsChecked = post.IsDownvoted;
                 try
                 {
@@ -158,16 +183,32 @@ namespace Eco_Reddit.Views
             }
             else
             {
+               
                 Users SenderPost = args.Item as Eco_Reddit.Models.Users;
-                Reddit.Controllers.User post = SenderPost.UserSelf;
+               User post = SenderPost.UserSelf;
                 var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
                 var TextTitleBlock = templateRoot.Children[1] as TextBlock;
                 TextTitleBlock.Text = "u/" + post.Name;
-            }
+          
+        }
 
             ///   TextFlairBlock.Foreground = post.Listing.LinkFlairBackgroundColor;
 
     //        args.RegisterUpdateCallback(this.ShowPhase2);
+        }
+        private async void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
+            {
+                await Launcher.LaunchUriAsync(link);
+            }
+        }
+        private async void MarkdownText_ImageClicked(object sender, LinkClickedEventArgs e)
+        {
+            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
+            {
+                await Launcher.LaunchUriAsync(link);
+            }
         }
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
@@ -411,114 +452,106 @@ namespace Eco_Reddit.Views
         }
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        private void Search_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private async void Search_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (nvSearch.SelectedItem == Posts)
             {
-                TextSearched.Text = "Search results for: " + Search.Text + " in r/" + Sub;
-                Search.Text = Search.Text;
-                GetSearchResults.Input = Search.Text;
-                GetSearchResults.Sub = Sub;
-                GetSearchResults.limit = 10;
-                GetSearchResults.TimeSort = TimeBox.SelectedItem.ToString();
-                GetSearchResults.SearchSort = SortBox.SelectedItem.ToString();
-                GetSearchResults.skipInt = 0;
-                SearchList.ItemTemplate = POST;
-                var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
-                SearchList.ItemsSource = Postscollection;
+                if (String.IsNullOrEmpty(Search.Text) == false)
+                {
+                    TextSearched.Text = "Search results for: " + Search.Text + " in r/" + Sub;
+                    Search.Text = Search.Text;
+                    GetSearchResults.Input = Search.Text;
+                    GetSearchResults.Sub = Sub;
+                    GetSearchResults.limit = 10;
+                    GetSearchResults.TimeSort = TimeBox.SelectedItem.ToString();
+                    GetSearchResults.SearchSort = SortBox.SelectedItem.ToString();
+                    GetSearchResults.skipInt = 0;
+                    SearchList.ItemTemplate = POST;
+                    var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
+                    SearchList.ItemsSource = Postscollection;
+                }
                 //   contentFrame.Navigate(typeof(SearchPosts));
             }
             else if (nvSearch.SelectedItem == Subreddits)
             {
-                TextSearched.Text = "Subreddit search results for: " + Search.Text;
-                Search.Text = Search.Text;
-                GetSearchSubreddits.Input = Search.Text;
-                GetSearchSubreddits.limit = 10;
-                GetSearchSubreddits.SearchSort = SortBox.SelectedItem.ToString();
-                GetSearchSubreddits.skipInt = 0;
-                SearchList.ItemTemplate = SubredditTemplate;
-                var Subredditscollection = new IncrementalLoadingCollection<GetSearchSubreddits, Subreddits>();
-                SearchList.ItemsSource = Subredditscollection;
+                if (String.IsNullOrEmpty(Search.Text) == false)
+                {
+                    TextSearched.Text = "Subreddit search results for: " + Search.Text;
+                    Search.Text = Search.Text;
+                    GetSearchSubreddits.Input = Search.Text;
+                    GetSearchSubreddits.limit = 10;
+                    GetSearchSubreddits.SearchSort = SortBox.SelectedItem.ToString();
+                    GetSearchSubreddits.skipInt = 0;
+                    SearchList.ItemTemplate = SubredditTemplate;
+                    var Subredditscollection = new IncrementalLoadingCollection<GetSearchSubreddits, Subreddits>();
+                    SearchList.ItemsSource = Subredditscollection;
+                }
             }
             else
             {
-                TextSearched.Text = "User search results for: " + Search.Text;
-                Search.Text = Search.Text;
-                GetSearchUsers.Input = Search.Text;
-                GetSearchUsers.limit = 1;
-                GetSearchUsers.SearchSort = SortBox.SelectedItem.ToString();
-                GetSearchUsers.skipInt = 0;
-                SearchList.ItemTemplate = UserTemplate;
-                var Subredditscollection = new IncrementalLoadingCollection<GetSearchUsers, Users>();
-                SearchList.ItemsSource = Subredditscollection;
+                if (String.IsNullOrEmpty(Search.Text) == false)
+                {
+                    try { 
+                    TextSearched.Text = "User search results for: " + Search.Text;
+                    Search.Text = Search.Text;
+                    GetSearchUsers.Input = Search.Text;
+                    GetSearchUsers.limit = 1;
+                    GetSearchUsers.SearchSort = SortBox.SelectedItem.ToString();
+                    GetSearchUsers.skipInt = 0;
+                    SearchList.ItemTemplate = UserTemplate;
+                    var Subredditscollection = new IncrementalLoadingCollection<GetSearchUsers, Users>();
+                    SearchList.ItemsSource = Subredditscollection;
+                    }
+                    catch
+                    {
+                        var M = new MessageDialog("DID NOT FIND");
+                        await M.ShowAsync();
+                    }
+                }
             }
         }
-
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        public class UsersClass
+        {
+            public dataClass data { get; set; }
+        }
+        public class dataClass
+        {
+            public ChildClass children { get; set; }
+        }
+        public class DataChildClass
+        {
+            public string name { get; set; }
+        }
+        public class ChildClass
+        {
+            public DataChildClass data { get; set; }
+        }
+        List<string> UserList;
+        private async void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             if (nvSearch.SelectedItem == Posts)
             {
-                TextSearched.Text = "Search results for: " + Search.Text + " in r/" + Sub;
-                Search.Text = Search.Text;
-                GetSearchResults.Input = Search.Text;
-                GetSearchResults.Sub = Sub;
-                GetSearchResults.limit = 10;
-                GetSearchResults.TimeSort = TimeBox.SelectedItem.ToString();
-                GetSearchResults.SearchSort = SortBox.SelectedItem.ToString();
-                GetSearchResults.skipInt = 0;
-                SearchList.ItemTemplate = POST;
-                var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
-                SearchList.ItemsSource = Postscollection;
-                //  contentFrame.Navigate(typeof(SearchPosts));
-            }
-            else if(nvSearch.SelectedItem == Subreddits)
-            {
-                TextSearched.Text = "Subreddit search results for: " + Search.Text;
-                Search.Text = Search.Text;
-                GetSearchSubreddits.Input = Search.Text;
-                GetSearchSubreddits.limit = 10;
-                GetSearchSubreddits.SearchSort = SortBox.SelectedItem.ToString();
-                GetSearchSubreddits.skipInt = 0;
-                SearchList.ItemTemplate = SubredditTemplate;
-                var Subredditscollection = new IncrementalLoadingCollection<GetSearchSubreddits, Subreddits>();
-                SearchList.ItemsSource = Subredditscollection;
-            }
-            else
-            {
-                TextSearched.Text = "User search results for: " + Search.Text;
-                Search.Text = Search.Text;
-                GetSearchUsers.Input = Search.Text;
-                GetSearchUsers.limit = 1;
-                GetSearchUsers.SearchSort = SortBox.SelectedItem.ToString();
-                GetSearchUsers.skipInt = 0;
-                SearchList.ItemTemplate = UserTemplate;
-                var Subredditscollection = new IncrementalLoadingCollection<GetSearchUsers, Users>();
-                SearchList.ItemsSource = Subredditscollection;
-            }
-        }
-
-        private void NvSearch_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-        {
-            if (nvSearch.SelectedItem == Posts)
-            {
-                PostSearchPanel.Visibility = Visibility.Visible;
-                TextSearched.Text = "Search results for: " + Search.Text + " in r/" + Sub;
-                Search.Text = Search.Text;
-                GetSearchResults.Input = Search.Text;
-                GetSearchResults.Sub = Sub;
-                GetSearchResults.limit = 10;
-                GetSearchResults.TimeSort = TimeBox.SelectedItem.ToString();
-                GetSearchResults.SearchSort = SortBox.SelectedItem.ToString();
-                GetSearchResults.skipInt = 0;
-                SearchList.ItemTemplate = POST;
-                var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
-                SearchList.ItemsSource = Postscollection;
+                if (String.IsNullOrEmpty(Search.Text) == false)
+                {
+                    TextSearched.Text = "Search results for: " + Search.Text + " in r/" + Sub;
+                    Search.Text = Search.Text;
+                    GetSearchResults.Input = Search.Text;
+                    GetSearchResults.Sub = Sub;
+                    GetSearchResults.limit = 10;
+                    GetSearchResults.TimeSort = TimeBox.SelectedItem.ToString();
+                    GetSearchResults.SearchSort = SortBox.SelectedItem.ToString();
+                    GetSearchResults.skipInt = 0;
+                    SearchList.ItemTemplate = POST;
+                    var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
+                    SearchList.ItemsSource = Postscollection;
+                }
                 //  contentFrame.Navigate(typeof(SearchPosts));
             }
             else if (nvSearch.SelectedItem == Subreddits)
             {
-                PostSearchPanel.Visibility = Visibility.Collapsed;
-                TextSearched.Text = "Subreddit search results for: " + Search.Text;
+                if (String.IsNullOrEmpty(Search.Text) == false)
+                {
+                    TextSearched.Text = "Subreddit search results for: " + Search.Text;
                 Search.Text = Search.Text;
                 GetSearchSubreddits.Input = Search.Text;
                 GetSearchSubreddits.limit = 10;
@@ -528,18 +561,105 @@ namespace Eco_Reddit.Views
                 var Subredditscollection = new IncrementalLoadingCollection<GetSearchSubreddits, Subreddits>();
                 SearchList.ItemsSource = Subredditscollection;
             }
+            }
             else
             {
-                PostSearchPanel.Visibility = Visibility.Collapsed;
-                TextSearched.Text = "User search results for: " + Search.Text;
-                Search.Text = Search.Text;
-                GetSearchUsers.Input = Search.Text;
-                GetSearchUsers.limit = 1;
-                GetSearchUsers.SearchSort = SortBox.SelectedItem.ToString();
-                GetSearchUsers.skipInt = 0;
-                SearchList.ItemTemplate = UserTemplate;
-                var Subredditscollection = new IncrementalLoadingCollection<GetSearchUsers, Users>();
-                SearchList.ItemsSource = Subredditscollection;
+                if (String.IsNullOrEmpty(Search.Text) == false)
+                {
+                    try
+                    {
+                        /*  TextSearched.Text = "User search results for: " + Search.Text;
+                          Search.Text = Search.Text;
+                          GetSearchUsers.Input = Search.Text;
+                          GetSearchUsers.limit = 1;
+                          GetSearchUsers.SearchSort = SortBox.SelectedItem.ToString();
+                          GetSearchUsers.skipInt = 0;
+                          SearchList.ItemTemplate = UserTemplate;
+                          var Subredditscollection = new IncrementalLoadingCollection<GetSearchUsers, Users>();
+                          SearchList.ItemsSource = Subredditscollection;*/
+                        HttpClient client = new HttpClient();
+                        HttpResponseMessage response = await client.GetAsync(new Uri("https://www.reddit.com/users/search.json?q=firecubestudios"));
+
+                        string json = await response.Content.ReadAsStringAsync();
+                        UsersClass UserList = JsonConvert.DeserializeObject<UsersClass>(json);
+                        var M = new MessageDialog(json);
+                        await M.ShowAsync();
+                        // SearchList.ItemsSource = UserList;
+                        var Ms = new MessageDialog(UserList.data.children.data.name.ToString());
+                        await Ms.ShowAsync();
+                    }  
+                    catch
+                {
+                    var M = new MessageDialog("DID NOT FIND");
+                    await M.ShowAsync();
+                }
+            }
+            }
+        }
+
+        private async void NvSearch_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            if (nvSearch.SelectedItem == Posts)
+            {
+                
+                    PostSearchPanel.Visibility = Visibility.Visible;
+                if (String.IsNullOrEmpty(Search.Text) == false)
+                {
+                    TextSearched.Text = "Search results for: " + Search.Text + " in r/" + Sub;
+                    Search.Text = Search.Text;
+                    GetSearchResults.Input = Search.Text;
+                    GetSearchResults.Sub = Sub;
+                    GetSearchResults.limit = 10;
+                    GetSearchResults.TimeSort = TimeBox.SelectedItem.ToString();
+                    GetSearchResults.SearchSort = SortBox.SelectedItem.ToString();
+                    GetSearchResults.skipInt = 0;
+                    SearchList.ItemTemplate = POST;
+                    var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
+                    SearchList.ItemsSource = Postscollection;
+                }
+                //  contentFrame.Navigate(typeof(SearchPosts));
+            }
+            else if (nvSearch.SelectedItem == Subreddits)
+            {
+               
+                    PostSearchPanel.Visibility = Visibility.Collapsed;
+                if (String.IsNullOrEmpty(Search.Text) == false)
+                {
+                    TextSearched.Text = "Subreddit search results for: " + Search.Text;
+                    Search.Text = Search.Text;
+                    GetSearchSubreddits.Input = Search.Text;
+                    GetSearchSubreddits.limit = 10;
+                    GetSearchSubreddits.SearchSort = SortBox.SelectedItem.ToString();
+                    GetSearchSubreddits.skipInt = 0;
+                    SearchList.ItemTemplate = SubredditTemplate;
+                    var Subredditscollection = new IncrementalLoadingCollection<GetSearchSubreddits, Subreddits>();
+                    SearchList.ItemsSource = Subredditscollection;
+                }
+            }
+            else
+            {
+                    
+                        PostSearchPanel.Visibility = Visibility.Collapsed;
+                if (String.IsNullOrEmpty(Search.Text) == false)
+                {
+                    try
+                    {
+                        TextSearched.Text = "User search results for: " + Search.Text;
+                        Search.Text = Search.Text;
+                        GetSearchUsers.Input = Search.Text;
+                        GetSearchUsers.limit = 1;
+                        GetSearchUsers.SearchSort = SortBox.SelectedItem.ToString();
+                        GetSearchUsers.skipInt = 0;
+                        SearchList.ItemTemplate = UserTemplate;
+                        var Subredditscollection = new IncrementalLoadingCollection<GetSearchUsers, Users>();
+                        SearchList.ItemsSource = Subredditscollection;
+                    }
+                    catch
+                    {
+                        var M = new MessageDialog("DID NOT FIND");
+                        await M.ShowAsync(); 
+                    }
+                    }
             }
         }
 

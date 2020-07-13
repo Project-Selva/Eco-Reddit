@@ -131,7 +131,7 @@
                                             <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="270" HorizontalAlignment="Center" Click="PopularButton_Click">popular</Button>
                                             <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="270" HorizontalAlignment="Center" Click="AllButton_Click">all</Button>
                                      <!--       <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="270" HorizontalAlignment="Center" Click="TrendingButton_Click">Trending Subreddits</Button>-->
-                                         <ListView SelectionMode="None"  ItemClick="SubscribedSubs_ItemClick" IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="Subsday" Header="Subreddit of the day:" Width="400">
+                                     <!--    <ListView SelectionMode="None"  ItemClick="SubscribedSubs_ItemClick" IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="Subsday" Header="Subreddit of the day:" Width="400">
                                                     <ListView.ItemTemplate>
                                                         <DataTemplate>
                                                             <StackPanel Orientation="Horizontal">
@@ -160,9 +160,9 @@
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
-                                            </ListView>
+                                            </ListView>-->
                                             <StackPanel>
-                                                <ListView SelectionMode="None"  ItemClick="SubscribedSubs_ItemClick" IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="ModeratedSubs" Header="Moderated subreddits:" Width="400">
+                                                <ListView SelectionMode="None"  ItemClick="ModeratedSubs_ItemClick" IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="ModeratedSubs" Header="Moderated subreddits:" Width="400">
                                                     <ListView.ItemTemplate>
                                                         <DataTemplate>
                                                             <StackPanel Orientation="Horizontal">
@@ -219,7 +219,20 @@
                                     <TextBlock Name="flairstring" RelativePanel.RightOf="DownVote" RelativePanel.Below="Subreddit" Text="Flair: "  Padding="10, 5, 1, 5"></TextBlock>
                                     <TextBlock Margin="1,0,0,0" x:Name="Flair" RelativePanel.Below="Subreddit" RelativePanel.RightOf="flairstring" Text="{x:Bind PostSelf.Listing.LinkFlairText}"  Padding="1, 5, 10, 5"  HorizontalAlignment="Left" TextWrapping="WrapWholeWords"></TextBlock>
                                     <!--<TextBlock Margin="3,0,0,0" HorizontalAlignment="Left"  Padding="10, 5, 10, 5" x:Name="NSFW" x:Phase="2" Text="{x:Bind IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>-->
-                                    <CommandBar x:Name="PostsBar" IsDynamicOverflowEnabled="True" Margin="3" RelativePanel.Above="PostImage" RelativePanel.RightOf="DownVote" RelativePanel.Below="Flair" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
+                                    <controls:MarkdownTextBlock
+                     TextWrapping="WrapWholeWords"
+                     VerticalContentAlignment="Stretch"
+                                        RelativePanel.Below="Flair"
+                                     Padding="10,3"
+                                        MinWidth="400"
+            CornerRadius="5"
+                                        RelativePanel.RightOf="DownVote"
+                     BorderThickness="1"
+                                    x:Name="MarkDownBlockPreview"
+                            ImageClicked="MarkdownText_ImageClicked"
+                                   LinkClicked="MarkdownText_LinkClicked"
+                                Margin="6"/>
+                                    <CommandBar x:Name="PostsBar" IsDynamicOverflowEnabled="True" Margin="3" RelativePanel.Above="PostImage" RelativePanel.RightOf="DownVote" RelativePanel.Below="MarkDownBlockPreview" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
                                         <CommandBar.Resources>
                                             <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                                         </CommandBar.Resources>
@@ -339,6 +352,16 @@
                     IsTextSelectionEnabled="True"
                     x:Name="SideBarSidebar"
                    Margin="6"/>
+                                        <!--<ListView SelectionMode="None" IsItemClickEnabled="True"  ItemClick="SubscribedSubs_ItemClick" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="RecommendX" Header="Recommended subreddits:" Width="400">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
+                                                        <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>-->
                                         <ListView SelectionMode="None" IsItemClickEnabled="True"  ItemClick="SubscribedSubs_ItemClick" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="SubsdayX" Header="Subreddit of the day:" Width="400">
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
@@ -369,7 +392,7 @@
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </ListView>
-                                        <ListView SelectionMode="None" IsItemClickEnabled="True"  ItemClick="SubscribedSubs_ItemClick" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="ModeratedSubsX" Header="Moderated subreddits:" Width="400">
+                                        <ListView SelectionMode="None" IsItemClickEnabled="True"  ItemClick="ModeratedSubs_ItemClick" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="ModeratedSubsX" Header="Moderated subreddits:" Width="400">
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">

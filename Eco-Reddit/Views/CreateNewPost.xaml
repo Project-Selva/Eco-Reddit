@@ -16,17 +16,18 @@
             <StackPanel Orientation="Horizontal">
                 
                 <muxc:RadioButtons Margin="4" Header="Options">
-                    <RadioButton x:Name="CurrentSubreddit" Content="Current subreddit" Checked="CurrentSubreddit_Checked" Unchecked="CurrentSubreddit_Unchecked" IsEnabled="{x:Bind IsSubVisible}"/>
-                    <RadioButton x:Name="OtherSubreddit" Content="Other subreddit: " Checked="OtherSubreddit_Checked_1" Unchecked="OtherSubreddit_Unchecked_1" IsChecked="{x:Bind IsOtherSubVisible}"/>
+                    <RadioButton x:Name="CurrentSubreddit" Content="Current subreddit" Checked="CurrentSubreddit_Checked"  IsEnabled="{x:Bind IsSubVisible}"/>
+                    <RadioButton x:Name="OtherSubreddit" Content="Other subreddit: " Checked="OtherSubreddit_Checked_1"  IsChecked="{x:Bind IsOtherSubVisible}"/>
                 </muxc:RadioButtons>
-                <TextBox Header="Subreddit name:" PlaceholderText="dont include 'r/'" Height="60" Margin="5" Width="300" />
+                <AutoSuggestBox Header="Subreddit name:" PlaceholderText="dont include 'r/'" Height="60" Margin="5" QuerySubmitted="OtherText_QuerySubmitted" Width="300" QueryIcon="Accept" x:Name="OtherText" />
               
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <CheckBox Margin="4" Content="Is nsfw" />
-                <CheckBox Margin="4" Content="Is spoiler" />
-                <CheckBox Margin="4" Content="Original content (oc)" />
+                <CheckBox Margin="4" Content="Is nsfw" x:Name="NSFW"/>
+                <CheckBox Margin="4" Content="Is spoiler" x:Name="Spoil" />
+              <!--  <CheckBox Margin="4" Content="Enable Send replies" IsChecked="True" x:Name="sendreplies" />-->
             </StackPanel>
+
             <Pivot x:Name="CreatePostPivot">
                 <PivotItem Header="Text">
                     <StackPanel>
@@ -60,8 +61,11 @@
                 <PivotItem Header="Link">
                     <TextBox PlaceholderText="Enter link" x:Name="Link"></TextBox>
                 </PivotItem>
-                <PivotItem Header="Image" IsEnabled="False">
-                    <TextBlock>coming soon</TextBlock>
+                <PivotItem Header="Image">
+                    <StackPanel>
+                    <Button Background="{ThemeResource SystemAccentColor}" HorizontalAlignment="Center" Margin="5" Click="UploadButton_Click">Select Image</Button>
+                        <Image x:Name="pRVEIEWiMAGE" Margin="15" Stretch="Fill" />
+                    </StackPanel>
                 </PivotItem>
                 <PivotItem Header="Album" IsEnabled="False">
                     <TextBlock>coming soon</TextBlock>
@@ -72,9 +76,12 @@
 
             </Pivot>
             <StackPanel Orientation="Horizontal">
-                <Button Margin="4" Background="{ThemeResource SystemAccentColor}">Submit post</Button>
-                <Button Margin="4">Save as draft</Button>
+                <Button Margin="4" Background="{ThemeResource SystemAccentColor}" Click="NewPostButton_Click">Submit post</Button>
+               <!-- <Button Margin="4" IsEnabled="False">Save as draft</Button>-->
             </StackPanel>
+            <controls:InAppNotification x:Name="statusInAppNotification">
+                <!-- InAppNotification content -->
+            </controls:InAppNotification>
         </StackPanel>
     </ScrollViewer>
 </Page>

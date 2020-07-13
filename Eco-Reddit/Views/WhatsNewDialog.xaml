@@ -24,7 +24,25 @@
     </ContentDialog.TitleTemplate>
     <ScrollViewer>
         <StackPanel>
-            <TextBlock > Arm 64 support for 0.5, major speed improvements, view sent messages, upvote and downvote, navigate to subreddits bug fixed, universal tooltip roll out, search users, inbox support preview count and many many more</TextBlock>
+            <TextBlock> Whats new: <LineBreak/>
+- Added comments with replies, comment trees and load more
+                 <LineBreak/>
+                -  Added preview text for posts
+                 <LineBreak/>
+                - Create link, text and Image posts with flair, nsfw option and spoiler option
+                 <LineBreak/>
+                - added user mentions and mod newsletter
+                 <LineBreak/>
+                - Removed search users
+                 <LineBreak/>
+                - View comments of users
+                 <LineBreak/>
+                - View your upvoted and downvotes posts
+                 <LineBreak/>
+                - moved sub of the day, tiny sub and trending sub permanently to sidebar
+                 <LineBreak/>
+                - Fixed countless bugs and crashes and performance improvements
+</TextBlock>
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>

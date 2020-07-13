@@ -35,9 +35,9 @@ namespace Eco_Reddit.Helpers
                     // Gets items from the collection according to pageIndex and pageSize parameters.
                     ResultsCollection = new List<Users>();
                     var reddit = new RedditClient(appId, refreshToken, secret);
-
                 IEnumerable<User> SearchResultsSearch = reddit.SearchUsers(new SearchGetSearchInput(Input, limit: limit, sort: SearchSort, t: TimeSort, type: "user")).Skip(skipInt);
-                    await Task.Run(() =>
+         
+            await Task.Run(() =>
                     {
 
                         foreach (User User in SearchResultsSearch)

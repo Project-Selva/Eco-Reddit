@@ -1,4 +1,5 @@
 ﻿using Reddit.Controllers;
+using RedditSharp.Things;
 using System;
 using System.Collections.Generic;
 using System.Linq;

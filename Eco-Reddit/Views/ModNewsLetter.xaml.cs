@@ -35,7 +35,7 @@ namespace Eco_Reddit.Views
         public ModNewsLetter()
         {
             this.InitializeComponent();
-            GetUniversalMessagesClass.limit = 10;
+            GetUniversalMessagesClass.limit = 50;
             GetUniversalMessagesClass.skipInt = 0;
             GetUniversalMessagesClass.Type = "Mod";
             string refreshToken = localSettings.Values["refresh_token"].ToString();

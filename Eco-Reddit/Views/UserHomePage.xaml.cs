@@ -1,6 +1,7 @@
 ﻿using Eco_Reddit.Helpers;
 using Eco_Reddit.Models;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Reddit;
 using Reddit.Controllers;
 using System;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -23,6 +25,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using WinUI = Microsoft.UI.Xaml.Controls;
+using User = Reddit.Controllers.User;
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Eco_Reddit.Views
@@ -287,7 +290,20 @@ namespace Eco_Reddit.Views
 
             args.Handled = true;
         }
-
+        private async void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
+            {
+                await Launcher.LaunchUriAsync(link);
+            }
+        }
+        private async void MarkdownText_ImageClicked(object sender, LinkClickedEventArgs e)
+        {
+            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
+            {
+                await Launcher.LaunchUriAsync(link);
+            }
+        }
         private async void ShowPhase1(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             if (args.Phase != 1)
@@ -298,7 +314,25 @@ namespace Eco_Reddit.Views
           Posts SenderPost = args.Item as Eco_Reddit.Models.Posts;
             Reddit.Controllers.Post post = SenderPost.PostSelf;
             var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
-            var img = templateRoot.Children[10] as Image;
+            var img = templateRoot.Children[11] as Image;
+            var Text = templateRoot.Children[9] as MarkdownTextBlock;
+            //Downvoted.IsChecked = post.IsDownvoted;
+            try
+            {
+                SelfPost s = (SelfPost)SenderPost.PostSelf;
+                if (s.SelfText.Length < 800)
+                {
+                    Text.Text = s.SelfText;
+                }
+                else
+                {
+                    Text.Text = s.SelfText.Substring(0, 800) + "...";
+                }
+            }
+            catch
+            {
+
+            }
             //Downvoted.IsChecked = post.IsDownvoted;
             try
             {

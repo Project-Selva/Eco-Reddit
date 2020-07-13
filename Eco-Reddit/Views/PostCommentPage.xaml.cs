@@ -44,12 +44,11 @@ namespace Eco_Reddit.Views
             base.OnNavigatedTo(e);
             string accessToken = localSettings.Values["access_token"].ToString();
             var result = await loginHelper.Login_Refresh((string)localSettings.Values["refresh_token"]);
-            var m = new MessageDialog(result.RefreshToken + " access: " + result.AccessToken);
-            await m.ShowAsync();
          //   localSettings.Values["refresh_token"] = result.RefreshToken;
             localSettings.Values["access_token"] = result.AccessToken;
             Eco_Reddit.Models.TokenSharpData.Reddit = new RedditSharp.Reddit(result.AccessToken);
             await Eco_Reddit.Models.TokenSharpData.Reddit.InitOrUpdateUserAsync();
+            RedditSharp.Listing<Comment> s = Eco_Reddit.Models.TokenSharpData.Reddit.User.GetUsernameMentions();
             selectedPost = await Eco_Reddit.Models.TokenSharpData.Reddit.GetPostAsync(new Uri("https://www.reddit.com/r/AskReddit/comments/hpc07p/the_last_thing_you_googled_is_how_youre_goona_get/"));
             List <Thing> commentsWithMores = null;
             try

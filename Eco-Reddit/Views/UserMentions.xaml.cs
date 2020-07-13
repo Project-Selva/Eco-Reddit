@@ -1,24 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Reddit.Things;
-using Windows.UI.Xaml.Navigation;
 using Reddit;
 using Windows.UI.Core;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp;
 using Eco_Reddit.Helpers;
 using Eco_Reddit.Models;
+using System.Text.RegularExpressions;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -35,7 +26,7 @@ namespace Eco_Reddit.Views
         public UserMentions()
         {
             this.InitializeComponent();
-            GetUniversalMessagesClass.limit = 10;
+            GetUniversalMessagesClass.limit = 50;
             GetUniversalMessagesClass.skipInt = 0;
             GetUniversalMessagesClass.Type = "mention";
             string refreshToken = localSettings.Values["refresh_token"].ToString();
@@ -71,7 +62,11 @@ namespace Eco_Reddit.Views
             var AuthorBlock = templateRoot.Children[2] as HyperlinkButton;
             var TextDateBlock = templateRoot.Children[1] as TextBlock;
             var TextTitleBlock = templateRoot.Children[0] as MarkdownTextBlock;
-            TextTitleBlock.Text = Message.Body;
+          ///  var converter = new ReverseMarkdown.Converter();
+          //  TextTitleBlock.Text = converter.Convert(Message.BodyHTML.ToString());
+
+                TextTitleBlock.Text = Regex.Replace(Message.BodyHTML.ToString(), @"<[^>]*>", "");
+            
             textBlock.Content = Message.Subject;
             AuthorBlock.Content = Message.Author;
             TextDateBlock.Text = "Created: " + Message.CreatedUTC;

@@ -108,8 +108,7 @@ namespace Eco_Reddit.Views
             if (args.Uri.AbsoluteUri.Contains("http://127.0.0.1:3000/reddit_callback"))
             {
                 var result = await loginHelper.Login_Stage2(args.Uri);
-                var m = new MessageDialog(result.RefreshToken + " access: " + result.AccessToken);
-                await m.ShowAsync();
+             
                 accessToken = result.AccessToken;
                 refreshToken = result.RefreshToken;
                 // NewPivotItem.Header = result.RefreshToken;
