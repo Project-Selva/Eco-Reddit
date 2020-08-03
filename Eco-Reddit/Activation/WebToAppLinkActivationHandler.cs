@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-
 using Windows.ApplicationModel.Activation;
 
 namespace Eco_Reddit.Activation
@@ -27,10 +26,6 @@ namespace Eco_Reddit.Activation
                     break;
                 case Section2:
                     // Use NavigationService to Navigate to MySection2Page
-                    break;
-                default:
-                    // Launch the application with default page.
-                    // Use NavigationService to Navigate to MainPage
                     break;
             }
 

@@ -20,7 +20,8 @@ namespace RedditSharp.Things
         private const string SetAsUnReadUrl = "/api/unread_message";
 
         /// <inheritdoc />
-        public Comment(IWebAgent agent, JToken json, Thing sender) : base(agent, json) {
+        public Comment(IWebAgent agent, JToken json, Thing sender) : base(agent, json)
+        {
             var data = json["data"];
             Parent = sender;
 
@@ -35,7 +36,7 @@ namespace RedditSharp.Things
 
         /// <inheritdoc />
         internal override JToken GetJsonData(JToken json) => json["data"];
-        
+
         /// <summary>
         /// Prefix for fullname. Includes trailing underscore
         /// </summary>
@@ -108,10 +109,10 @@ namespace RedditSharp.Things
                     {
                         subComments.Add(newComment);
                     }
-                    else if(newComment.Kind == "more")
+                    else if (newComment.Kind == "more")
                     {
                         var more = new More(WebAgent, comment);
-                        if(more.Children.Count() > 0)
+                        if (more.Children.Count() > 0)
                         {
                             subComments.Add(more);
                         }
@@ -186,8 +187,8 @@ namespace RedditSharp.Things
         [System.ComponentModel.DefaultValue(0)]
         public uint Depth { get; set; }
 
-		/// <inheritdoc/>
-		public override string Shortlink => Permalink.ToString();
+        /// <inheritdoc/>
+        public override string Shortlink => Permalink.ToString();
 
         /// <summary>
         /// Reply to this comment.
@@ -225,6 +226,11 @@ namespace RedditSharp.Things
             //    var error = new StreamReader(ex..GetResponseStream()).ReadToEnd();
             //    return null;
             //}
+        }
+
+        public Task ReplyAsync()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -287,20 +293,23 @@ namespace RedditSharp.Things
         /// <param name="commentFullName">e.g. "t1_12345"</param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public static async Task Reply(IWebAgent webAgent, string commentFullName, string message) {
+        public static async Task Reply(IWebAgent webAgent, string commentFullName, string message)
+        {
             // TODO actual error handling. This just hides the error and returns null
             //try
             //{
-            var json = await webAgent.Post(CommentUrl, new {
+            var json = await webAgent.Post(CommentUrl, new
+            {
                 text = message,
                 thing_id = commentFullName,
                 api_type = "json"
                 //r = Subreddit
             }).ConfigureAwait(false);
-            if (json["json"]["ratelimit"] != null) {
+            if (json["json"]["ratelimit"] != null)
+            {
                 throw new RateLimitException(TimeSpan.FromSeconds(json["json"]["ratelimit"].ValueOrDefault<double>()));
             }
-            
+
 
             //}
             //catch (HttpRequestException ex)

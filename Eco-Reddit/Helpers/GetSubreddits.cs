@@ -1,69 +1,64 @@
-﻿using Eco_Reddit.Models;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.UI.Xaml;
+using Eco_Reddit.Models;
 using Microsoft.Toolkit.Collections;
 using Reddit;
 using Reddit.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
 
 namespace Eco_Reddit.Helpers
 {
     public class GetSubreddit : IIncrementalSource<SubredditList>
     {
-        public Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+        public static bool Load;
+        public static User UserToGetPostsFrom;
         public string appId = "mp8hDB_HfbctBg";
+        public ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        private Visibility Nsfw;
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
-        List<SubredditList> SubredditCollection;
+        private List<SubredditList> SubredditCollection;
         private IEnumerable<Subreddit> Subreddits;
-        public static bool Load { get; set; }
-        Visibility Nsfw;
-        public static User UserToGetPostsFrom { get; set; }
-        public async Task<IEnumerable<SubredditList>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
+
+        public async Task<IEnumerable<SubredditList>> GetPagedItemsAsync(int pageIndex, int pageSize,
+            CancellationToken cancellationToken = default)
         {
             await Task.Run(async () =>
             {
-                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var refreshToken = localSettings.Values["refresh_token"].ToString();
                 // Gets items from the collection according to pageIndex and pageSize parameters.
                 SubredditCollection = new List<SubredditList>();
                 var reddit = new RedditClient(appId, refreshToken, secret);
-                if(Load == true)
+                if (Load)
                 {
-                Subreddits = reddit.Account.MySubscribedSubreddits();
-                await Task.Run(() =>
-                {
-                    foreach (Subreddit subreddit in Subreddits)
+                    Subreddits = reddit.Account.MySubscribedSubreddits();
+                    await Task.Run(() =>
                     {
-                        if (subreddit.Over18 == true)
+                        foreach (var subreddit in Subreddits)
                         {
-                            Nsfw = Visibility.Visible;
+                            if (subreddit.Over18 == true)
+                                Nsfw = Visibility.Visible;
+                            else
+                                Nsfw = Visibility.Collapsed;
+                            // Console.WriteLine("New Post by " + post.Author + ": " + post.Title);
+                            SubredditCollection.Add(new SubredditList
+                            {
+                                IsNSFW = Nsfw,
+                                TitleSubreddit = subreddit.Name,
+                                SubredditSelf = subreddit,
+                                SubredditIcon = subreddit.CommunityIcon
+                            });
                         }
-                        else
-                        {
-                            Nsfw = Visibility.Collapsed;
-                        }
-                        // Console.WriteLine("New Post by " + post.Author + ": " + post.Title);
-                        SubredditCollection.Add(new SubredditList()
-                        {
-                            IsNSFW = Nsfw,
-                            TitleSubreddit = subreddit.Name,
-                            SubredditSelf = subreddit,
-                            SubredditIcon = subreddit.CommunityIcon
-                        });
-                    }
-                });
+                    });
                 }
+
                 Load = false;
                 // Simulates a longer request...
             });
 
 
             return SubredditCollection;
-
-
         }
     }
 }

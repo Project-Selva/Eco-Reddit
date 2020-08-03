@@ -10,6 +10,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <WebView x:Name="wEB" Source="https://www.reddit.com/chat/" NavigationStarting="WEB_NavigationStarting" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></WebView>
+        <WebView x:Name="wEB" Source="https://www.reddit.com/chat/" NavigationStarting="WEB_NavigationStarting"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
     </Grid>
 </Page>

@@ -430,7 +430,7 @@ namespace RedditSharp
                 {
                     return false;
                 }
-                
+
                 if (CurrentIndex == 0 || CurrentIndex >= CurrentPage.Count)
                 {
                     int tries = 0;

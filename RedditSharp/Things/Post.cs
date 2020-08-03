@@ -1,12 +1,11 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RedditSharp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace RedditSharp.Things
 {
@@ -35,13 +34,13 @@ namespace RedditSharp.Things
         /// </summary>
         [JsonProperty("spoiler")]
         public bool IsSpoiler { get; set; }
-        
+
         /// <summary>
         /// Returns true if this post is hidden
         /// </summary>
         [JsonProperty("hidden")]
         public bool IsHidden { get; set; }
-        
+
         /// <summary>
         /// Domain of this post.
         /// </summary>
@@ -342,13 +341,13 @@ namespace RedditSharp.Things
         /// <param name="comments"></param>
         private void ReplaceParentIdsOfMores(IList<Thing> comments)
         {
-            foreach(Thing thing in comments)
+            foreach (Thing thing in comments)
             {
-                if(thing is More)
+                if (thing is More)
                 {
                     (thing as More).ParentId = "t3_" + Id;
                 }
-                else if(thing is Comment)
+                else if (thing is Comment)
                 {
                     ReplaceParentIdsOfMores((thing as Comment).Comments);
                 }
@@ -365,7 +364,7 @@ namespace RedditSharp.Things
         {
             return new CommentsEnumarable(WebAgent, this, limitPerRequest);
         }
-#region Static Operations
+        #region Static Operations
         /// <summary>
         /// Sets flair of given post by <paramref name="fullname"/>
         /// </summary>

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     x:Uid="WhatsNewDialog"
     d:DesignHeight="345"
     d:DesignWidth="550"
@@ -24,25 +25,44 @@
     </ContentDialog.TitleTemplate>
     <ScrollViewer>
         <StackPanel>
-            <TextBlock> Whats new: <LineBreak/>
-- Added comments with replies, comment trees and load more
-                 <LineBreak/>
-                -  Added preview text for posts
-                 <LineBreak/>
-                - Create link, text and Image posts with flair, nsfw option and spoiler option
-                 <LineBreak/>
-                - added user mentions and mod newsletter
-                 <LineBreak/>
-                - Removed search users
-                 <LineBreak/>
-                - View comments of users
-                 <LineBreak/>
-                - View your upvoted and downvotes posts
-                 <LineBreak/>
-                - moved sub of the day, tiny sub and trending sub permanently to sidebar
-                 <LineBreak/>
-                - Fixed countless bugs and crashes and performance improvements
-</TextBlock>
+            <TextBlock>
+                Whats new (0.6.0.0 - part 1): <LineBreak />
+- app is now moved to a private preview beta
+                <LineBreak />
+                - note: this is only the first half of the 0.6.0.0 update with the second half coming later
+                <LineBreak />
+                - countless amounts of bugs fixed (only half of the bugs planned to be fixed were fixed)
+                          <LineBreak />
+                  - massive performance boost  (only half of the planned performance boost changes were done)
+          <LineBreak />
+- multiple windows support
+          <LineBreak />
+- use the app without login!
+                          <LineBreak />
+                - new login interface
+          <LineBreak />
+- album uploading support
+                 <LineBreak />
+                - flair support
+                 <LineBreak />
+                - added support for replying to comments
+                 <LineBreak />
+                - support for deleting, saving, unsaving, removing, removing marked as spam and distinguishing as moderator for comments
+     <LineBreak />
+                - new top bar UI
+                     <LineBreak />
+       - huge amounts of code readability changes
+                <LineBreak />
+                - startup time improvements
+                     <LineBreak />
+                - Added new first run page
+                <LineBreak />
+                - Added new FAQ
+                <LineBreak />
+                - Added relevant links
+                     <LineBreak />
+                - part 2 coming soon...
+            </TextBlock>
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>

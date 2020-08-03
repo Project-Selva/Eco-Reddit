@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-
-using Eco_Reddit.Activation;
-
-using Microsoft.Services.Store.Engagement;
-
 using Windows.ApplicationModel.Activation;
+using Eco_Reddit.Activation;
+using Microsoft.Services.Store.Engagement;
 
 namespace Eco_Reddit.Services
 {
@@ -26,10 +23,10 @@ namespace Eco_Reddit.Services
 
         protected override async Task HandleInternalAsync(ToastNotificationActivatedEventArgs args)
         {
-            var toastActivationArgs = args as ToastNotificationActivatedEventArgs;
+            var toastActivationArgs = args;
 
             var engagementManager = StoreServicesEngagementManager.GetDefault();
-            string originalArgs = engagementManager.ParseArgumentsAndTrackAppLaunch(toastActivationArgs.Argument);
+            var originalArgs = engagementManager.ParseArgumentsAndTrackAppLaunch(toastActivationArgs.Argument);
 
             //// Use the originalArgs variable to access the original arguments passed to the app.
 

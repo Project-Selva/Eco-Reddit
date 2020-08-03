@@ -156,7 +156,7 @@ namespace RedditSharp.Things
         /// <inheritdoc />
         internal override JToken GetJsonData(JToken json) => json["data"];
 
-       /// <summary>
+        /// <summary>
         /// Reply to the message
         /// </summary>
         /// <param name="message">Markdown text.</param>

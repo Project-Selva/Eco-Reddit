@@ -13,25 +13,38 @@
 
     <Grid>
         <Grid HorizontalAlignment="Center" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-            <ListView SelectionMode="None" ContainerContentChanging="InboxList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="InboxList" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Center" IsItemClickEnabled="True">
+            <ListView SelectionMode="None" ContainerContentChanging="InboxList_ContainerContentChanging"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="InboxList" BorderThickness="1"
+                      Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Center"
+                      IsItemClickEnabled="True">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local1:PrivateMessage">
-                        <RelativePanel Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}" CornerRadius="10" Margin="0, 5,0, 5" BorderBrush="{StaticResource SystemControlBackgroundAccentRevealBorderBrush}">
+                        <RelativePanel Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}"
+                                       CornerRadius="10" Margin="0, 5,0, 5"
+                                       BorderBrush="{StaticResource SystemControlBackgroundAccentRevealBorderBrush}">
 
-                            <controls:MarkdownTextBlock x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True" Background="Transparent" FontSize="15" Canvas.ZIndex="6" Margin="10, 20, 0, 0"  TextWrapping="WrapWholeWords" MinWidth="500"></controls:MarkdownTextBlock>
+                            <controls:MarkdownTextBlock x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True"
+                                                        Background="Transparent" FontSize="15" Canvas.ZIndex="6"
+                                                        Margin="10, 20, 0, 0" TextWrapping="WrapWholeWords"
+                                                        MinWidth="500" />
 
-                            <TextBlock RelativePanel.Below="TitleTextBlock" x:Name="Date" FontSize="11" Margin="5,13,3,0"></TextBlock>
-                            <HyperlinkButton Tapped="HyperlinkButton_Tapped" x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date" Margin="3,6,0,0" FontSize="11" >
+                            <TextBlock RelativePanel.Below="TitleTextBlock" x:Name="Date" FontSize="11"
+                                       Margin="5,13,3,0" />
+                            <HyperlinkButton Tapped="HyperlinkButton_Tapped" x:Name="User"
+                                             RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date"
+                                             Margin="3,6,0,0" FontSize="11">
                                 <FlyoutBase.AttachedFlyout>
                                     <Flyout>
-                                        <Frame Tag="{x:Bind MessageSelf}" Loaded="Frame_Loaded"></Frame>
+                                        <Frame Tag="{x:Bind MessageSelf}" Loaded="Frame_Loaded" />
                                     </Flyout>
                                 </FlyoutBase.AttachedFlyout>
                             </HyperlinkButton>
-                            <HyperlinkButton Tapped="HyperlinkButton_Tapped" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="User" x:Name="Subreddit" Margin="3,6,0,0" FontSize="11">
+                            <HyperlinkButton Tapped="HyperlinkButton_Tapped" RelativePanel.Below="TitleTextBlock"
+                                             RelativePanel.RightOf="User" x:Name="Subreddit" Margin="3,6,0,0"
+                                             FontSize="11">
                                 <FlyoutBase.AttachedFlyout>
                                     <Flyout>
-                                        <Frame Tag="{x:Bind MessageSelf}" Loaded="Frame_LoadedSubreddit"></Frame>
+                                        <Frame Tag="{x:Bind MessageSelf}" Loaded="Frame_LoadedSubreddit" />
                                     </Flyout>
                                 </FlyoutBase.AttachedFlyout>
                             </HyperlinkButton>

@@ -5,49 +5,77 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Style="{StaticResource PageStyle}"
+    Loaded="StartUp"
     Background="Transparent"
     mc:Ignorable="d">
 
     <Grid>
-        <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="9999" IsLoading="True">
-            <StackPanel>
-                <ProgressRing Loaded="StartUp" Foreground="Blue" Visibility="Visible" IsActive="True"/>
-                <TextBlock>Loading account</TextBlock>
+        <StackPanel Orientation="Vertical" Width="350">
+            <TextBlock Margin="5" x:Name="TitleAuthor" FontSize="30" />
+            <TextBlock Margin="5" x:Name="FullNameAuthor" FontSize="20" />
+            <TextBlock Margin="5" x:Name="AuthorPostKarma" />
+            <TextBlock Margin="5" x:Name="AuthorCommentKarma" />
+            <TextBlock Margin="5" x:Name="AuthorKarma" />
+            <TextBlock Margin="5" x:Name="AuthorDate" />
+            <StackPanel Orientation="Vertical">
+                <TextBlock Margin="5" x:Name="AuthorFriends" />
+                <Grid Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0"
+                      Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}"
+                      BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left"
+                      Padding="10, 5, 10, 5">
+                    <TextBlock x:Name="NSFWUser" Text="NSFW" Foreground="Red" TextWrapping="WrapWholeWords" />
+                </Grid>
+                <Grid Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0"
+                      Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}"
+                      BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left"
+                      Padding="10, 5, 10, 5">
+                    <TextBlock x:Name="PremiumUser" Text="Reddit Premium User" Foreground="Gold"
+                               TextWrapping="WrapWholeWords" />
+                </Grid>
+                <Grid Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0"
+                      Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}"
+                      BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left"
+                      Padding="10, 5, 10, 5">
+                    <TextBlock x:Name="FriendUser" Text="Friend" Foreground="Green" TextWrapping="WrapWholeWords" />
+                </Grid>
+                <Grid Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0"
+                      Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}"
+                      BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left"
+                      Padding="10, 5, 10, 5">
+                    <TextBlock x:Name="VerifiedUser" Text="Verified Email" Foreground="Green"
+                               TextWrapping="WrapWholeWords" />
+                </Grid>
+                <Grid Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0"
+                      Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}"
+                      BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left"
+                      Padding="10, 5, 10, 5">
+                    <TextBlock x:Name="ModUser" Text="Mod" Foreground="White" TextWrapping="WrapWholeWords" />
+                </Grid>
+                <Grid Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0"
+                      Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}"
+                      BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left"
+                      Padding="10, 5, 10, 5">
+                    <TextBlock x:Name="SuspendedUser" Text="Suspended" Foreground="Red" TextWrapping="WrapWholeWords" />
+                </Grid>
+            </StackPanel>
+            <CommandBar Background="Transparent" DefaultLabelPosition="Right" OverflowButtonVisibility="Collapsed"
+                        IsDynamicOverflowEnabled="True">
+                <AppBarButton Label="Sign out" Click="AppBarButton_Click" />
+            </CommandBar>
+            <Button Content="Open in new tab" Width="340" Click="AppBarButton_Click_2" />
+        </StackPanel>
+        <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="1000" IsLoading="True" >
+            <controls:Loading.Background>
+                <SolidColorBrush Color="Black" Opacity="0.7" />
+            </controls:Loading.Background>
+            <StackPanel Orientation="Horizontal" Padding="12">
+                <Grid Margin="0,0,8,0">
+                    <muxc:ProgressRing IsActive="True" Height="50" Width="50"/>
+                </Grid>
+                <TextBlock Text="Loading" FontSize="30"  VerticalAlignment="Center" />
             </StackPanel>
         </controls:Loading>
-        <StackPanel Orientation="Vertical" Width="350">
-            <TextBlock Margin="5" x:Name="TitleAuthor" FontSize="30"></TextBlock>
-            <TextBlock Margin="5" x:Name="FullNameAuthor" FontSize="20"></TextBlock>
-            <TextBlock Margin="5" x:Name="AuthorPostKarma"></TextBlock>
-            <TextBlock Margin="5" x:Name="AuthorCommentKarma"></TextBlock>
-            <TextBlock Margin="5" x:Name="AuthorKarma"></TextBlock>
-            <TextBlock Margin="5" x:Name="AuthorDate"></TextBlock>
-            <StackPanel Orientation="Vertical">
-                <TextBlock Margin="5" x:Name="AuthorFriends"></TextBlock>
-                <Grid Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0" Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}" BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left" Padding="10, 5, 10, 5">
-                    <TextBlock x:Name="NSFWUser" Text="NSFW" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
-                </Grid>
-                <Grid Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0" Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}" BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left" Padding="10, 5, 10, 5">
-                    <TextBlock x:Name="PremiumUser" Text="Reddit Premium User" Foreground="Gold" TextWrapping="WrapWholeWords"></TextBlock>
-                </Grid>
-                <Grid Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0" Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}" BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left" Padding="10, 5, 10, 5">
-                    <TextBlock x:Name="FriendUser" Text="Friend" Foreground="Green" TextWrapping="WrapWholeWords"></TextBlock>
-                </Grid>
-                <Grid Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0" Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}" BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left" Padding="10, 5, 10, 5">
-                    <TextBlock x:Name="VerifiedUser" Text="Verified Email" Foreground="Green" TextWrapping="WrapWholeWords"></TextBlock>
-                </Grid>
-                <Grid Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0" Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}" BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left" Padding="10, 5, 10, 5">
-                    <TextBlock x:Name="ModUser" Text="Mod" Foreground="White" TextWrapping="WrapWholeWords"></TextBlock>
-                </Grid>
-                <Grid Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0" Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}" BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left" Padding="10, 5, 10, 5">
-                    <TextBlock x:Name="SuspendedUser" Text="Suspended" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
-                </Grid>
-            </StackPanel>
-            <CommandBar Background="Transparent" DefaultLabelPosition="Right" OverflowButtonVisibility="Collapsed" IsDynamicOverflowEnabled="True">
-                <AppBarButton Label="Sign out" Click="AppBarButton_Click"></AppBarButton>
-            </CommandBar>
-            <Button Content="Open in new tab" Width="340" Click="AppBarButton_Click_2"></Button>
-        </StackPanel>
     </Grid>
 </Page>

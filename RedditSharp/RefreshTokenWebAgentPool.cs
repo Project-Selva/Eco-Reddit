@@ -61,18 +61,22 @@ namespace RedditSharp
         }
 
         [Obsolete]
-        private async Task<IWebAgent> GetWebAgentAsync(RefreshTokenPoolEntry poolEnt, int requestsPerMinuteWithOAuth, int requestsPerMinuteWithoutOAuth) {
+        private async Task<IWebAgent> GetWebAgentAsync(RefreshTokenPoolEntry poolEnt, int requestsPerMinuteWithOAuth, int requestsPerMinuteWithoutOAuth)
+        {
             IWebAgent toReturn = null;
-            if(poolEnt != null) {
+            if (poolEnt != null)
+            {
                 toReturn = activeAgentsCache.Get<IWebAgent>(poolEnt.WebAgentID);
-                if(toReturn == null) {
+                if (toReturn == null)
+                {
                     await cacheLock.WaitAsync();
                     RefreshTokenWebAgent agent = null;
-                    try {
+                    try
+                    {
                         //check if someone else wrote it while waiting for lock.
                         agent = activeAgentsCache.Get<RefreshTokenWebAgent>(poolEnt.WebAgentID);
 
-                        if(agent != null) return agent;
+                        if (agent != null) return agent;
                         var opts = new MemoryCacheEntryOptions() { AbsoluteExpiration = null, SlidingExpiration = new TimeSpan(0, SlidingExpirationMinutes, 0) };
                         opts.RegisterPostEvictionCallback(UpdateAgentInfoOnCacheRemove);
 
@@ -81,7 +85,8 @@ namespace RedditSharp
                         activeAgentsCache.Set(poolEnt.WebAgentID, agent, opts);
                         return agent;
                     }
-                    finally {
+                    finally
+                    {
                         cacheLock.Release();
                     }
                 }
@@ -106,11 +111,12 @@ namespace RedditSharp
             {
                 await cacheLock.WaitAsync();
                 RefreshTokenWebAgent agent = null;
-                try {
+                try
+                {
                     //check if someone else wrote it while waiting for lock.
                     poolEnt = poolEntries.SingleOrDefault(a => a.Username.ToLower() == username.ToLower());
 
-                    if(poolEnt != null) return await GetWebAgentAsync(poolEnt, requestsPerMinuteWithOAuth, requestsPerMinuteWithoutOAuth);
+                    if (poolEnt != null) return await GetWebAgentAsync(poolEnt, requestsPerMinuteWithOAuth, requestsPerMinuteWithoutOAuth);
 
                     poolEnt = await createAsync(username, DefaultUserAgent, DefaultRateLimitMode);
                     poolEntries.Add(poolEnt);
@@ -122,12 +128,13 @@ namespace RedditSharp
                     activeAgentsCache.Set(poolEnt.WebAgentID, agent, opts);
                     return agent;
                 }
-                finally {
+                finally
+                {
                     cacheLock.Release();
                 }
-                
+
             }
-           
+
             return await GetWebAgentAsync(poolEnt, requestsPerMinuteWithOAuth, requestsPerMinuteWithoutOAuth);
         }
 
@@ -161,7 +168,7 @@ namespace RedditSharp
         public async Task RemoveWebAgentAsync(string username, bool revokeRefreshToken = false)
         {
             var poolEnt = poolEntries.SingleOrDefault(a => a.Username.ToLower() == username.ToLower());
-            if(poolEnt != null)
+            if (poolEnt != null)
             {
                 poolEntries.Remove(poolEnt);
                 if (revokeRefreshToken)
@@ -170,7 +177,7 @@ namespace RedditSharp
                     await agent.RevokeRefreshTokenAsync();
                 }
                 activeAgentsCache.Remove(poolEnt.WebAgentID);
-                
+
             }
         }
 

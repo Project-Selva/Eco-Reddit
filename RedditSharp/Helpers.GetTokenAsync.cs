@@ -13,7 +13,7 @@ namespace RedditSharp
         /// <param name="uri">uri to fetch</param>
         /// <param name="isLive">bool indicating if it's a live thread or not</param>
         /// <returns></returns>
-        public static async Task<JToken> GetTokenAsync(IWebAgent agent,Uri uri, bool isLive = false)
+        public static async Task<JToken> GetTokenAsync(IWebAgent agent, Uri uri, bool isLive = false)
         {
             //TODO clean this up
             if ((!String.IsNullOrEmpty(agent.AccessToken) || agent.GetType() == typeof(RefreshTokenWebAgent)) && uri.AbsoluteUri.StartsWith("https://www.reddit.com"))

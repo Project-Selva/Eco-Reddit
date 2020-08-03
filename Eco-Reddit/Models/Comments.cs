@@ -1,15 +1,10 @@
 ﻿using Reddit.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Eco_Reddit.Models
 {
     public class Comments
     {
-        public Comment CommentSelf { get; set; }
-            public Reddit.Things.Comment CommentSelfThing { get; set; }
+        public Comment CommentSelf;
+        public Reddit.Things.Comment CommentSelfThing;
     }
 }

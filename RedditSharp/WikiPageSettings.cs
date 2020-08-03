@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RedditSharp.Things;
 using System.Collections.Generic;
 using System.Linq;
-using RedditSharp.Things;
 
 namespace RedditSharp
 {
@@ -48,12 +48,12 @@ namespace RedditSharp
         [JsonIgnore]
         public IEnumerable<RedditUser> Editors { get; private set; }
 
-        #pragma warning disable 1591
+#pragma warning disable 1591
         protected internal WikiPageSettings(IWebAgent agent, JToken json)
         {
             Editors = json["editors"].Select(x => new RedditUser(agent, x)).ToArray();
             Helpers.PopulateObject(json, this);
         }
-        #pragma warning restore 1591
+#pragma warning restore 1591
     }
 }

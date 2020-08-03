@@ -11,7 +11,8 @@ namespace RedditSharp.Things
     public class VotableThing : ModeratableThing
     {
         /// <inheritdoc />
-        public VotableThing(IWebAgent agent, JToken json) : base(agent, json) {
+        public VotableThing(IWebAgent agent, JToken json) : base(agent, json)
+        {
         }
         /// <summary>
         /// Type of vote to do
@@ -67,7 +68,7 @@ namespace RedditSharp.Things
         /// </summary>
         [JsonProperty("archived")]
         public bool IsArchived { get; private set; }
- 
+
         /// <summary>
         /// Number of upvotes on this item.
         /// </summary>

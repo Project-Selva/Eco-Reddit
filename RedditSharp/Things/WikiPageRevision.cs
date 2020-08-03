@@ -10,7 +10,8 @@ namespace RedditSharp.Things
     public class WikiPageRevision : Thing
     {
         /// <inheritdoc />
-        protected internal WikiPageRevision(IWebAgent agent, JToken json) : base(agent, json) {
+        protected internal WikiPageRevision(IWebAgent agent, JToken json) : base(agent, json)
+        {
             Author = new RedditUser(agent, json["author"]);
         }
 

@@ -40,7 +40,7 @@ namespace RedditSharp
         {
             get
             {
-                if(_searchFormatter == null)
+                if (_searchFormatter == null)
                 {
                     _searchFormatter = new DefaultSearchFormatter();
                 }
@@ -93,7 +93,7 @@ namespace RedditSharp
         public Reddit(bool useSsl)
         {
             DefaultWebAgent defaultAgent = new DefaultWebAgent();
-            
+
             DefaultWebAgent.Protocol = useSsl ? "https" : "http";
             WebAgent = defaultAgent;
             CaptchaSolver = new ConsoleCaptchaSolver();
@@ -189,7 +189,7 @@ namespace RedditSharp
             return new Domain(WebAgent, uri);
         }
 
-        
+
 
         /// <summary>
         /// Get a <see cref="Post"/> by uri.
@@ -244,7 +244,7 @@ namespace RedditSharp
             if (!uri.AbsoluteUri.EndsWith("about"))
                 uri = new Uri(uri.AbsoluteUri + "/about");
 
-            var token = await Helpers.GetTokenAsync(WebAgent, uri,true).ConfigureAwait(false);
+            var token = await Helpers.GetTokenAsync(WebAgent, uri, true).ConfigureAwait(false);
             return new LiveUpdateEvent(WebAgent, token);
         }
 
@@ -413,7 +413,7 @@ namespace RedditSharp
         /// <param name="timeE">Order by <see cref="TimeSorting"/></param>
         /// <param name="max">Maximum number of records to return.  -1 for unlimited.</param>
         /// <returns></returns>
-        [Obsolete("time search was discontinued by reddit",true)]
+        [Obsolete("time search was discontinued by reddit", true)]
         public Listing<T> SearchByTimestamp<T>(DateTime from, DateTime to, string query = "", string subreddit = "", Sorting sortE = Sorting.Relevance, TimeSorting timeE = TimeSorting.All, int max = -1) where T : Thing
         {
             string sort = sortE.ToString().ToLower();

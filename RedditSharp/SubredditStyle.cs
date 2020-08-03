@@ -12,7 +12,7 @@ namespace RedditSharp
         private const string UploadImageUrl = "/api/upload_sr_img";
         private const string UpdateCssUrl = "/api/subreddit_stylesheet";
 
-        
+
         public SubredditStyle(Subreddit subreddit) : base(subreddit?.WebAgent)
         {
             Subreddit = subreddit;
@@ -71,13 +71,13 @@ namespace RedditSharp
             var request = WebAgent.CreateRequest(UploadImageUrl, "POST");
             var formData = new MultipartFormBuilder(request);
             formData.AddDynamic(new
-                {
-                    name,
-                    r = Subreddit.Name,
-                    formid = "image-upload",
-                    img_type = imageType == ImageType.PNG ? "png" : "jpg",
-                    upload = ""
-                });
+            {
+                name,
+                r = Subreddit.Name,
+                formid = "image-upload",
+                img_type = imageType == ImageType.PNG ? "png" : "jpg",
+                upload = ""
+            });
             formData.AddFile("file", "foo.png", file, imageType == ImageType.PNG ? "image/png" : "image/jpeg");
             formData.Finish();
             var response = await WebAgent.GetResponseAsync(request).ConfigureAwait(false);
@@ -86,11 +86,11 @@ namespace RedditSharp
         }
     }
 
-    #pragma warning disable 1591
+#pragma warning disable 1591
     public enum ImageType
     {
         PNG,
         JPEG
     }
-    #pragma warning restore 1591
+#pragma warning restore 1591
 }

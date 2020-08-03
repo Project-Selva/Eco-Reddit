@@ -316,7 +316,7 @@ namespace RedditSharp
 
         private SpamFilterStrength GetSpamFilterStrength(string rawValue)
         {
-            switch(rawValue)
+            switch (rawValue)
             {
                 case "low":
                     return SpamFilterStrength.Low;

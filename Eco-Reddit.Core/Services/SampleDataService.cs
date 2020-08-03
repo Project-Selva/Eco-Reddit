@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Eco_Reddit.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Eco_Reddit.Core.Models;
 
 namespace Eco_Reddit.Core.Services
 {

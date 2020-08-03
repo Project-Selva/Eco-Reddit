@@ -1,18 +1,13 @@
-﻿using Reddit.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
+using Reddit.Controllers;
 
 namespace Eco_Reddit.Models
 {
     public class SubredditList
     {
-        public string TitleSubreddit { get; set; }
-        public string SubredditIcon { get; set; }
-        public Subreddit SubredditSelf { get; set; }
-        public Visibility IsNSFW { get; set; }
+        public Visibility IsNSFW;
+        public string SubredditIcon;
+        public Subreddit SubredditSelf;
+        public string TitleSubreddit;
     }
 }

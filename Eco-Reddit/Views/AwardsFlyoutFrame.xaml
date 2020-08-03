@@ -10,10 +10,10 @@
 
     <Grid>
         <StackPanel>
-            <TextBlock Margin="5" x:Name="GoldAward" Loaded="Award_Loaded"></TextBlock>
-            <TextBlock Margin="5" x:Name="SilverAward" Loaded="Award_Loaded"></TextBlock>
-            <TextBlock Margin="5" x:Name="BronzeAward" Loaded="Award_Loaded"></TextBlock>
-            <TextBlock Margin="5" x:Name="TotalAward" Loaded="Award_Loaded"></TextBlock>
+            <TextBlock Margin="5" x:Name="GoldAward" Loaded="Award_Loaded" />
+            <TextBlock Margin="5" x:Name="SilverAward" Loaded="Award_Loaded" />
+            <TextBlock Margin="5" x:Name="BronzeAward" Loaded="Award_Loaded" />
+            <TextBlock Margin="5" x:Name="TotalAward" Loaded="Award_Loaded" />
         </StackPanel>
     </Grid>
 </Page>

@@ -4,8 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Style="{StaticResource PageStyle}"
-     Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     mc:Ignorable="d">
     <Page.Resources>
         <Style x:Key="BrowserButtonStyle" TargetType="Button">
@@ -34,101 +36,143 @@
                                     </VisualState>
                                     <VisualState x:Name="PointerOver">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush"
+                                                                           Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource ButtonBorderBrushPointerOver}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPointerOver}" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
+                                                                           Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource ButtonForegroundPointerOver}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush"
+                                                                           Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource ButtonBorderBrushPressed}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPressed}" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
+                                                                           Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource ButtonForegroundPressed}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushDisabled}" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush"
+                                                                           Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource ButtonBorderBrushDisabled}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundDisabled}" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
+                                                                           Storyboard.TargetName="ContentPresenter">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource ButtonForegroundDisabled}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              ContentTransitions="{TemplateBinding ContentTransitions}"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Padding="{TemplateBinding Padding}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
     </Page.Resources>
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-        <Frame x:Name="FinishedFrame" Visibility="Collapsed"/>
+    <Grid>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
+                Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+
         <Grid>
-            <StackPanel Width="400">
-            <TextBlock Margin="5" FontSize="30">Login to reddit</TextBlock>
+            <StackPanel Width="440">
+                <TextBlock Margin="5" FontSize="30">Login to reddit</TextBlock>
                 <TextBlock Margin="5">This is the alpha version</TextBlock>
-                <TextBlock Margin="5">This version</TextBlock>
+                <TextBlock Margin="5" x:Name="Fillbox" IsTextSelectionEnabled="True" TextWrapping="WrapWholeWords">This version</TextBlock>
                 <StackPanel Orientation="Horizontal">
-                    <Button  Margin="5" Click="Button_Click" Style="{ThemeResource ButtonRevealStyle}">
+                    <Button Margin="5" Click="Button_Click" Style="{ThemeResource ButtonRevealStyle}">
                         Subreddit
                     </Button>
-                    <Button  Margin="5" Click="Button_Click_1" Style="{ThemeResource ButtonRevealStyle}">
+                    <Button Margin="5" Click="Button_Click_1" Style="{ThemeResource ButtonRevealStyle}">
                         FAQ
                     </Button>
                 </StackPanel>
-                <Frame x:Name="SettingsFrame"></Frame>
+                <Frame x:Name="SettingsFrame" />
             </StackPanel>
         </Grid>
         <Grid HorizontalAlignment="Right">
             <WebView x:Name="webView"
-                     Width="900"
-                 NavigationCompleted="OnNavigationCompleted"
-                 NavigationStarting="LoginView_NavigationStarting"
-                 NavigationFailed="OnNavigationFailed" />
+                     Width="900" Margin="0, 0, 0, 30"
+                     NavigationCompleted="OnNavigationCompleted"
+                     NavigationStarting="LoginView_NavigationStarting"
+                     NavigationFailed="OnNavigationFailed" />
 
-        <StackPanel Visibility="{x:Bind IsLoadingVisibility, Mode=OneWay}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-            <ProgressRing IsActive="{x:Bind IsLoading, Mode=OneWay}" />
-            <TextBlock x:Uid="Login_Loading" />
-        </StackPanel>
-        <StackPanel Visibility="{x:Bind FailedMesageVisibility, Mode=OneWay}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-            <TextBlock HorizontalAlignment="Center" x:Uid="Login_FailedMessage" TextWrapping="WrapWholeWords" />
-            <HyperlinkButton Click="OnRetry" x:Uid="Login_Retry" HorizontalAlignment="Center" />
-        </StackPanel>
+            <StackPanel Visibility="{x:Bind IsLoadingVisibility, Mode=OneWay}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
 
-        <Grid VerticalAlignment="Bottom" Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush }">
-            <StackPanel Orientation="Horizontal">
-                <Button IsEnabled="{x:Bind IsBackEnabled, Mode=OneWay}" Style="{StaticResource BrowserButtonStyle}" Click="OnGoBack" x:Uid="Login_BrowserBackButton">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72B;" />
-                </Button>
-                <Button IsEnabled="{x:Bind IsForwardEnabled, Mode=OneWay}" Style="{StaticResource BrowserButtonStyle}" Click="OnGoForward" x:Uid="Login_BrowserForwardButton">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72A;" />
-                </Button>
-            </StackPanel >
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Style="{StaticResource BrowserButtonStyle}" Click="OnRefresh" x:Uid="Login_RefreshBrowserButton">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72C;" />
-                </Button>
-                <Button Style="{StaticResource BrowserButtonStyle}" Click="OnOpenInBrowser" x:Uid="Login_OpenInBrowserButton">
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE774;" />
-                </Button>
+                <TextBlock x:Uid="Login_Loading" />
             </StackPanel>
+            <StackPanel Visibility="{x:Bind FailedMesageVisibility, Mode=OneWay}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <TextBlock HorizontalAlignment="Center" x:Uid="Login_FailedMessage" TextWrapping="WrapWholeWords" />
+                <HyperlinkButton Click="OnRetry" x:Uid="Login_Retry" HorizontalAlignment="Center" />
+            </StackPanel>
+
+            <Grid VerticalAlignment="Bottom"
+                  Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush }">
+                <StackPanel Orientation="Horizontal">
+                    <Button IsEnabled="{x:Bind IsBackEnabled, Mode=OneWay}" Style="{StaticResource BrowserButtonStyle}"
+                            Click="OnGoBack" x:Uid="Login_BrowserBackButton">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72B;" />
+                    </Button>
+                    <Button IsEnabled="{x:Bind IsForwardEnabled, Mode=OneWay}"
+                            Style="{StaticResource BrowserButtonStyle}" Click="OnGoForward"
+                            x:Uid="Login_BrowserForwardButton">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72A;" />
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource BrowserButtonStyle}" Click="OnRefresh"
+                            x:Uid="Login_RefreshBrowserButton">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72C;" />
+                    </Button>
+                    <Button Style="{StaticResource BrowserButtonStyle}" Click="OnOpenInBrowser"
+                            x:Uid="Login_OpenInBrowserButton">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE774;" />
+                    </Button>
+                </StackPanel>
+            </Grid>
         </Grid>
-    </Grid>
+       
     </StackPanel>
+        <Frame x:Name="FinishedFrame" Visibility="Collapsed" />
+        <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="1000" IsLoading="{x:Bind IsLoading, Mode=OneWay}" >
+            <controls:Loading.Background>
+                <SolidColorBrush Color="Black" Opacity="0.7" />
+            </controls:Loading.Background>
+            <StackPanel Orientation="Horizontal" Padding="12">
+                <Grid Margin="0,0,8,0">
+                    <muxc:ProgressRing IsActive="True" Height="50" Width="50"/>
+                </Grid>
+                <TextBlock Text="Loading" FontSize="30"  VerticalAlignment="Center" />
+            </StackPanel>
+        </controls:Loading>
+    </Grid>
 </Page>

@@ -12,7 +12,7 @@ namespace RedditSharp
     /// <typeparam name="TAgent">Web Agent type. Must inherit from <see cref="IWebAgent"/></typeparam>
     public class WebAgentPool<TKey, TAgent> where TAgent : IWebAgent
     {
-        private static readonly SemaphoreSlim cacheLock = new SemaphoreSlim(1,1);
+        private static readonly SemaphoreSlim cacheLock = new SemaphoreSlim(1, 1);
         [Obsolete]
         private readonly MemoryCache activeAgentsCache = new MemoryCache(new MemoryCacheOptions() { CompactOnMemoryPressure = false });
 
@@ -22,7 +22,8 @@ namespace RedditSharp
         /// <param name="key">Key of Web Agent to return</param>
         /// <returns><typeparamref name="TAgent"/></returns>
         [Obsolete]
-        public TAgent GetAgent(TKey key) {
+        public TAgent GetAgent(TKey key)
+        {
             return activeAgentsCache.Get<TAgent>(key);
         }
 
@@ -36,22 +37,24 @@ namespace RedditSharp
         public async Task<TAgent> GetOrCreateAgentAsync(TKey key, Func<Task<TAgent>> create)
         {
             TAgent agent = GetAgent(key);
-            if(agent!=null) return agent;
+            if (agent != null) return agent;
 
             await cacheLock.WaitAsync();
-            try {
+            try
+            {
                 //check if someone else wrote it while waiting for lock.
                 agent = GetAgent(key);
 
-                if(agent != null) return agent;
+                if (agent != null) return agent;
                 agent = await create();
                 activeAgentsCache.Set(key, agent, new MemoryCacheEntryOptions() { AbsoluteExpiration = null, SlidingExpiration = null });
                 return agent;
             }
-            finally {
+            finally
+            {
                 cacheLock.Release();
             }
-            
+
         }
 
         /// <summary>

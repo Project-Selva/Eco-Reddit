@@ -5,169 +5,82 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-        xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:local ="using:Eco_Reddit.Models"
+    xmlns:local="using:Reddit.Controllers"
+    Loaded="Page_Loaded"
     xmlns:models="using:Eco_Reddit.Models"
-    Style="{StaticResource PageStyle}"   
+
+        xmlns:sys="using:System"
+    xmlns:UI="using:VungleSDK.UI"
+    xmlns:adsjumbo="using:AdsJumbo"
+    xmlns:controllers="using:Reddit.Controllers"
+    xmlns:views="using:Eco_Reddit.Views"
+    xmlns:things="using:Reddit.Things"
+    Style="{StaticResource PageStyle}"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
             <Style x:Key="Tippstyle" TargetType="winui:TeachingTip">
-                <Setter Property="MaxWidth" Value="Infinity"></Setter>
+                <Setter Property="MaxWidth" Value="Infinity" />
             </Style>
         </ResourceDictionary>
     </Page.Resources>
     <Grid
-            Grid.Row="1"        
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-        <Frame Canvas.ZIndex="9999" x:Name="LoginFrame"></Frame>
-        <controls:DropShadowPanel BlurRadius="4.0" ShadowOpacity="0.70"
-                          OffsetX="5.0" OffsetY="5.0" Color="Black" Canvas.ZIndex="50" Width="10000">
-
-            <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Width="10000" Orientation="Horizontal" Height="50" VerticalAlignment="Top" Canvas.ZIndex="50" x:Name="HomeBar" x:Load="False">
-                <TextBlock Margin="5" x:Name="Subreddit" Text="Home" FontSize="30"></TextBlock>
-                <CommandBar IsDynamicOverflowEnabled="True" HorizontalAlignment="Center" DefaultLabelPosition="Right" Background="Transparent" VerticalAlignment="Center">
-                    <AppBarButton Icon="Sort" x:Name="SortOrderButton" Visibility="Collapsed">
-                        <AppBarButton.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Click="SortOrderItem_Click" Text="Hot"></MenuFlyoutItem>
-                                <MenuFlyoutItem Click="SortOrderItem_Click"  Text="New"></MenuFlyoutItem>
-                                <MenuFlyoutItem Click="SortOrderItem_Click"  Text="Rising"></MenuFlyoutItem>
-                                <MenuFlyoutItem Click="SortOrderItem_Click"  Text="Controversial"></MenuFlyoutItem>
-                                <MenuFlyoutSubItem Text="Top">
-                                    <MenuFlyoutItem Click="SortOrderItem_Click"  Text="all"></MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="SortOrderItem_Click"  Text="year"></MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="SortOrderItem_Click"  Text="month"></MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="SortOrderItem_Click"  Text="week"></MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="SortOrderItem_Click"  Text="day"></MenuFlyoutItem>
-                                </MenuFlyoutSubItem>
-                            </MenuFlyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                    <AppBarButton Icon="Home" Label="Hub" Click="HubButton_Click"></AppBarButton>
-                    <AppBarButton Icon="Add" Click="AddBarButton_Click" Label="Create Post"></AppBarButton>
-                    <AppBarButton Icon="Refresh" Label="Refresh" Click="RefreshBarButton_Click"></AppBarButton>
-                    <AppBarButton Icon="Account" Label="Profile">
-                        <AppBarButton.Flyout>
-                            <Flyout>
-                                <Frame x:Name="ProfileFrame" Loaded="ProfilePage_Loaded"></Frame>
-                            </Flyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                    <AppBarButton Icon="OpenPane" Label="Sidebar" Click="Expander_Expanded">
-                    </AppBarButton>
-                    <AppBarButton Icon="Find" Label="Search" Click="SearchTipButton_Click">
-                    </AppBarButton>
-                    <AppBarButton Icon="Mail" Loaded="InboxButton_Loaded" x:Name="InboxButton" Label="Inbox" Click="InboxButton_Click">
-                    </AppBarButton>
-                    <AppBarButton Icon="Setting" x:Name="SettingsButton" Label="Settings" Click="SettingsButton_Click">
-                        <AppBarButton.Flyout>
-                            <Flyout>
-                                <Frame x:Name="SettingsFrame"></Frame>
-                            </Flyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                    <CommandBar.SecondaryCommands>
-                    <AppBarButton Icon="Message" x:Name="ChatButton" Label="Chat" Click="ChatButton_Click">
-                    </AppBarButton>
-                    <AppBarButton Icon="Video" x:Name="RPANButton" Label="Network" Click="NetWorkButton_Click">
-                    </AppBarButton>
-                        <AppBarButton Icon="OutlineStar" x:Name="GoldButton" Label="Coins" Click="GoldButton_Click">
-                        </AppBarButton>
-                        <AppBarButton Icon="SolidStar" x:Name="PremiumButton" Label="Premium" Click="PremiumButton_Click">
-                        </AppBarButton>
-                    </CommandBar.SecondaryCommands>
-                </CommandBar>
-            </StackPanel>
-        </controls:DropShadowPanel>
-
-        <winui:TeachingTip x:Name="SearchTip"
-                           Width="9000"
-                       Style="{ThemeResource Tippstyle}"
-                           Subtitle="Note this is Temporary"
-	Title="Search:">
-            <winui:TeachingTip.Content>
-                <StackPanel>
-                    <AutoSuggestBox Margin="9" PlaceholderText="Search subreddits and posts"
-                            HorizontalAlignment="Center"
-                                            x:Name="Search"
-                                            Width="200"
-        QueryIcon="Find"  
-        QuerySubmitted="Search_QuerySubmitted">
-
-
-                    </AutoSuggestBox>
-                    <ComboBox x:Name="SortBox" Margin="5" HorizontalAlignment="Center" Header="Search options:" Width="200" SelectedIndex="0">
-                        <x:String>Posts</x:String>
-                        <x:String>Subreddits</x:String>
-                        <!-- <x:String>Users (experimental)</x:String>-->
-                    </ComboBox>
-                </StackPanel>
-            </winui:TeachingTip.Content>
-        </winui:TeachingTip>
-        <muxc:TwoPaneView Pane1Length="auto" Pane2Length="*" x:Name="splitView" Margin="0, 50, 0, 0" Loaded="splitView_Loaded">
+        Grid.Row="1"
+        Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+        <Frame Canvas.ZIndex="9999" x:Load="False" x:Name="LoginFrame" />
+        <muxc:TwoPaneView Pane1Length="auto" Pane2Length="*" x:Name="splitView" Margin="0, 0, 0, 0">
             <muxc:TwoPaneView.Pane1>
                 <Grid Width="570" Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
-                    <SplitView Canvas.ZIndex="5000" x:Name="HubsplitView" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-           IsPaneOpen="False" OpenPaneLength="312" CompactPaneLength="48" DisplayMode="Overlay">
+                    <SplitView Canvas.ZIndex="5000" x:Name="HubsplitView"
+                               PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                               IsPaneOpen="False" OpenPaneLength="312" CompactPaneLength="48" DisplayMode="Overlay">
                         <SplitView.Pane>
-                            <Grid  Background="{ThemeResource SystemControlAcrylicElementBrush}">
-                                <ListView SelectionMode="None" Loaded="SubscribedSubs_Loaded" IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" ItemClick="SubscribedSubs_ItemClick" Margin="4" x:Name="SubscribedSubs" Width="312">
+                            <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}">
+                                <ListView SelectionMode="None" IsItemClickEnabled="True" 
+                                          Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                          ItemClick="SubscribedSubs_ItemClick" Margin="4" x:Name="SubscribedSubs"
+                                          Width="312">
                                     <ListView.Header>
-                                        <StackPanel VerticalAlignment="Top" Background="{ThemeResource SystemControlAcrylicElementBrush}" Orientation="Vertical">
+                                        <StackPanel VerticalAlignment="Top"
+                                                    Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                                    Orientation="Vertical">
                                             <AutoSuggestBox PlaceholderText="r/"
-                                      Header="Jump to..."
-                                            x:Name="Jumper"
-                                            Width="280"
-                                            
-        QueryIcon="Add"
-        QuerySubmitted="Jumper_QuerySubmitted">
-                                            </AutoSuggestBox>
+                                                            Header="Jump to..."
+                                                            x:Name="Jumper"
+                                                            Width="280"
+
+                                                            QueryIcon="Add"
+                                                            QuerySubmitted="Jumper_QuerySubmitted" />
                                             <CheckBox Content="Open in new tab"
-                                      x:Name="Openinnewtabjumpercheckbox" IsEnabled="False"/>
-                                            <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="270" HorizontalAlignment="Center" Click="HomeButton_Click">Home</Button>
-                                            <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="270" HorizontalAlignment="Center" Click="PopularButton_Click">popular</Button>
-                                            <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="270" HorizontalAlignment="Center" Click="AllButton_Click">all</Button>
-                                     <!--       <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="270" HorizontalAlignment="Center" Click="TrendingButton_Click">Trending Subreddits</Button>-->
-                                     <!--    <ListView SelectionMode="None"  ItemClick="SubscribedSubs_ItemClick" IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="Subsday" Header="Subreddit of the day:" Width="400">
-                                                    <ListView.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
-                                                                <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
-                                                            </StackPanel>
-                                                        </DataTemplate>
-                                                    </ListView.ItemTemplate>
-                                                </ListView>
-                                            <ListView SelectionMode="None"  ItemClick="SubscribedSubs_ItemClick" IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="TrendingSubsday" Header="Trending subreddits:" Width="400">
-                                                <ListView.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
-                                                            <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ListView.ItemTemplate>
-                                            </ListView>
-                                            <ListView SelectionMode="None"  ItemClick="SubscribedSubs_ItemClick" IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="TinySubsday" Header="Tiny subreddit of the day:" Width="400">
-                                                <ListView.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
-                                                            <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ListView.ItemTemplate>
-                                            </ListView>-->
+                                                      x:Name="Openinnewtabjumpercheckbox" IsEnabled="False" />
+                                            <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="270"
+                                                    HorizontalAlignment="Center" Click="HomeButton_Click"  IsEnabled="{x:Bind isenabled, Mode=OneWay}">
+                                                Home
+                                            </Button>
+                                            <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="270"
+                                                    HorizontalAlignment="Center" Click="PopularButton_Click">
+                                                popular
+                                            </Button>
+                                            <Button Margin="5" Style="{ThemeResource ButtonRevealStyle}" Width="270"
+                                                    HorizontalAlignment="Center" Click="AllButton_Click">
+                                                all
+                                            </Button>
+
                                             <StackPanel>
-                                                <ListView SelectionMode="None"  ItemClick="ModeratedSubs_ItemClick" IsItemClickEnabled="True" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="ModeratedSubs" Header="Moderated subreddits:" Width="400">
+                                                <ListView SelectionMode="None" ItemClick="ModeratedSubs_ItemClick"
+                                                          IsItemClickEnabled="True" IsEnabled="{x:Bind isenabled, Mode=OneWay}"
+                                                          Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                                          Margin="5" Canvas.ZIndex="3" x:Name="ModeratedSubs"
+                                                          Header="Moderated subreddits:" Width="400">
                                                     <ListView.ItemTemplate>
-                                                        <DataTemplate>
+                                                        <DataTemplate x:DataType="things:ModeratedListItem">
                                                             <StackPanel Orientation="Horizontal">
-                                                                <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
-                                                                <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
+                                                                <PersonPicture Width="20" Height="20" Margin="5"
+                                                                               ProfilePicture="/Images/IconSub.png" />
+                                                                <TextBlock Text="{x:Bind SRDisplayNamePrefixed}" Margin="5" />
                                                             </StackPanel>
                                                         </DataTemplate>
                                                     </ListView.ItemTemplate>
@@ -177,11 +90,11 @@
                                         </StackPanel>
                                     </ListView.Header>
                                     <ListView.ItemTemplate>
-                                        <DataTemplate>
+                                        <DataTemplate x:DataType="local:Subreddit">
                                             <StackPanel Orientation="Horizontal">
-                                                <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
-                                                <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
-                                                <TextBlock HorizontalAlignment="Left" Margin="5" Padding="10, 5, 10, 5" Text="IsNSFW" Visibility="{Binding IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
+                                                <PersonPicture Width="20" Height="20" Margin="5"
+                                                               ProfilePicture="/Images/IconSub.png" />
+                                                <TextBlock Text="{x:Bind Name}" Margin="5" />
                                             </StackPanel>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
@@ -190,111 +103,199 @@
                         </SplitView.Pane>
                     </SplitView>
 
-                    <ProgressRing VerticalAlignment="Bottom" Foreground="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}" IsActive="True" Canvas.ZIndex="6" />
-                    <ListView SelectionMode="None" ContainerContentChanging="HomeList_ContainerContentChanging" VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="HomeList" BorderThickness="1" Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}" IsItemClickEnabled="True" ItemClick="HomeList_ItemClick" HorizontalAlignment="Left">
+                    <muxc:ProgressRing VerticalAlignment="Bottom" Height="30" Width="30"
+                                  Foreground="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}"
+                                  IsActive="True" Canvas.ZIndex="6" />
+                    <ListView SelectionMode="None" ContainerContentChanging="HomeList_ContainerContentChanging"
+                              VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="HomeList"
+                              BorderThickness="1"
+                              Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
+                              IsItemClickEnabled="True" ItemClick="HomeList_ItemClick" HorizontalAlignment="Left">
+                        <ListView.Header>
+                            <controls:ScrollHeader Mode="Sticky">
+                                <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" 
+                    Orientation="Horizontal" Height="40" VerticalAlignment="Top">
+
+                                    <TextBlock Margin="4" x:Name="Subreddit" Text="Home" HorizontalAlignment="Center" MaxWidth="180" FontSize="20" FontWeight="SemiBold" />
+                                    <CommandBar OverflowButtonVisibility="Collapsed" HorizontalAlignment="Center"
+                        DefaultLabelPosition="Right" Background="Transparent" VerticalAlignment="Center">
+
+                                        <AppBarButton Icon="Sort" x:Name="SortOrderButton" Visibility="Collapsed" >
+                                            <AppBarButton.Flyout>
+                                                <MenuFlyout>
+                                                    <MenuFlyoutItem Click="SortOrderItem_Click" Text="Hot" IsEnabled="{x:Bind isenabled, Mode=OneWay}"/>
+                                                    <MenuFlyoutItem Click="SortOrderItem_Click" Text="New" IsEnabled="{x:Bind isenabled, Mode=OneWay}"/>
+                                                    <MenuFlyoutItem Click="SortOrderItem_Click" Text="Rising" IsEnabled="{x:Bind isenabled, Mode=OneWay}"/>
+                                                    <MenuFlyoutItem Click="SortOrderItem_Click" Text="Controversial" IsEnabled="{x:Bind isenabled, Mode=OneWay}"/>
+                                                    <MenuFlyoutSubItem Text="Top" IsEnabled="{x:Bind isenabled, Mode=OneWay}">
+                                                        <MenuFlyoutItem Click="SortOrderItem_Click" Text="all" />
+                                                        <MenuFlyoutItem Click="SortOrderItem_Click" Text="year" />
+                                                        <MenuFlyoutItem Click="SortOrderItem_Click" Text="month" />
+                                                        <MenuFlyoutItem Click="SortOrderItem_Click" Text="week" />
+                                                        <MenuFlyoutItem Click="SortOrderItem_Click" Text="day" />
+                                                    </MenuFlyoutSubItem>
+                                                </MenuFlyout>
+                                            </AppBarButton.Flyout>
+                                        </AppBarButton>
+                                        <AppBarButton Icon="Home" Label="Hub" Click="HubButton_Click"/>
+                                        <AppBarSeparator/>
+                                        <AppBarButton Icon="Refresh" Click="RefreshBarButton_Click"  IsEnabled="{x:Bind isenabled, Mode=OneWay}"/>
+                                        <AppBarButton HorizontalAlignment="Right" Icon="Add" Click="AddBarButton_Click" IsEnabled="{x:Bind isenabled, Mode=OneWay}" />
+                                        <AppBarButton Icon="OpenPane" Label="Sidebar" Click="Expander_Expanded"  IsEnabled="{x:Bind isenabled, Mode=OneWay}"/>
+                                    </CommandBar>
+                                </StackPanel>
+                            </controls:ScrollHeader>
+                        </ListView.Header>
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="local:Posts">
-                                <RelativePanel  Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="2" Margin="0, 2,0, 2" Width="540">
-                                    <AppBarToggleButton CornerRadius="10" x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True"  IsChecked="{x:Bind PostSelf.IsUpvoted}" Label="{x:Bind PostSelf.UpVotes}" Checked="{x:Bind PostSelf.UpvoteAsync}" Width="70" Margin="5" Icon="Up"></AppBarToggleButton>
-                                    <AppBarToggleButton CornerRadius="10" IsChecked="{x:Bind PostSelf.IsDownvoted}" x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" Width="70" RelativePanel.Below="Upvote" Checked="{x:Bind PostSelf.DownvoteAsync}" Margin="5">
+                            <DataTemplate x:DataType="controllers:Post">
+                                <RelativePanel Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                               CornerRadius="2" Margin="0, 2,0, 2" Width="540">
+                                    <AppBarToggleButton CornerRadius="10" x:Name="Upvote"
+                                                        RelativePanel.AlignLeftWithPanel="True"
+                                                        IsChecked="{x:Bind IsUpvoted}" Label="{x:Bind UpVotes}"
+                                                        Checked="{x:Bind UpvoteAsync}" Width="70" Margin="5" Icon="Up" />
+                                    <AppBarToggleButton CornerRadius="10" IsChecked="{x:Bind IsDownvoted}"
+                                                        x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True"
+                                                        Width="70" RelativePanel.Below="Upvote"
+                                                        Checked="{x:Bind DownvoteAsync}" Margin="5">
                                         <AppBarToggleButton.Icon>
-                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;"/>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;" />
                                         </AppBarToggleButton.Icon>
                                     </AppBarToggleButton>
 
-                                    <TextBlock Text="{x:Bind PostSelf.Title}" x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="Upvote" FontSize="15" Canvas.ZIndex="6" Margin="10, 20, 0, 0" TextWrapping="WrapWholeWords" Width="400"></TextBlock>
-                                    <TextBlock Name="datecreatedstring" RelativePanel.RightOf="DownVote" RelativePanel.Below="TitleTextBlock" Text="Created:" FontSize="11" Margin="10,13,3,0"></TextBlock>
-                                    <TextBlock RelativePanel.RightOf="datecreatedstring" RelativePanel.Below="TitleTextBlock" x:Name="Date" Text="{x:Bind PostSelf.Created}" FontSize="11" Margin="1,13,3,0"></TextBlock>
-                                    <HyperlinkButton x:Name="User" RelativePanel.Below="TitleTextBlock" Content="{x:Bind PostSelf.Author}" RelativePanel.RightOf="Date" Margin="3,6,0,0" FontSize="11" Tapped="HyperlinkButton_Tapped">
+                                    <TextBlock Text="{x:Bind Title}" x:Name="TitleTextBlock"
+                                               RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="Upvote"
+                                               FontSize="15" Canvas.ZIndex="6" Margin="10, 20, 0, 0"
+                                               TextWrapping="WrapWholeWords" Width="400" />
+                                    <TextBlock Name="datecreatedstring" RelativePanel.RightOf="DownVote"
+                                               RelativePanel.Below="TitleTextBlock" Text="Created:" FontSize="11"
+                                               Margin="10,13,3,0" />
+                                    <TextBlock RelativePanel.RightOf="datecreatedstring"
+                                               RelativePanel.Below="TitleTextBlock" x:Name="Date"
+                                               Text="{x:Bind Created}" FontSize="11" Margin="1,13,3,0" />
+                                    <HyperlinkButton  x:Name="User" RelativePanel.Below="TitleTextBlock"
+                                                     Content="{x:Bind Author}" RelativePanel.RightOf="Date"
+                                                     Margin="3,6,0,0" FontSize="11" Tapped="HyperlinkButton_Tapped">
                                         <ToolTipService.ToolTip>
-                                            <Frame Tag="{x:Bind PostSelf}" Loaded="Frame_Loaded"></Frame>
+                                            <Frame Loaded="Frame_Loaded" />
                                         </ToolTipService.ToolTip>
                                     </HyperlinkButton>
-                                    <HyperlinkButton Tapped="Subreddit_Tapped" RelativePanel.Below="TitleTextBlock" Content="{x:Bind PostSelf.Subreddit}" RelativePanel.RightOf="User" x:Name="Subreddit" Margin="3,6,0,0" FontSize="11">
+                                    <HyperlinkButton  Tapped="Subreddit_Tapped" RelativePanel.Below="TitleTextBlock"
+                                                     Content="{x:Bind Subreddit}" RelativePanel.RightOf="User"
+                                                     x:Name="Subreddit" Margin="3,6,0,0" FontSize="11">
                                         <ToolTipService.ToolTip>
-                                            <Frame Tag="{x:Bind PostSelf}" Loaded="Frame_LoadedSubreddit"></Frame>
+                                            <Frame Loaded="Frame_LoadedSubreddit" />
                                         </ToolTipService.ToolTip>
                                     </HyperlinkButton>
 
-                                    <TextBlock Name="flairstring" RelativePanel.RightOf="DownVote" RelativePanel.Below="Subreddit" Text="Flair: "  Padding="10, 5, 1, 5"></TextBlock>
-                                    <TextBlock Margin="1,0,0,0" x:Name="Flair" RelativePanel.Below="Subreddit" RelativePanel.RightOf="flairstring" Text="{x:Bind PostSelf.Listing.LinkFlairText}"  Padding="1, 5, 10, 5"  HorizontalAlignment="Left" TextWrapping="WrapWholeWords"></TextBlock>
+                                    <TextBlock Name="flairstring" RelativePanel.RightOf="DownVote"
+                                               RelativePanel.Below="Subreddit" Text="Flair: " Padding="10, 5, 1, 5" />
+                                    <TextBlock Margin="1,0,0,0" x:Name="Flair" RelativePanel.Below="Subreddit"
+                                               RelativePanel.RightOf="flairstring"
+                                               Text="{x:Bind Listing.LinkFlairText}" Padding="1, 5, 10, 5"
+                                               HorizontalAlignment="Left" TextWrapping="WrapWholeWords" />
                                     <!--<TextBlock Margin="3,0,0,0" HorizontalAlignment="Left"  Padding="10, 5, 10, 5" x:Name="NSFW" x:Phase="2" Text="{x:Bind IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>-->
                                     <controls:MarkdownTextBlock
-                     TextWrapping="WrapWholeWords"
-                     VerticalContentAlignment="Stretch"
+                                        TextWrapping="WrapWholeWords"
+                                        VerticalContentAlignment="Stretch"
                                         RelativePanel.Below="Flair"
-                                     Padding="10,3"
+                                        Padding="10,3"
                                         MinWidth="400"
-            CornerRadius="5"
+                                        CornerRadius="5"
                                         RelativePanel.RightOf="DownVote"
-                     BorderThickness="1"
-                                    x:Name="MarkDownBlockPreview"
-                            ImageClicked="MarkdownText_ImageClicked"
-                                   LinkClicked="MarkdownText_LinkClicked"
-                                Margin="6"/>
-                                    <CommandBar x:Name="PostsBar" IsDynamicOverflowEnabled="True" Margin="3" RelativePanel.Above="PostImage" RelativePanel.RightOf="DownVote" RelativePanel.Below="MarkDownBlockPreview" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
+                                        BorderThickness="1"
+                                        x:Name="MarkDownBlockPreview"
+                                        ImageClicked="MarkdownText_ImageClicked"
+                                        LinkClicked="MarkdownText_LinkClicked"
+                                        Margin="6" />
+                                    <CommandBar x:Name="PostsBar" IsDynamicOverflowEnabled="True" Margin="3" IsEnabled="{x:Bind views:HomePage.SingletonReference.isenabled, Mode=OneWay}"
+                                                RelativePanel.Above="PostImage" RelativePanel.RightOf="DownVote"
+                                                RelativePanel.Below="MarkDownBlockPreview" Background="Transparent"
+                                                IsOpen="False" DefaultLabelPosition="Right">
                                         <CommandBar.Resources>
-                                            <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                                            <ResourceDictionary
+                                                Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                                         </CommandBar.Resources>
-                                        <AppBarButton Icon="Comment" />
-                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="SolidStar" Foreground="Gold">
+                                        <AppBarButton Icon="Comment" IsEnabled="False" />
+                                        <AppBarButton Icon="SolidStar" Foreground="Gold">
                                             <AppBarButton.Flyout>
                                                 <Flyout>
-                                                    <Frame Tag="{x:Bind PostSelf}" Loaded="Award_Loaded"></Frame>
+                                                    <Frame Loaded="Award_Loaded" />
                                                 </Flyout>
                                             </AppBarButton.Flyout>
                                         </AppBarButton>
-                                        <AppBarSeparator/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Add" Click="NewTabButton_Click" Label="Open in new tab"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Globe" Label="Open online" Click="OpenPostInWebButton_Click"/>
+                                        <AppBarSeparator />
+                                        <AppBarButton Icon="Add" Tag="{x:Bind}" Click="NewTabButton_Click" Label="Open in new tab" />
+                                        <AppBarButton Icon="Globe" Tag="{x:Bind}"  Label="Open online"
+                                                      Click="OpenPostInWebButton_Click" />
                                         <CommandBar.SecondaryCommands>
-                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="ClosePane" Label="Hide" Click="HideButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Share" Label="Share" Click="ShareButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Save" Label="Save" Click="SaveButton_Click"/>
-                                        <AppBarButton Icon="ReportHacked" IsEnabled="False" Label="Report">
-                                            <AppBarButton.Flyout>
-                                                <Flyout>
-                                                    <StackPanel>
-                                                        <TextBox x:Name="Reason" Header="Reason:" PlaceholderText="e.g. Spam" Margin="5" Width="300"></TextBox>
-                                                        <TextBox x:Name="RuleReason" Header="Rule reason:" PlaceholderText="e.g. it breaks r/example rules" Margin="5" Width="300"></TextBox>
-                                                        <TextBox x:Name="SiteReason" Header="Site reason:" PlaceholderText="e.g. Infringes copyright" Margin="5" Width="300"></TextBox>
-                                                        <TextBox x:Name="AdditionalInfo" Header="Additional info" PlaceholderText="Addional info" Margin="5" Width="300"></TextBox>
-                                                        <TextBox x:Name="OtherInfo" Header="Other reason:" Margin="5" Width="300"></TextBox>
-                                                        <Button Tag="{x:Bind PostSelf}"  Margin="5" Content="Report" Click="ReportButton_Click"></Button>
-                                                    </StackPanel>
-                                                </Flyout>
-                                            </AppBarButton.Flyout>
-                                        </AppBarButton>
-                                        <AppBarButton Icon="ReShare" IsEnabled="False" Label="Crosspost">
-                                            <AppBarButton.Flyout>
-                                                <Flyout>
-                                                    <StackPanel>
-                                                        <TextBox x:Name="CrosspsotText" Header="Subreddit name:" PlaceholderText="Enter subreddit" Margin="5" Width="300"></TextBox>
-                                                        <Button Tag="{x:Bind PostSelf}"  Margin="5" Content="Crosspost" Click="CrosspostButton_Click"></Button>
-                                                    </StackPanel>
-                                                </Flyout>
-                                            </AppBarButton.Flyout>
-                                        </AppBarButton>
-                                        <AppBarSeparator/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Link" Label="PermaLink" Click="PermaLinkButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Edit" IsEnabled="False" Label="Edit" Click="EditButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Delete" Label="Delete" Click="DeleteButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Priority" Label="Lock" Click="LockEditButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="ReportHacked" Label="Spoiler" Click="SpoilerEditButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="ReportHacked" Label="Mark NSFW" Click="NSFWEditButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="ReportHacked" Label="Distinguish" Click="DistinguishButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Delete" Label="Remove" Click="RemoveEditButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Cut" Label="Sticky" Click="StickyButton_Click"/>
-                                        <AppBarSeparator/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="ClosePane" Label="UnHide" Click="UnHideEditButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Save" Label="UnSave" Click="UnSaveditButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="Priority" Label="Unlock" Click="UnlockEditButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="ReportHacked" Label="UnMark NSFW" Click="UNNSFWEditButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}" Icon="ReportHacked" Label="UnSpoiler" Click="UnSpoilerEditButton_Click"/>
-                                        <AppBarButton Tag="{x:Bind PostSelf}"  Icon="Cut" Label="UnSticky" Click="UnStickyEditButton_Click"/>
+                                            <AppBarButton Icon="ClosePane" Label="Hide" Click="HideButton_Click" />
+                                            <AppBarButton Icon="Share" Label="Share" Click="ShareButton_Click" />
+                                            <AppBarButton Icon="Save" Label="Save" Click="SaveButton_Click"/>
+                                            <AppBarButton Icon="ReportHacked" IsEnabled="False" Label="Report">
+                                                <AppBarButton.Flyout>
+                                                    <Flyout>
+                                                        <StackPanel>
+                                                            <TextBox x:Name="Reason" Header="Reason:"
+                                                                     PlaceholderText="e.g. Spam" Margin="5" Width="300" />
+                                                            <TextBox x:Name="RuleReason" Header="Rule reason:"
+                                                                     PlaceholderText="e.g. it breaks r/example rules"
+                                                                     Margin="5" Width="300" />
+                                                            <TextBox x:Name="SiteReason" Header="Site reason:"
+                                                                     PlaceholderText="e.g. Infringes copyright"
+                                                                     Margin="5" Width="300" />
+                                                            <TextBox x:Name="AdditionalInfo" Header="Additional info"
+                                                                     PlaceholderText="Addional info" Margin="5"
+                                                                     Width="300" />
+                                                            <TextBox x:Name="OtherInfo" Header="Other reason:"
+                                                                     Margin="5" Width="300" />
+                                                            <Button Margin="5" Content="Report"
+                                                                    Click="ReportButton_Click" />
+                                                        </StackPanel>
+                                                    </Flyout>
+                                                </AppBarButton.Flyout>
+                                            </AppBarButton>
+                                            <AppBarButton Icon="ReShare" IsEnabled="False" Label="Crosspost">
+                                                <AppBarButton.Flyout>
+                                                    <Flyout>
+                                                        <StackPanel>
+                                                            <TextBox x:Name="CrosspsotText" Header="Subreddit name:"
+                                                                     PlaceholderText="Enter subreddit" Margin="5"
+                                                                     Width="300" />
+                                                            <Button Margin="5" Content="Crosspost"
+                                                                    Click="CrosspostButton_Click" />
+                                                        </StackPanel>
+                                                    </Flyout>
+                                                </AppBarButton.Flyout>
+                                            </AppBarButton>
+                                            <AppBarSeparator />
+                                            <AppBarButton Icon="Link" Label="PermaLink" Click="PermaLinkButton_Click" />
+                                            <AppBarButton Icon="Edit" IsEnabled="False" Label="Edit"
+                                                          Click="EditButton_Click" />
+                                            <AppBarButton Icon="Delete" Label="Delete" Click="{x:Bind DeleteAsync}" />
+                                            <AppBarButton Icon="Priority" Label="Lock"  Click="{x:Bind LockAsync}" />
+                                            <AppBarButton Icon="ReportHacked" Label="Spoiler"
+                                                        Click="{x:Bind SpoilerAsync}"/>
+                                            <AppBarButton Icon="ReportHacked" Label="Mark NSFW"
+                                                          Click="{x:Bind MarkNSFWAsync}" />
+                                            <AppBarButton Icon="ReportHacked" Label="Distinguish"
+                                                          Click="DistinguishButton_Click" />
+                                            <AppBarButton Icon="Delete" Label="Remove" Click="RemoveEditButton_Click" />
+                                            <AppBarButton Icon="Cut" Label="Sticky" Click="StickyButton_Click"  />
+                                            <AppBarSeparator />
+                                            <AppBarButton Icon="ClosePane" Label="UnHide"
+                                                          Click="{x:Bind UnhideAsync}"/>
+                                            <AppBarButton Icon="Save" Label="UnSave"    Click="{x:Bind UnsaveAsync}"/>
+                                            <AppBarButton Icon="Priority" Label="Unlock"   Click="{x:Bind UnlockAsync}"/>
+                                            <AppBarButton Icon="ReportHacked" Label="UnMark NSFW"
+                                                           Click="{x:Bind UnmarkNSFWAsync}" />
+                                            <AppBarButton Icon="ReportHacked" Label="UnSpoiler"
+                                                  Click="{x:Bind UnspoilerAsync}"/>
+                                            <AppBarButton Icon="Cut" Label="UnSticky" Click="UnStickyEditButton_Click" />
                                         </CommandBar.SecondaryCommands>
                                     </CommandBar>
-                                    <Image x:Name="PostImage" RelativePanel.AlignBottomWithPanel="True" Margin="0, 10,0,0 " Stretch="Fill"/>
+                                    <Image x:Name="PostImage" RelativePanel.AlignBottomWithPanel="True"
+                                           Margin="0, 10,0,0 " Stretch="Fill" />
                                 </RelativePanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -302,56 +303,65 @@
                 </Grid>
             </muxc:TwoPaneView.Pane1>
             <muxc:TwoPaneView.Pane2>
-                <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-                    <SplitView Canvas.ZIndex="5000" x:Name="SideBarsplitView" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-           IsPaneOpen="False" OpenPaneLength="312" PanePlacement="Right" CompactPaneLength="48" DisplayMode="Overlay">
+                <Grid x:Name="SecondPaneGrid" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+                    <SplitView Canvas.ZIndex="5000" x:Name="SideBarsplitView"
+                               PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                               IsPaneOpen="False" OpenPaneLength="312" PanePlacement="Right" CompactPaneLength="48"
+                               DisplayMode="Overlay">
                         <SplitView.Pane>
                             <ScrollViewer Grid.Row="3"
-                  HorizontalScrollBarVisibility="Disabled"
+                                          HorizontalScrollBarVisibility="Disabled"
                                           Background="{ThemeResource SystemControlAcrylicElementBrush}"
-                  VerticalScrollBarVisibility="Visible">
-                                <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" Orientation="Vertical">
-                                    <Image Height="100" Width="400" Stretch="Fill" x:Name="HeaderIMG" Source="/Images/HeaderImg.jpg"/>
+                                          VerticalScrollBarVisibility="Visible">
+                                <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                            Orientation="Vertical">
+                                    <Image Height="100" Width="400" Stretch="Fill" x:Name="HeaderIMG"
+                                           Source="/Images/HeaderImg.jpg" />
                                     <StackPanel Orientation="Horizontal">
-                                        <PersonPicture x:Name="SubIcon" ProfilePicture="/Images/IconSub.png"></PersonPicture>
-                                        <TextBlock x:Name="TitleSidebar" FontSize="30" Margin="5">
-                                        </TextBlock>
+                                        <PersonPicture x:Name="SubIcon" ProfilePicture="/Images/IconSub.png" />
+                                        <TextBlock x:Name="TitleSidebar" FontSize="30" Margin="5" />
                                     </StackPanel>
-                                    <TextBlock x:Name="HeaderSideBar" FontSize="20" Margin="5"></TextBlock>
+                                    <TextBlock x:Name="HeaderSideBar" FontSize="20" Margin="5" />
 
 
                                     <StackPanel Orientation="Vertical">
-                                        <TextBlock x:Name="SubsSidebar" Margin="5"></TextBlock>
-                                        <TextBlock x:Name="UserssSidebar" Margin="5"></TextBlock>
-                                        <TextBlock x:Name="TimeSidebar" Margin="5"></TextBlock>
+                                        <TextBlock x:Name="SubsSidebar" Margin="5" />
+                                        <TextBlock x:Name="UserssSidebar" Margin="5" />
+                                        <TextBlock x:Name="TimeSidebar" Margin="5" />
                                     </StackPanel>
                                     <StackPanel Orientation="Vertical">
                                         <StackPanel Orientation="Horizontal">
-                                        <Button x:Name="SubscribeButton" Margin="5" Click="SubscribeButton_Click" Content="Subscribe"></Button>
-                                        <Button x:Name="UnSubscribeButton" Click="UnSubscribeButton_Click" Content="Unsubscribe"></Button>
+                                            <Button x:Name="SubscribeButton"  IsEnabled="{x:Bind isenabled, Mode=OneWay}" Margin="5" Click="SubscribeButton_Click"
+                                                    Content="Subscribe" />
+                                            <Button x:Name="UnSubscribeButton"  IsEnabled="{x:Bind isenabled, Mode=OneWay}" Click="UnSubscribeButton_Click"
+                                                    Content="Unsubscribe" />
                                         </StackPanel>
-                                        <Grid x:Name="NSFWGrid" Visibility="Collapsed" CornerRadius="20" Margin="3,0,0,0" Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}" BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}" HorizontalAlignment="Left" Padding="10, 5, 10, 5">
-                                            <TextBlock Text="NSFW" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>
+                                        <Grid x:Name="NSFWGrid" Visibility="Collapsed" CornerRadius="20"
+                                              Margin="3,0,0,0"
+                                              Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}"
+                                              BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}"
+                                              HorizontalAlignment="Left" Padding="10, 5, 10, 5">
+                                            <TextBlock Text="NSFW" Foreground="Red" TextWrapping="WrapWholeWords" />
                                         </Grid>
                                         <controls:MarkdownTextBlock
-                     Background="{ThemeResource SystemControlAcrylicElementBrush}"
-                    TextWrapping="Wrap"
-                    Width="400"
-                    IsTextSelectionEnabled="True"
-                        LinkClicked="MarkdownText_LinkClicked"
-                        ImageClicked="MarkdownText_ImageClicked"
-                    x:Name="AboutSidebar"
-                   Margin="6"/>
-                                        <Image Width="400" Stretch="Fill" x:Name="BannerIMG"/>
+                                            Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                            TextWrapping="Wrap"
+                                            Width="400"
+                                            IsTextSelectionEnabled="True"
+                                            LinkClicked="MarkdownText_LinkClicked"
+                                            ImageClicked="MarkdownText_ImageClicked"
+                                            x:Name="AboutSidebar"
+                                            Margin="6" />
+                                        <Image Width="400" Stretch="Fill" x:Name="BannerIMG" />
                                         <controls:MarkdownTextBlock
-                     Background="{ThemeResource SystemControlAcrylicElementBrush}"
-                    TextWrapping="Wrap"
-                    Width="300"
-                        LinkClicked="MarkdownText_LinkClicked"
-                        ImageClicked="MarkdownText_ImageClicked"
-                    IsTextSelectionEnabled="True"
-                    x:Name="SideBarSidebar"
-                   Margin="6"/>
+                                            Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                            TextWrapping="Wrap"
+                                            Width="300"
+                                            LinkClicked="MarkdownText_LinkClicked"
+                                            ImageClicked="MarkdownText_ImageClicked"
+                                            IsTextSelectionEnabled="True"
+                                            x:Name="SideBarSidebar"
+                                            Margin="6" />
                                         <!--<ListView SelectionMode="None" IsItemClickEnabled="True"  ItemClick="SubscribedSubs_ItemClick" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="RecommendX" Header="Recommended subreddits:" Width="400">
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
@@ -362,42 +372,70 @@
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </ListView>-->
-                                        <ListView SelectionMode="None" IsItemClickEnabled="True"  ItemClick="SubscribedSubs_ItemClick" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="SubsdayX" Header="Subreddit of the day:" Width="400">
+                                        <adsjumbo:BannerAd
+                                            x:Name="vungleBannerSideBarControl"
+                                            ApplicationId='ts34gvld2mg0'
+                                            WidthAd='300'
+                                            HeightAd='250'
+                                            Position='Center' />
+
+
+                                        <ListView SelectionMode="None" IsItemClickEnabled="True"
+                                                  ItemClick="SubscribedSubsO_ItemClick" IsEnabled="{x:Bind isenabled, Mode=OneWay}"
+                                                  Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                                  Margin="5" Canvas.ZIndex="3" x:Name="SubsdayX"
+                                                  Header="Subreddit of the day:" Width="400">
                                             <ListView.ItemTemplate>
-                                                <DataTemplate>
+                                                <DataTemplate x:DataType="models:SubredditList">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
-                                                        <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
+                                                        <PersonPicture Width="20" Height="20" Margin="5"
+                                                                       ProfilePicture="/Images/IconSub.png" />
+                                                        <TextBlock Text="{x:Bind TitleSubreddit}" Margin="5" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </ListView>
-                                        <ListView SelectionMode="None" IsItemClickEnabled="True"  ItemClick="SubscribedSubs_ItemClick" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="TrendingSubsdayX" Header="Trending subreddits:" Width="400">
+                                        <ListView SelectionMode="None" IsItemClickEnabled="True"
+                                                  ItemClick="SubscribedSubsO_ItemClick" IsEnabled="{x:Bind isenabled, Mode=OneWay}"
+                                                  Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                                  Margin="5" Canvas.ZIndex="3" x:Name="TrendingSubsdayX"
+                                                  Header="Trending subreddits:" Width="400">
                                             <ListView.ItemTemplate>
-                                                <DataTemplate>
+                                                <DataTemplate x:DataType="models:SubredditList">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
-                                                        <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
+                                                        <PersonPicture Width="20" Height="20" Margin="5"
+                                                                       ProfilePicture="/Images/IconSub.png" />
+                                                        <TextBlock Text="{x:Bind TitleSubreddit}" Margin="5" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </ListView>
-                                        <ListView SelectionMode="None" IsItemClickEnabled="True"  ItemClick="SubscribedSubs_ItemClick" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="TinySubsdayX" Header="Tiny subreddit of the day:" Width="400">
+                                        <ListView SelectionMode="None" IsItemClickEnabled="True"
+                                                  ItemClick="SubscribedSubsO_ItemClick" IsEnabled="{x:Bind isenabled, Mode=OneWay}"
+                                                  Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                                  Margin="5" Canvas.ZIndex="3" x:Name="TinySubsdayX"
+                                                  Header="Tiny subreddit of the day:" Width="400">
                                             <ListView.ItemTemplate>
-                                                <DataTemplate>
+                                                <DataTemplate x:DataType="models:SubredditList">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
-                                                        <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
+                                                        <PersonPicture Width="20" Height="20" Margin="5"
+                                                                       ProfilePicture="/Images/IconSub.png" />
+                                                        <TextBlock Text="{x:Bind}" Margin="5" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </ListView>
-                                        <ListView SelectionMode="None" IsItemClickEnabled="True"  ItemClick="ModeratedSubs_ItemClick" Background="{ThemeResource SystemControlAcrylicElementBrush}" Margin="5" Canvas.ZIndex="3" x:Name="ModeratedSubsX" Header="Moderated subreddits:" Width="400">
+                                        <ListView SelectionMode="None" IsItemClickEnabled="True"
+                                                  ItemClick="ModeratedSubs_ItemClick" IsEnabled="{x:Bind isenabled, Mode=OneWay}"
+                                                  Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                                  Margin="5" Canvas.ZIndex="3" x:Name="ModeratedSubsX" 
+                                                  Header="Moderated subreddits:" Width="400">
                                             <ListView.ItemTemplate>
-                                                <DataTemplate>
+                                                <DataTemplate x:DataType="things:ModeratedListItem">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
-                                                        <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
+                                                        <PersonPicture Width="20" Height="20" Margin="5"
+                                                                       ProfilePicture="/Images/IconSub.png" />
+                                                        <TextBlock Text="{x:Bind SRDisplayNamePrefixed}" Margin="5" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
@@ -408,30 +446,63 @@
                         </SplitView.Pane>
                     </SplitView>
                     <winui:TabView
-                     Background="{ThemeResource SystemControlAcrylicWindowBrush}"
-        x:Name="MainTabView"
-        AllowDropTabs="True"
+                        Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+                        x:Name="MainTabView"
+                        AllowDropTabs="True"
                         CornerRadius="2"
-                    IsAddTabButtonVisible="False"
-        TabCloseRequested="OnTabCloseRequested">
+
+                        IsAddTabButtonVisible="False"
+                        TabCloseRequested="OnTabCloseRequested">
                         <winui:TabView.TabStripFooter>
-                            <AppBarButton Height="50" Width="50" Icon="Delete" Click="ClearTabButton_Click">
+                            <CommandBar DefaultLabelPosition="Right" IsDynamicOverflowEnabled="True" OverflowButtonVisibility="Auto" Background="Transparent">
+                            <AppBarButton Height="50" Width="50" Icon="Delete" Click="ClearTabButton_Click" />
+                                <AppBarSeparator/>
+                                <AppBarButton Icon="Account" Background="{ThemeResource SystemAccentColor}" Label="Sign In" x:Name="LoginButton" Click="LoginButton_Click" />
+
+
+
+                            <AppBarButton Icon="Find" Click="SearchTipButton_Click"  IsEnabled="{x:Bind isenabled, Mode=OneWay}"/>
+                            <AppBarButton Icon="Mail" Loaded="InboxButton_Loaded" x:Name="InboxButton"
+                              Click="InboxButton_Click" IsEnabled="{x:Bind isenabled, Mode=OneWay}" />
+                            <AppBarButton Icon="Contact"  IsEnabled="{x:Bind isenabled, Mode=OneWay}">
+                                <AppBarButton.Flyout>
+                                    <Flyout>
+                                        <Frame x:Name="ProfileFrame" Loaded="ProfilePage_Loaded" />
+                                    </Flyout>
+                                </AppBarButton.Flyout>
                             </AppBarButton>
+
+                            <AppBarSeparator/>
+                            <AppBarButton Icon="Setting" x:Name="SettingsButton"
+                            Click="SettingsButton_Click">
+                                <AppBarButton.Flyout>
+                                    <Flyout>
+                                        <Frame x:Name="SettingsFrame" Width="440"/>
+                                    </Flyout>
+                                </AppBarButton.Flyout>
+                            </AppBarButton>
+                                <CommandBar.SecondaryCommands>
+                                    <AppBarButton Icon="Message" IsEnabled="{x:Bind isenabled, Mode=OneWay}" x:Name="ChatButton" Label="Chat" Click="ChatButton_Click" />
+                                    <AppBarButton Icon="Video" IsEnabled="{x:Bind isenabled, Mode=OneWay}" x:Name="RPANButton" Label="Network" Click="NetWorkButton_Click" />
+                                    <AppBarButton Icon="OutlineStar" IsEnabled="{x:Bind isenabled, Mode=OneWay}" x:Name="GoldButton" Label="Coins" Click="GoldButton_Click" />
+                                    <AppBarButton Icon="SolidStar" IsEnabled="{x:Bind isenabled, Mode=OneWay}" x:Name="PremiumButton" Label="Premium" Click="PremiumButton_Click" />
+                                </CommandBar.SecondaryCommands>
+                            </CommandBar>
                         </winui:TabView.TabStripFooter>
                     </winui:TabView>
                 </Grid>
             </muxc:TwoPaneView.Pane2>
         </muxc:TwoPaneView>
-        <ContentDialog
-            x:Name="CreatePostDialog"
-        PrimaryButtonText="Create"
-            PrimaryButtonClick="CreatePostDialog_PrimaryButtonClick"
-        CloseButtonText="Cancel"
-               Background="{ThemeResource SystemControlAcrylicElementBrush}"
-        DefaultButton="Primary">
-
-
-
-        </ContentDialog>
+        <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="1000" IsLoading="True">
+            <controls:Loading.Background>
+                <SolidColorBrush Color="Black" Opacity="0.7" />
+            </controls:Loading.Background>
+            <StackPanel Orientation="Horizontal" Padding="12">
+                <Grid Margin="0,0,8,0">
+                    <muxc:ProgressRing IsActive="True" Height="50" Width="50"/>
+                </Grid>
+                <TextBlock Text="Loading" FontSize="30"  VerticalAlignment="Center" />
+            </StackPanel>
+        </controls:Loading>
     </Grid>
 </Page>

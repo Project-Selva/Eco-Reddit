@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using RedditSharp.Things;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using RedditSharp.Things;
 
 namespace Eco_Reddit.Templates
 {
@@ -18,13 +13,8 @@ namespace Eco_Reddit.Templates
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
             if (item is Comment)
-            {
                 return CommentDataTemplate;
-            }
-            else
-            {
-                return MoreDataTemplate;
-            }
+            return MoreDataTemplate;
         }
     }
 }

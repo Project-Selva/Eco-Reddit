@@ -19,7 +19,8 @@ namespace RedditSharp.Search
             Stack<FormatInfo> formatInfoStack = new Stack<FormatInfo>();
             expressionStack.Push(search.Body);
             Stack<string> searchStack = new Stack<string>();
-            while (expressionStack.Count > 0) {
+            while (expressionStack.Count > 0)
+            {
                 expression = expressionStack.Pop();
                 switch (expression)
                 {
@@ -70,16 +71,16 @@ namespace RedditSharp.Search
 
         private string ConstantExpressionHelper(ConstantExpression constantExpresssion)
         {
-            return constantExpresssion.ToString().Replace("\"","");
+            return constantExpresssion.ToString().Replace("\"", "");
         }
 
         private void BinaryExpressionHelper(BinaryExpression expression, Stack<Expression> expressionStack, Stack<FormatInfo> formatInfoStack)
         {
-            if(IsAdvancedSearchMemberExpression(expression.Left) && IsAdvancedSearchMemberExpression(expression.Right))
+            if (IsAdvancedSearchMemberExpression(expression.Left) && IsAdvancedSearchMemberExpression(expression.Right))
             {
                 throw new InvalidOperationException("Cannot filter by comparing to fields.");
             }
-            else if(IsAdvancedSearchMemberExpression(expression.Right))
+            else if (IsAdvancedSearchMemberExpression(expression.Right))
             {
                 expressionStack.Push(expression.Left);
                 expressionStack.Push(expression.Right);
@@ -96,8 +97,8 @@ namespace RedditSharp.Search
             }
         }
 
-     
-        private void UnaryExpressionHelper(UnaryExpression expression, Stack<Expression> expressionStack,Stack<FormatInfo> formatInfoStack)
+
+        private void UnaryExpressionHelper(UnaryExpression expression, Stack<Expression> expressionStack, Stack<FormatInfo> formatInfoStack)
         {
             formatInfoStack.Push(expression.ToFormatInfo());
             expressionStack.Push(expression.Operand);
@@ -106,7 +107,7 @@ namespace RedditSharp.Search
         private void MemberExpressionHelper(MemberExpression expression, Stack<string> searchStack, Stack<FormatInfo> formatInfoStack)
         {
             MemberInfo member = expression.Member;
-            
+
             if (member.DeclaringType == typeof(AdvancedSearchFilter))
             {
                 string result = member.Name.Replace(BOOL_PROPERTY_PREFIX, string.Empty).ToLower();

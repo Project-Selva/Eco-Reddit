@@ -7,6 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Style="{StaticResource PageStyle}"
     xmlns:xaml="using:Windows.UI.Xaml"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     Background="Transparent"
     mc:Ignorable="d">
     <Page.Resources>
@@ -25,26 +27,59 @@
 
         <StackPanel
             Grid.Row="1"
+     
             x:Name="ContentArea">
             <TextBlock x:Uid="Settings_Personalization" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
-                <ToggleSwitch Header="Enable Ads" OffContent="Disabled: Planting trees isnt supported in Alpha" OnContent="Working" IsOn="False" IsEnabled="False" />
+            <TextBlock FontWeight="ExtraBlack"  Margin="10" FontSize="20" TextWrapping="WrapWholeWords" Text="(The app is in preview beta so there can be bugs and crashes and less features. more features are being worked on including settings)"/>
+       
+                <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
+                <ToggleSwitch Header="Enable ads:" OffContent="Disabled" OnContent="Enabled" x:Name="AdToggle"
+                              Margin="5" Toggled="AdToggle_Toggled" />
+
+                <StackPanel Margin="15, 5, 5, 5" x:Name="AdOptionsContainer">
+                    <ToggleSwitch Header="Show ad in Post:" AllowFocusOnInteraction="True" OffContent="Disabled"
+                                  OnContent="Enabled" x:Name="PostAdToggle" Toggled="PostAdToggle_Toggled" Margin="5" />
+                    <muxc:NumberBox x:Name="PostSlider"
+                                    Header="Ad frequency (percentage):"
+
+                                    Margin="5"
+                                    Minimum="1"
+                                    Maximum="100"
+                                    SpinButtonPlacementMode="Inline"
+                                    ValueChanged="PostSlider_ValueChanged"
+                                    SmallChange="1"
+                                    LargeChange="10" />
+                    <ToggleSwitch Header="Show ad in sidebar:" AllowFocusOnInteraction="True" OffContent="Disabled"
+                                  OnContent="Enabled" x:Name="SideBarAdToggle" Toggled="SideBarAdToggle_Toggled"
+                                  Margin="5" />
+                    <!-- <Slider Width="200" Minimum="1" Maximum="100" Margin="5" Header="Sidebar ad frequency:"  x:Name="SidebarSlider"/>-->
+                    <muxc:NumberBox x:Name="SidebarSlider"
+                                    Header="Ad frequency (percentage):"
+
+                                    Margin="5"
+                                    Minimum="1"
+                                    Maximum="100"
+                                    SpinButtonPlacementMode="Inline"
+                                    ValueChanged="SidebarSlider_ValueChanged"
+                                    SmallChange="1"
+                                    LargeChange="10" />
+                </StackPanel>
                 <TextBlock x:Uid="Settings_Theme" />
 
                 <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                    <RadioButton 
+                    <RadioButton
                         x:Uid="Settings_Theme_Light"
-                        Checked="ThemeChanged_CheckedAsync" 
+                        Checked="ThemeChanged_CheckedAsync"
                         IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light, Mode=OneWay}"
                         FontSize="15"
-                        GroupName="AppTheme" >
+                        GroupName="AppTheme">
                         <RadioButton.CommandParameter>
                             <xaml:ElementTheme>Light</xaml:ElementTheme>
-                        </RadioButton.CommandParameter> 
+                        </RadioButton.CommandParameter>
                     </RadioButton>
-                    <RadioButton 
+                    <RadioButton
                         x:Uid="Settings_Theme_Dark"
-                        Checked="ThemeChanged_CheckedAsync" 
+                        Checked="ThemeChanged_CheckedAsync"
                         IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark, Mode=OneWay}"
                         FontSize="15"
                         GroupName="AppTheme">
@@ -52,7 +87,7 @@
                             <xaml:ElementTheme>Dark</xaml:ElementTheme>
                         </RadioButton.CommandParameter>
                     </RadioButton>
-                    <RadioButton 
+                    <RadioButton
                         x:Uid="Settings_Theme_Default"
                         Checked="ThemeChanged_CheckedAsync"
                         IsChecked="{x:Bind ElementTheme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Default, Mode=OneWay}"
@@ -66,29 +101,31 @@
             </StackPanel>
 
             <TextBlock x:Uid="Settings_About" Style="{ThemeResource SubtitleTextBlockStyle}" />
-
-            <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="Alpha v0.3" />
-                <TextBlock
-                    Margin="{StaticResource XSmallTopMargin}"
-                    Style="{ThemeResource BodyTextBlockStyle}" >
-                    Plant trees while browsing reddit.
-                </TextBlock>
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="Alpha v0.3" />
-                <TextBlock
-                    Margin="{StaticResource XSmallTopMargin}"
-                    Style="{ThemeResource BodyTextBlockStyle}" >
-                    This app is still in Alpha so many bugs and issues still exist
-                </TextBlock>
-                <HyperlinkButton  NavigateUri="https://www.reddit.com/help/privacypolicy" Margin="{StaticResource XSmallTopMargin}" />
-
+            <ScrollViewer Height="400" VerticalScrollBarVisibility="Visible" VerticalScrollMode="Enabled">
+                <StackPanel Margin="{StaticResource XSmallTopMargin}">
+           
                 <HyperlinkButton
                     x:Uid="FeedbackHub_Link"
                     x:Name="FeedbackLink"
                     Visibility="Collapsed"
                     Click="FeedbackLink_Click"
                     Margin="{StaticResource XSmallTopMargin}" />
-            </StackPanel>
+                <controls:MarkdownTextBlock
+                                    TextWrapping="WrapWholeWords"
+                                    VerticalContentAlignment="Stretch"
+                
+Width="380"
+                    Background="Transparent"
+                                    BorderThickness="1"
+               Margin="0, 1, 5,2"
+                                    x:Name="MarkDownBlock"
+                                    ImageClicked="MarkdownText_ImageClicked"
+                                    LinkClicked="MarkdownText_LinkClicked"
+                                   />
+           
         </StackPanel>
+            </ScrollViewer>
+        </StackPanel>
+
     </Grid>
 </Page>

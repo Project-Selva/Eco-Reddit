@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Eco_Reddit.Constants
 {
@@ -12,7 +8,7 @@ namespace Eco_Reddit.Constants
         public static readonly string redditApiBaseUrl = "https://www.reddit.com/api/v1/";
         public static readonly string redditOauthApiBaseUrl = "https://oauth.reddit.com/";
 
-        public readonly static List<string> scopeList = new List<string>
+        public static readonly List<string> scopeList = new List<string>
         {
             "creddits",
             "modcontributors",
@@ -41,7 +37,7 @@ namespace Eco_Reddit.Constants
             "modwiki",
             "modself",
             "history",
-            "flair",
+            "flair"
         };
     }
 }

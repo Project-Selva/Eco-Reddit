@@ -14,6 +14,6 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
     <ScrollViewer VerticalScrollBarVisibility="Visible" VerticalScrollMode="Enabled">
-        <TextBlock TextWrapping="WrapWholeWords" x:Name="ErrorText" Width="300"></TextBlock>
+        <TextBlock TextWrapping="WrapWholeWords" x:Name="ErrorText" Width="300" />
     </ScrollViewer>
 </ContentDialog>

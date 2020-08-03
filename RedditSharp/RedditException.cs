@@ -13,7 +13,7 @@ namespace RedditSharp
         /// </summary>
         public RedditException()
         {
-        
+
         }
 
         /// <summary>
@@ -36,8 +36,8 @@ namespace RedditSharp
         public RedditException(string message, Exception inner)
             : base(message, inner)
         {
-            
+
         }
-        
+
     }
 }

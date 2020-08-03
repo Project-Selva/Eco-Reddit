@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using RedditSharp.Things;
+using System;
 
 namespace RedditSharp
 {
@@ -41,14 +41,15 @@ namespace RedditSharp
         [JsonIgnore]
         public RedditUser RevisionBy { get; private set; }
 
-        #pragma warning disable 1591
+#pragma warning disable 1591
         protected internal WikiPage(IWebAgent agent, JToken json)
         {
-            if (json["revision_by"].HasValues) {
+            if (json["revision_by"].HasValues)
+            {
                 RevisionBy = new RedditUser(agent, json["revision_by"]);
             }
             Helpers.PopulateObject(json, this);
         }
-        #pragma warning restore 1591
+#pragma warning restore 1591
     }
 }

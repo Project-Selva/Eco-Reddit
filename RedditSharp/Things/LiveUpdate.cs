@@ -11,7 +11,8 @@ namespace RedditSharp.Things
     public class LiveUpdate : CreatedThing
     {
         /// <inheritdoc />
-        public LiveUpdate(IWebAgent agent, JToken json) : base(agent, json) {
+        public LiveUpdate(IWebAgent agent, JToken json) : base(agent, json)
+        {
         }
 
         private const string StrikeUpdateUrl = "/api/live/{0}/strike_update";

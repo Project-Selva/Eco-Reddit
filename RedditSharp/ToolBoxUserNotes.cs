@@ -16,7 +16,7 @@ namespace RedditSharp
             var reqResponse = await webAgent.Get(string.Format(ToolBoxUserNotesWiki, subName)).ConfigureAwait(false);
             var response = JObject.Parse(reqResponse["data"]["content_md"].Value<string>());
             int version = response["ver"].Value<int>();
-            if(version < 6) throw new ToolBoxUserNotesException("Unsupported ToolBox version");
+            if (version < 6) throw new ToolBoxUserNotesException("Unsupported ToolBox version");
 
             string[] mods = response["constants"]["users"].Values<string>().ToArray();
 
@@ -74,11 +74,12 @@ namespace RedditSharp
             }
         }
 
-        public static async Task<string[]> GetWarningKeys(IWebAgent webAgent, string subName) {
+        public static async Task<string[]> GetWarningKeys(IWebAgent webAgent, string subName)
+        {
             var reqResponse = await webAgent.Get(string.Format(ToolBoxUserNotesWiki, subName)).ConfigureAwait(false);
             var response = JObject.Parse(reqResponse["data"]["content_md"].Value<string>());
             int version = response["ver"].Value<int>();
-            if(version < 6) throw new ToolBoxUserNotesException("Unsupported ToolBox version");
+            if (version < 6) throw new ToolBoxUserNotesException("Unsupported ToolBox version");
 
             string[] warnings = response["constants"]["warnings"].Values<string>().ToArray();
 

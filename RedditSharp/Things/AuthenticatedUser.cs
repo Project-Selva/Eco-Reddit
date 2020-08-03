@@ -10,7 +10,8 @@ namespace RedditSharp.Things
     public class AuthenticatedUser : RedditUser
     {
         /// <inheritdoc />
-        public AuthenticatedUser(IWebAgent agent, JToken json) : base (agent, json) {
+        public AuthenticatedUser(IWebAgent agent, JToken json) : base(agent, json)
+        {
         }
 
         private const string ModeratorUrl = "/reddits/mine/moderator.json";
@@ -24,7 +25,8 @@ namespace RedditSharp.Things
         private const string MentionsUrl = "/message/mentions.json";
 
         /// <inheritdoc />
-        internal override JToken GetJsonData(JToken json) {
+        internal override JToken GetJsonData(JToken json)
+        {
             return json["name"] == null ? json["data"] : json;
         }
 

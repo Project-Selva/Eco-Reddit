@@ -11,7 +11,8 @@ namespace RedditSharp.Things
     public class ModAction : Thing
     {
         /// <inheritdoc />
-        public ModAction(IWebAgent agent, JToken json) : base(agent, json) {
+        public ModAction(IWebAgent agent, JToken json) : base(agent, json)
+        {
         }
 
         /// <summary>
@@ -97,7 +98,7 @@ namespace RedditSharp.Things
         /// Author of the item against which this moderation action was performed.
         /// </summary>
         //TODO discuss
-        public Task<RedditUser> GetTargetAuthorAsync() => 
+        public Task<RedditUser> GetTargetAuthorAsync() =>
             RedditUser.GetUserAsync(WebAgent, TargetAuthorName);
 
         /// <summary>
@@ -105,9 +106,9 @@ namespace RedditSharp.Things
         /// </summary>
         //TODO discuss
         public Task<Thing> GetTargetThing() =>
-            Helpers.GetThingByFullnameAsync(WebAgent,TargetThingFullname);
+            Helpers.GetThingByFullnameAsync(WebAgent, TargetThingFullname);
 
         /// <inheritdoc />
         internal override JToken GetJsonData(JToken json) => json["data"];
-   }
+    }
 }

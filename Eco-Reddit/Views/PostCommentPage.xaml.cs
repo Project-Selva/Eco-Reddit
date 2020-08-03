@@ -1,113 +1,123 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using RedditSharp.Things;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
-using Eco_Reddit.Helpers;
-using Windows.UI.Popups;
+using Windows.Storage;
 using Windows.System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+using Eco_Reddit.Helpers;
+using Eco_Reddit.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using RedditSharp.Things;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Eco_Reddit.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class PostCommentPage : Page
     {
-        private readonly ObservableCollection<Thing> commentTree = null;
-        private Post selectedPost = null;
+        private readonly ObservableCollection<Thing> commentTree;
         private readonly LoginHelper loginHelper = new LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
+        public ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        private Post selectedPost;
+
         public PostCommentPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             commentTree = new ObservableCollection<Thing>();
         }
-        public Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            string accessToken = localSettings.Values["access_token"].ToString();
-            var result = await loginHelper.Login_Refresh((string)localSettings.Values["refresh_token"]);
-         //   localSettings.Values["refresh_token"] = result.RefreshToken;
+            var accessToken = localSettings.Values["access_token"].ToString();
+            var result = await loginHelper.Login_Refresh((string) localSettings.Values["refresh_token"]);
+            //   localSettings.Values["refresh_token"] = result.RefreshToken;
             localSettings.Values["access_token"] = result.AccessToken;
-            Eco_Reddit.Models.TokenSharpData.Reddit = new RedditSharp.Reddit(result.AccessToken);
-            await Eco_Reddit.Models.TokenSharpData.Reddit.InitOrUpdateUserAsync();
-            RedditSharp.Listing<Comment> s = Eco_Reddit.Models.TokenSharpData.Reddit.User.GetUsernameMentions();
-            selectedPost = await Eco_Reddit.Models.TokenSharpData.Reddit.GetPostAsync(new Uri("https://www.reddit.com/r/AskReddit/comments/hpc07p/the_last_thing_you_googled_is_how_youre_goona_get/"));
-            List <Thing> commentsWithMores = null;
+            TokenSharpData.Reddit = new RedditSharp.Reddit(result.AccessToken);
+            await TokenSharpData.Reddit.InitOrUpdateUserAsync();
+            var s = TokenSharpData.Reddit.User.GetUsernameMentions();
+            selectedPost = await TokenSharpData.Reddit.GetPostAsync(new Uri(e.Parameter.ToString()));
+            List<Thing> commentsWithMores = null;
             try
             {
-                 commentsWithMores = await selectedPost.GetCommentsWithMoresAsync(100);
+                commentsWithMores = await selectedPost.GetCommentsWithMoresAsync(100);
             }
             catch
             {
-
             }
+
             foreach (var comment in commentsWithMores)
-            {
                 if (comment is Comment) //Flatten tree for list
                 {
-                    Stack<Thing> flatTree = new Stack<Thing>();
+                    var flatTree = new Stack<Thing>();
                     DepthFirstTraversal(comment as Comment, flatTree);
-                    flatTree.Reverse().ToList().ForEach((x) => commentTree.Add(x));
+                    flatTree.Reverse().ToList().ForEach(x => commentTree.Add(x));
                 }
                 else if (comment is More)
                 {
                     commentTree.Add(comment);
                 }
-            }
+
+            /*  Parallel.ForEach(commentsWithMores, comment =>
+              {
+                  if (comment is Comment) //Flatten tree for list
+                  {
+                      Stack<Thing> flatTree = new Stack<Thing>();
+                      DepthFirstTraversal(comment as Comment, flatTree);
+                      flatTree.Reverse().ToList().ForEach((x) => commentTree.Add(x));
+                  }
+                  else if (comment is More)
+                  {
+                      commentTree.Add(comment);
+                  }
+              }*/
         }
 
         public void DepthFirstTraversal(Comment root, Stack<Thing> stack)
         {
             stack.Push(root);
-            foreach (Thing thing in root.Comments)
+            /*   foreach (Thing thing in root.Comments)
+               {
+                   if (thing is Comment)
+                   {
+                       DepthFirstTraversal(thing as Comment, stack);
+                   }
+                   else if (thing is More)
+                   {
+                       stack.Push(thing);
+                   }
+               }*/
+            Parallel.ForEach(root.Comments, thing =>
             {
                 if (thing is Comment)
-                {
                     DepthFirstTraversal(thing as Comment, stack);
-                }
-                else if (thing is More)
-                {
-                    stack.Push(thing);
-                }
-            }
+                else if (thing is More) stack.Push(thing);
+            });
         }
 
         public static string GetLoadMoreCommentsString(string[] children)
         {
             return "Load " + children.Length + " more comments";
         }
+
         private async void MarkdownText_ImageClicked(object sender, LinkClickedEventArgs e)
         {
-            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
-            {
-                await Launcher.LaunchUriAsync(link);
-            }
+            if (Uri.TryCreate(e.Link, UriKind.Absolute, out var link)) await Launcher.LaunchUriAsync(link);
         }
+
         private async void MarkdownText_LinkClicked(object sender, LinkClickedEventArgs e)
         {
-            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri link))
-            {
-                await Launcher.LaunchUriAsync(link);
-            }
+            if (Uri.TryCreate(e.Link, UriKind.Absolute, out var link)) await Launcher.LaunchUriAsync(link);
         }
+
         private async void Comments_ItemClick(object sender, ItemClickEventArgs e)
         {
             if (e.ClickedItem is More)
@@ -118,22 +128,34 @@ namespace Eco_Reddit.Views
 
                 //Load all child comments
                 var comments = await Task.Run(() => clickedItem.GetThingsAsync());
-                List<Thing> tempList = new List<Thing>();
+                var tempList = new List<Thing>();
 
-                foreach (var comment in comments)
+                /*  foreach (var comment in comments)
+                   {
+                       if (comment is Comment) //Flatten tree for listview
+                       {
+                           Stack<Thing> flatTree = new Stack<Thing>();
+                           DepthFirstTraversal(comment as Comment, flatTree);
+                           flatTree.Reverse().ToList().ForEach((x) => tempList.Add(x));
+                       }
+                       else if (comment is More && (comment as More).Children.Count() > 0)
+                       {
+                           tempList.Add(comment);
+                       }
+                   }*/
+                Parallel.ForEach(comments, comment =>
                 {
                     if (comment is Comment) //Flatten tree for listview
                     {
-                        Stack<Thing> flatTree = new Stack<Thing>();
+                        var flatTree = new Stack<Thing>();
                         DepthFirstTraversal(comment as Comment, flatTree);
-                        flatTree.Reverse().ToList().ForEach((x) => tempList.Add(x));
+                        flatTree.Reverse().ToList().ForEach(x => tempList.Add(x));
                     }
                     else if (comment is More && (comment as More).Children.Count() > 0)
                     {
                         tempList.Add(comment);
                     }
-                }
-
+                });
                 if (tempList.Count == 0)
                 {
                     //Remove the item and return
@@ -143,14 +165,126 @@ namespace Eco_Reddit.Views
 
                 //Replace more item at index
                 commentTree[index] = tempList[0];
-                tempList.RemoveAt(0); index++;
+                tempList.RemoveAt(0);
+                index++;
 
                 //Insert each item of templist at specific index
-                tempList.ForEach((x) =>
+                tempList.ForEach(x =>
                 {
                     commentTree.Insert(index, x);
                     index++;
                 });
+                /* Parallel.ForEach(tempList, x =>
+                  {
+                      commentTree.Insert(index, x);
+                      index++;
+                  }); */
+            }
+        }
+
+        private async void ReplyBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            var SenderFramework = (FrameworkElement) sender;
+            var DataContext = SenderFramework.DataContext;
+            var Comment = DataContext as Comment;
+            await Comment.ReplyAsync(sender.Text);
+        }
+
+        private async void DistinguishEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var SenderFramework = (FrameworkElement) sender;
+            var DataContext = SenderFramework.DataContext;
+            var Comment = DataContext as Comment;
+            try
+            {
+                await Comment.DistinguishAsync(ModeratableThing.DistinguishType.Moderator);
+            }
+            catch
+            {
+            }
+        }
+
+        private async void saveEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var SenderFramework = (FrameworkElement) sender;
+            var DataContext = SenderFramework.DataContext;
+            var Comment = DataContext as Comment;
+            try
+            {
+                await Comment.SaveAsync();
+            }
+            catch
+            {
+            }
+        }
+
+        private async void UnsaveEditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var SenderFramework = (FrameworkElement) sender;
+            var DataContext = SenderFramework.DataContext;
+            var Comment = DataContext as Comment;
+            try
+            {
+                await Comment.UnsaveAsync();
+            }
+            catch
+            {
+            }
+        }
+
+        private async void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var SenderFramework = (FrameworkElement) sender;
+            var DataContext = SenderFramework.DataContext;
+            var Comment = DataContext as Comment;
+            try
+            {
+                await Comment.RemoveAsync();
+            }
+            catch
+            {
+            }
+        }
+
+        private async void RemoveAsSpamButton_Click(object sender, RoutedEventArgs e)
+        {
+            var SenderFramework = (FrameworkElement) sender;
+            var DataContext = SenderFramework.DataContext;
+            var Comment = DataContext as Comment;
+            try
+            {
+                await Comment.RemoveSpamAsync();
+            }
+            catch
+            {
+            }
+        }
+
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var SenderFramework = (FrameworkElement) sender;
+            var DataContext = SenderFramework.DataContext;
+            var Comment = DataContext as Comment;
+            try
+            {
+                await Comment.DelAsync();
+            }
+            catch
+            {
+            }
+        }
+
+        private async void ApproveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var SenderFramework = (FrameworkElement) sender;
+            var DataContext = SenderFramework.DataContext;
+            var Comment = DataContext as Comment;
+            try
+            {
+                await Comment.ApproveAsync();
+            }
+            catch
+            {
             }
         }
     }

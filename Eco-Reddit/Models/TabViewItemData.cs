@@ -2,10 +2,9 @@
 {
     public class TabViewItemData
     {
-        public int Index { get; set; }
+        public object Content;
 
-        public string Header { get; set; }
-
-        public object Content { get; set; }
+        public string Header;
+        public int Index;
     }
 }

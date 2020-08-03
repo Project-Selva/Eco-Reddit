@@ -49,7 +49,7 @@ namespace RedditSharp
         /// </summary>
         /// <param name="agent"></param>
         /// <param name="subredditName"></param>
-        public Wiki(IWebAgent agent, string subredditName):base(agent)
+        public Wiki(IWebAgent agent, string subredditName) : base(agent)
         {
             subredditName = System.Text.RegularExpressions.Regex.Replace(subredditName, "(r/|/)", "");
             SubredditName = subredditName;
@@ -105,7 +105,7 @@ namespace RedditSharp
         /// </summary>
         /// <param name="page">wiki page</param>
         /// <param name="max">Maximum number of records to return.  -1 for unlimited.</param>
-        public Listing<WikiPageRevision> GetPageRevisions(string page, int max = -1) =>  Listing<WikiPageRevision>.Create(WebAgent, WikiPageRevisionsUrl(page), max, 100);
+        public Listing<WikiPageRevision> GetPageRevisions(string page, int max = -1) => Listing<WikiPageRevision>.Create(WebAgent, WikiPageRevisionsUrl(page), max, 100);
 
         #endregion
 

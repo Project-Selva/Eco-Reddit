@@ -7,78 +7,154 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:models="using:Eco_Reddit.Models"
+    xmlns:things="using:Reddit.Things"
     mc:Ignorable="d"
     Background="Transparent">
 
     <ScrollViewer>
         <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <TextBox PlaceholderText="Title" Header="Title:" x:Name="TitleBox" Margin="5"></TextBox>
+            <TextBox PlaceholderText="Title" Header="Title:" x:Name="TitleBox" Margin="5" />
             <StackPanel Orientation="Horizontal">
-                
-                <muxc:RadioButtons Margin="4" Header="Options">
-                    <RadioButton x:Name="CurrentSubreddit" Content="Current subreddit" Checked="CurrentSubreddit_Checked"  IsEnabled="{x:Bind IsSubVisible}"/>
-                    <RadioButton x:Name="OtherSubreddit" Content="Other subreddit: " Checked="OtherSubreddit_Checked_1"  IsChecked="{x:Bind IsOtherSubVisible}"/>
-                </muxc:RadioButtons>
-                <AutoSuggestBox Header="Subreddit name:" PlaceholderText="dont include 'r/'" Height="60" Margin="5" QuerySubmitted="OtherText_QuerySubmitted" Width="300" QueryIcon="Accept" x:Name="OtherText" />
-              
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <CheckBox Margin="4" Content="Is nsfw" x:Name="NSFW"/>
-                <CheckBox Margin="4" Content="Is spoiler" x:Name="Spoil" />
-              <!--  <CheckBox Margin="4" Content="Enable Send replies" IsChecked="True" x:Name="sendreplies" />-->
-            </StackPanel>
 
+                <muxc:RadioButtons Margin="4" Header="Options">
+                    <RadioButton x:Name="CurrentSubreddit" Content="Current subreddit"
+                                 Checked="CurrentSubreddit_Checked" IsEnabled="{x:Bind IsSubVisible}" />
+                    <RadioButton x:Name="OtherSubreddit" Content="Other subreddit: " Checked="OtherSubreddit_Checked_1"
+                                 IsChecked="{x:Bind IsOtherSubVisible}" />
+                </muxc:RadioButtons>
+                <AutoSuggestBox Header="Subreddit name:" PlaceholderText="dont include 'r/'" Height="60" Margin="5"
+                                QuerySubmitted="OtherText_QuerySubmitted" Width="300" QueryIcon="Accept"
+                                x:Name="OtherText" />
+
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Margin="4" Content="Is nsfw" x:Name="NSFW" />
+                <CheckBox Margin="4" Content="Is spoiler" x:Name="Spoil" />
+            </StackPanel>
+            <controls:TokenizingTextBox
+                Margin="5"
+                TokenItemAdded="Flairlist_TokenItemAdded"
+                TokenItemRemoved="Flairlist_TokenItemRemoved"
+                SuggestionChosen="Flairlist_SuggestionChosen"
+                CornerRadius="5"
+                x:Name="Flairlist"
+                PlaceholderText="Add Flair"
+                TokenItemCreating="Flairlist_TokenItemCreating"
+                TokenDelimiter=",">
+                <controls:TokenizingTextBox.SuggestedItemTemplate>
+                    <DataTemplate x:DataType="things:Flair">
+                        <TextBlock Text="{x:Bind Text, Mode=OneWay}" Padding="4,0,0,0" />
+
+                    </DataTemplate>
+                </controls:TokenizingTextBox.SuggestedItemTemplate>
+                <controls:TokenizingTextBox.TokenItemTemplate>
+                    <DataTemplate x:DataType="things:Flair">
+                        <TextBlock Text="{x:Bind Text, Mode=OneWay}" Padding="4,0,0,0" />
+                    </DataTemplate>
+                </controls:TokenizingTextBox.TokenItemTemplate>
+            </controls:TokenizingTextBox>
             <Pivot x:Name="CreatePostPivot">
                 <PivotItem Header="Text">
                     <StackPanel>
-                        <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind EditZone}" Background="{ThemeResource SystemControlAcrylicElementBrush}" Format="MarkDown"/>
+                        <controls:TextToolbar x:Name="Toolbar" Editor="{x:Bind EditZone}"
+                                              Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                              Format="MarkDown" />
                         <RichEditBox x:Name="EditZone"
-                     PlaceholderText="Enter Text Here"
-                     TextWrapping="Wrap"
-                     VerticalContentAlignment="Stretch"
-                                         TextChanged="EditZone_TextChanged"
-                     MinHeight="300"
-                     Padding="10,3"
-                     BorderThickness="1"
-                     BorderBrush="{ThemeResource SystemControlAcrylicElementBrush}"
-                     Foreground="{ThemeResource SystemControlAcrylicElementBrush}"/>
+                                     PlaceholderText="Enter Text Here"
+                                     TextWrapping="Wrap"
+                                     VerticalContentAlignment="Stretch"
+                                     TextChanged="EditZone_TextChanged"
+                                     MinHeight="300"
+                                     Padding="10,3"
+                                     BorderThickness="1"
+                                     BorderBrush="{ThemeResource SystemControlAcrylicElementBrush}"
+                                     Foreground="{ThemeResource SystemControlAcrylicElementBrush}" />
                         <TextBlock Margin="3">Live preview:</TextBlock>
                         <controls:MarkdownTextBlock
-                                 
-                     TextWrapping="Wrap"
-                     VerticalContentAlignment="Stretch"
-                     MinHeight="300"
-                                     Padding="10,3"
-                     BorderThickness="1"
-                                    x:Name="MarkDownBlock"
+
+                            TextWrapping="Wrap"
+                            VerticalContentAlignment="Stretch"
+                            MinHeight="300"
+                            Padding="10,3"
+                            BorderThickness="1"
+                            x:Name="MarkDownBlock"
                             ImageClicked="MarkdownText_ImageClicked"
                             Background="Black"
-                                LinkClicked="MarkdownText_LinkClicked"
-                               >
-                        </controls:MarkdownTextBlock>
+                            LinkClicked="MarkdownText_LinkClicked" />
+                        <Button Background="{ThemeResource SystemAccentColor}"  HorizontalAlignment="Center" Margin="5"
+                                Click="NewPostButton_Click">
+                            Submit post
+                        </Button>
                     </StackPanel>
                 </PivotItem>
                 <PivotItem Header="Link">
-                    <TextBox PlaceholderText="Enter link" x:Name="Link"></TextBox>
-                </PivotItem>
+                    <StackPanel>
+                        <TextBox PlaceholderText="Enter link" x:Name="Link" />
+                    <Button Background="{ThemeResource SystemAccentColor}"  HorizontalAlignment="Center" Margin="5"
+                                Click="NewPostButton_Click">
+                        Submit post
+                    </Button>
+        </StackPanel>
+        </PivotItem>
                 <PivotItem Header="Image">
                     <StackPanel>
-                    <Button Background="{ThemeResource SystemAccentColor}" HorizontalAlignment="Center" Margin="5" Click="UploadButton_Click">Select Image</Button>
-                        <Image x:Name="pRVEIEWiMAGE" Margin="15" Stretch="Fill" />
+                        <Button Background="{ThemeResource SystemAccentColor}" HorizontalAlignment="Center" Margin="5"
+                                Click="UploadButton_Click">
+                            Select Image
+                        </Button>
+                        <Image x:Name="pRVEIEWiMAGE" Height="500" Width="500" Stretch="Fill" />
+                        <Button Background="{ThemeResource SystemAccentColor}"  HorizontalAlignment="Center" Margin="5"
+                                Click="NewPostButton_Click">
+                            Submit post
+                        </Button>
                     </StackPanel>
                 </PivotItem>
-                <PivotItem Header="Album" IsEnabled="False">
-                    <TextBlock>coming soon</TextBlock>
-                </PivotItem>
-                <PivotItem Header="Ink" IsEnabled="False">
-                    <TextBlock>coming soon</TextBlock>
+                <PivotItem Header="Album">
+                    <StackPanel Orientation="Vertical">
+                        <Button Background="{ThemeResource SystemAccentColor}" HorizontalAlignment="Center" Margin="5"
+                                Click="Album_Click">
+                            Add Image
+                        </Button>
+                        <!--    <StackPanel Name="CarouselControl"       Width="500">
+                            
+                        </StackPanel>-->
+                        <!--  <controls:AdaptiveGridView  Name="CarouselControl"
+                                                    Height="500"
+    ItemHeight="200"
+    DesiredWidth="300">
+                        <controls:AdaptiveGridView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Images">
+                                    <Image
+                                        Source="{x:Bind filepath}"
+                  Stretch="Uniform" >
+                                    </Image>
+                                </DataTemplate>
+                            </controls:AdaptiveGridView.ItemTemplate> -->
+                        <!--   </controls:AdaptiveGridView>-->
+                        <controls:Carousel x:Name="CarouselControl"
+
+                                           InvertPositive="True"
+                                           ItemDepth="300"
+                                           ItemMargin="0"
+                                           ItemRotationX="0"
+                                           ItemRotationY="45"
+                                           ItemRotationZ="0"
+                                           SelectedIndex="0"
+                                           Orientation="Horizontal">
+                            <controls:Carousel.EasingFunction>
+                                <CubicEase EasingMode="EaseOut" />
+                            </controls:Carousel.EasingFunction>
+                        </controls:Carousel>
+                        <Button Background="{ThemeResource SystemAccentColor}" IsEnabled="False" x:Name="albumsubmitbutton" HorizontalAlignment="Center" Margin="5"
+                                Click="SubmitAlbumButton_Click">
+                            Submit post
+                        </Button>
+                    </StackPanel>
                 </PivotItem>
 
             </Pivot>
-            <StackPanel Orientation="Horizontal">
-                <Button Margin="4" Background="{ThemeResource SystemAccentColor}" Click="NewPostButton_Click">Submit post</Button>
-               <!-- <Button Margin="4" IsEnabled="False">Save as draft</Button>-->
-            </StackPanel>
+
             <controls:InAppNotification x:Name="statusInAppNotification">
                 <!-- InAppNotification content -->
             </controls:InAppNotification>

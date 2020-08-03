@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     x:Uid="FirstRunDialog"
     d:DesignHeight="345"
     d:DesignWidth="550"
@@ -24,10 +25,54 @@
     </ContentDialog.TitleTemplate>
     <ScrollViewer>
         <StackPanel>
-            <TextBlock FontSize="15" Width="300" TextWrapping="WrapWholeWords">Note: this preview alpha version doesnt plant any trees but is instead used for testing</TextBlock>
-            <TextBlock Width="300" TextWrapping="WrapWholeWords">Welcome to Eco reddit pre alpha dev edition. the reddit client that (will) plant trees while you browse reddit. Read more in r/projectecoreddit</TextBlock>
-            <TextBlock Width="300" TextWrapping="WrapWholeWords">This is the dev version. its faster and more up to date with less bugs and more features.</TextBlock>
-            <TextBlock Width="300" TextWrapping="WrapWholeWords">Please post bugs in the r/projectecoreddit subreddit.</TextBlock>
+            <TextBlock FontSize="15" Width="300" TextWrapping="WrapWholeWords">Welcome to Selva for reddit, a reddit client that plants trees while you browse reddit. It uses ad revenue generated from optional ads and donates it to reforestation charity. The ads are optional control them below.</TextBlock>
+            <HyperlinkButton
+               
+                NavigateUri="https://www.reddit.com/r/ProjectEcoReddit/comments/f7eje3/faq_about_the_app/"
+                    Margin="5">FAQ</HyperlinkButton>
+            <HyperlinkButton
+               
+                NavigateUri="https://www.reddit.com/r/ProjectEcoReddit/comments/ht0xpg/june_2020_privacy_and_transparency_report/"
+                    Margin="5">Privacy report</HyperlinkButton>
+            <HyperlinkButton
+               
+                NavigateUri="https://www.reddit.com/r/ProjectEcoReddit/"
+                    Margin="5">Our subreddit</HyperlinkButton>
+            <HyperlinkButton
+               
+                NavigateUri="https://www.reddit.com/r/ProjectEcoReddit/comments/ht40u0/tree_planting_and_ad_revenue_june_2020_report/"
+                    Margin="5">Revenue report</HyperlinkButton>
+            <TextBlock FontSize="15" Width="300" TextWrapping="WrapWholeWords" FontWeight="Bold" Margin="3">Note: app is currently in beta so bugs and other issues can occure. please report them in the subreddit</TextBlock>
+            <ToggleSwitch Header="Enable ads:" OffContent="Disabled" OnContent="Enabled" x:Name="AdToggle" Margin="5"
+                          Toggled="AdToggle_Toggled" />
+
+            <StackPanel Margin="15, 5, 5, 5" x:Name="AdOptionsContainer">
+                <ToggleSwitch Header="Show ad in Post:" OffContent="Disabled" OnContent="Enabled" x:Name="PostAdToggle"
+                              Margin="5" />
+                <muxc:NumberBox x:Name="PostSlider"
+                                Header="Ad frequency (percentage):"
+
+                                Margin="5"
+                                Minimum="1"
+                                Maximum="100"
+                                SpinButtonPlacementMode="Inline"
+                                ValueChanged="PostSlider_ValueChanged"
+                                SmallChange="1"
+                                LargeChange="10" />
+                <ToggleSwitch Header="Show ad in sidebar:" OffContent="Disabled" OnContent="Enabled"
+                              x:Name="SideBarAdToggle" Margin="5" />
+                <!-- <Slider Width="200" Minimum="1" Maximum="100" Margin="5" Header="Sidebar ad frequency:"  x:Name="SidebarSlider"/>-->
+                <muxc:NumberBox x:Name="SidebarSlider"
+                                Header="Ad frequency (percentage):"
+
+                                Margin="5"
+                                Minimum="1"
+                                Maximum="100"
+                                SpinButtonPlacementMode="Inline"
+                                ValueChanged="SidebarSlider_ValueChanged"
+                                SmallChange="1"
+                                LargeChange="10" />
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </ContentDialog>

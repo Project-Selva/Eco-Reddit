@@ -11,7 +11,8 @@ namespace RedditSharp.Things
     public class BannedUser : RedditUser
     {
         /// <inheritdoc />
-        public BannedUser(IWebAgent agent, JToken json) : base(agent, json) {
+        public BannedUser(IWebAgent agent, JToken json) : base(agent, json)
+        {
             var data = json["name"] == null ? json["data"] : json;
             base.Name = data["name"].ValueOrDefault<string>();
             var id = data["id"].ValueOrDefault<string>();

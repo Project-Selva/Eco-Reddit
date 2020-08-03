@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Eco_Reddit.Core.Models
+﻿namespace Eco_Reddit.Core.Models
 {
     // TODO WTS: Remove this class once your pages/features are using your data.
     // This is used by the SampleDataService.

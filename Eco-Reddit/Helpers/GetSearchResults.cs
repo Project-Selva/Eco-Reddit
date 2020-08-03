@@ -1,15 +1,12 @@
-﻿using Eco_Reddit.Models;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.Storage;
+using Eco_Reddit.Models;
 using Microsoft.Toolkit.Collections;
 using Reddit;
 using Reddit.Controllers;
 using Reddit.Inputs.Search;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
 
 namespace Eco_Reddit.Helpers
 {
@@ -17,41 +14,42 @@ namespace Eco_Reddit.Helpers
     {
         public static int limit = 10;
         public static int skipInt = 0;
-        public static string SearchSort { get; set; }
-        public static string TimeSort { get; set; }
+        public static string SearchSort;
+        public static string TimeSort;
+        public static string Sub;
+        public static string Input;
         public string appId = "mp8hDB_HfbctBg";
+        private List<Posts> ResultsCollection;
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
-        List<Posts> ResultsCollection;
-        public static string Sub { get; set; }
         public string thing;
-        public static string Input { get; set; }
-        public async Task<IEnumerable<Posts>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
+
+        public async Task<IEnumerable<Posts>> GetPagedItemsAsync(int pageIndex, int pageSize,
+            CancellationToken cancellationToken = default)
         {
             await Task.Run(async () =>
             {
-                  Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-        string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var localSettings = ApplicationData.Current.LocalSettings;
+                var refreshToken = localSettings.Values["refresh_token"].ToString();
                 // Gets items from the collection according to pageIndex and pageSize parameters.
                 ResultsCollection = new List<Posts>();
                 var reddit = new RedditClient(appId, refreshToken, secret);
-                IEnumerable<Post> SearchResultsSearch = reddit.Subreddit(Sub).Search(new SearchGetSearchInput(Input, limit: 10, after: thing, sort: SearchSort, t: TimeSort));
+                IEnumerable<Post> SearchResultsSearch = reddit.Subreddit(Sub)
+                    .Search(new SearchGetSearchInput(Input, limit: 10, after: thing, sort: SearchSort, t: TimeSort));
 
                 await Task.Run(() =>
                 {
-
-                    foreach (Post post in SearchResultsSearch)
+                    foreach (var post in SearchResultsSearch)
                     {
                         // Console.WriteLine("New Post by " + post.Author + ": " + post.Title);
-                        ResultsCollection.Add(new Posts()
+                        ResultsCollection.Add(new Posts
                         {
-                            PostSelf = post,
+                            PostSelf = post
                         });
                         thing = post.Fullname;
                     }
                 });
 
                 return ResultsCollection;
-
             });
             return ResultsCollection;
         }

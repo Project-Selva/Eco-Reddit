@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Windows.UI.Xaml.Data;
 
 namespace Eco_Reddit.Helpers
@@ -13,9 +12,7 @@ namespace Eco_Reddit.Helpers
             if (parameter is string enumString)
             {
                 if (!Enum.IsDefined(EnumType, value))
-                {
                     throw new ArgumentException("ExceptionEnumToBooleanConverterValueMustBeAnEnum".GetLocalized());
-                }
 
                 var enumValue = Enum.Parse(EnumType, enumString);
 
@@ -27,10 +24,7 @@ namespace Eco_Reddit.Helpers
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            if (parameter is string enumString)
-            {
-                return Enum.Parse(EnumType, enumString);
-            }
+            if (parameter is string enumString) return Enum.Parse(EnumType, enumString);
 
             throw new ArgumentException("ExceptionEnumToBooleanConverterParameterMustBeAnEnumName".GetLocalized());
         }

@@ -141,7 +141,7 @@ namespace RedditSharp
 
             public void Dispose()
             {
-                
+
             }
         }
     }

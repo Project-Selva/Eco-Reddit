@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-
-using Eco_Reddit.Services;
-
 using Windows.ApplicationModel.Activation;
+using Eco_Reddit.Services;
 
 namespace Eco_Reddit.Activation
 {
@@ -21,10 +19,7 @@ namespace Eco_Reddit.Activation
             // When the navigation stack isn't restored, navigate to the first page and configure
             // the new page by passing required information in the navigation parameter
             object arguments = null;
-            if (args is LaunchActivatedEventArgs launchArgs)
-            {
-                arguments = launchArgs.Arguments;
-            }
+            if (args is LaunchActivatedEventArgs launchArgs) arguments = launchArgs.Arguments;
 
             NavigationService.Navigate(_navElement, arguments);
             await Task.CompletedTask;

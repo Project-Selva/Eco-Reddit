@@ -1,47 +1,40 @@
-﻿using Eco_Reddit.Models;
-using Eco_Reddit.Views;
-using Microsoft.Toolkit.Collections;
-using Reddit;
-using Reddit.Controllers;
-using Reddit.Inputs;
-using Reddit.Things;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.UI.Popups;
-using Windows.UI.Xaml;
-using static Eco_Reddit.Views.HomePage;
+using Windows.Storage;
+using Eco_Reddit.Models;
+using Microsoft.Toolkit.Collections;
+using Reddit;
+using Reddit.Things;
 
 namespace Eco_Reddit.Helpers
 {
     public class GetInboxClass : IIncrementalSource<Inbox>
     {
-        public Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
         public static int limit = 10;
-        public static int skipInt = 0;
+        public static int skipInt;
         public string appId = "mp8hDB_HfbctBg";
-        public string thing;
-        public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
-        List<Inbox> MessageCollection;
+        public ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        private List<Inbox> MessageCollection;
         private IEnumerable<Message> Messages;
-        public async Task<IEnumerable<Inbox>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default(CancellationToken))
+        public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
+        public string thing;
+
+        public async Task<IEnumerable<Inbox>> GetPagedItemsAsync(int pageIndex, int pageSize,
+            CancellationToken cancellationToken = default)
         {
             await Task.Run(async () =>
             {
-
-                string refreshToken = localSettings.Values["refresh_token"].ToString();
+                var refreshToken = localSettings.Values["refresh_token"].ToString();
                 MessageCollection = new List<Inbox>();
                 var reddit = new RedditClient(appId, refreshToken, secret);
                 Messages = reddit.Account.Messages.GetMessagesInbox(limit: limit).Skip(skipInt);
                 await Task.Run(() =>
                 {
-                    foreach (Message message in Messages)
+                    foreach (var message in Messages)
                     {
-                        MessageCollection.Add(new Inbox()
+                        MessageCollection.Add(new Inbox
                         {
                             InboxSelf = message
                         });

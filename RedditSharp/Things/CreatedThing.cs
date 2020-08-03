@@ -10,7 +10,8 @@ namespace RedditSharp.Things
     public class CreatedThing : Thing
     {
         /// <inheritdoc />
-        public CreatedThing(IWebAgent agent, JToken json) : base(agent, json) {
+        public CreatedThing(IWebAgent agent, JToken json) : base(agent, json)
+        {
         }
 
         /// <inheritdoc />

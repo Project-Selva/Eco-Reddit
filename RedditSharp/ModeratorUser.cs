@@ -33,7 +33,7 @@ namespace RedditSharp
         /// Permissions the moderator has in the subreddit.
         /// </summary>
         [JsonProperty("mod_permissions")]
-        [JsonConverter(typeof (ModeratorPermissionConverter))]
+        [JsonConverter(typeof(ModeratorPermissionConverter))]
         public ModeratorPermission Permissions { get; private set; }
 
         /// <inheritdoc/>

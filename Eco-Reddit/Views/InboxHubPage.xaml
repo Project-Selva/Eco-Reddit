@@ -11,24 +11,26 @@
 
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
-        <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-            <StackPanel HorizontalAlignment="Center">
-                <TextBlock Margin="5" FontSize="25">Inbox: </TextBlock>
-                <NavigationView x:Name="nvInbox" Margin="4" Background="Transparent" HorizontalAlignment="Stretch" ItemInvoked="NvInbox_ItemInvoked" IsSettingsVisible="False" IsBackButtonVisible="Collapsed" PaneDisplayMode="Top">
-                    <NavigationView.MenuItems>
-                        <NavigationViewItem x:Name="All" Content="All"/>
-                        <NavigationViewItem x:Name="Unread" Content="Unread"/>
-                        <NavigationViewItem  Content="User mentions"/>
-                        <NavigationViewItem  Content="Comment replies"/>
-                        <NavigationViewItem  Content="Post replies"/>
-                        <NavigationViewItem Content="Messages"/>
-                        <NavigationViewItem  Content="Sent messages"/>
-                        <NavigationViewItem  Content="Mod news letter"/>
-                    </NavigationView.MenuItems>
-                    <Frame x:Name="contentFrame"/>
-                </NavigationView>
-            </StackPanel>
-        </Grid>
+            <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock Margin="5" FontSize="25">Inbox: </TextBlock>
+                    <NavigationView x:Name="nvInbox" Margin="4" Background="Transparent" HorizontalAlignment="Stretch"
+                                    ItemInvoked="NvInbox_ItemInvoked" IsSettingsVisible="False"
+                                    IsBackButtonVisible="Collapsed" PaneDisplayMode="Top">
+                        <NavigationView.MenuItems>
+                            <NavigationViewItem x:Name="All" Content="All" />
+                            <NavigationViewItem x:Name="Unread" Content="Unread" />
+                            <NavigationViewItem Content="User mentions" />
+                            <NavigationViewItem Content="Comment replies" />
+                            <NavigationViewItem Content="Post replies" />
+                            <NavigationViewItem Content="Messages" />
+                            <NavigationViewItem Content="Sent messages" />
+                            <NavigationViewItem Content="Mod news letter" />
+                        </NavigationView.MenuItems>
+                        <Frame x:Name="contentFrame" />
+                    </NavigationView>
+                </StackPanel>
+            </Grid>
         </ScrollViewer>
     </Grid>
 </Page>
