@@ -199,7 +199,7 @@ namespace Eco_Reddit.Core
         /// <returns></returns>
         public async Task<Post> GetPostAsync(Uri uri)
         {
-            return new Post(WebAgent, await Helpers.GetTokenAsync(WebAgent, uri).ConfigureAwait(false));
+            return new Post(WebAgent, await HelpersSharp.GetTokenAsync(WebAgent, uri).ConfigureAwait(false));
         }
 
         /// <summary>
@@ -245,7 +245,7 @@ namespace Eco_Reddit.Core
             if (!uri.AbsoluteUri.EndsWith("about"))
                 uri = new Uri(uri.AbsoluteUri + "/about");
 
-            var token = await Helpers.GetTokenAsync(WebAgent, uri, true).ConfigureAwait(false);
+            var token = await HelpersSharp.GetTokenAsync(WebAgent, uri, true).ConfigureAwait(false);
             return new LiveUpdateEvent(WebAgent, token);
         }
 
@@ -331,7 +331,7 @@ namespace Eco_Reddit.Core
         /// <returns></returns>
         public Task<Thing> GetThingByFullnameAsync(string fullname)
         {
-            return Helpers.GetThingByFullnameAsync(WebAgent, fullname);
+            return HelpersName.GetThingByFullnameAsync(WebAgent, fullname);
         }
 
         /// <summary>

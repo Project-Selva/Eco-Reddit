@@ -4,7 +4,7 @@ using System;
 
 namespace Eco_Reddit.Core
 {
-    partial class Helpers
+    partial class HelpersSharp
     {
         static internal JsonSerializer jsonSerializer = JsonSerializer.Create(new JsonSerializerSettings
         {

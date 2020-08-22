@@ -27,7 +27,7 @@ namespace Eco_Reddit.Core
 
         private readonly List<RefreshTokenPoolEntry> poolEntries = new List<RefreshTokenPoolEntry>();
         [Obsolete]
-        private readonly MemoryCache activeAgentsCache = new MemoryCache(new MemoryCacheOptions() { CompactOnMemoryPressure = true });
+        private readonly MemoryCache activeAgentsCache = new MemoryCache(new MemoryCacheOptions() {  });
         private static readonly SemaphoreSlim cacheLock = new SemaphoreSlim(1, 1);
 
         private readonly string ClientID;

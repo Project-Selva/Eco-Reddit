@@ -106,7 +106,7 @@ namespace Eco_Reddit.Views
 
         private async void LoginView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
-            var loginHelper = new Eco_Reddit.Core.Helpers.LoginHelper(appId, secret);
+            var loginHelper = new Eco_Reddit.Core.Helpers.LoginHelpers.LoginHelper(appId, secret);
             if (args.Uri.AbsoluteUri.Contains("http://127.0.0.1:3000/reddit_callback"))
             {
                 var result = await loginHelper.Login_Stage2(args.Uri);

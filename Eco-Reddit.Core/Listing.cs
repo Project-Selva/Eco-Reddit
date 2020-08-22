@@ -145,6 +145,11 @@ namespace Eco_Reddit.Core
             return new Listing<T>(agent, url, max, perRequest);
         }
 
+        internal object First()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Number of records to return for each request.
         /// </summary>

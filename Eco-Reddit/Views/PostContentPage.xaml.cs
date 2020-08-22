@@ -284,7 +284,7 @@ namespace Eco_Reddit.Views
             catch
             {
                 var SenderComment = args.Item as Eco_Reddit.Core.Models.Comments;
-                var comment = SenderComment.CommentSelfThing;
+                var comment = SenderComment.CommentSelf;
                 var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
                 var textBlock = templateRoot.Children[2] as MarkdownTextBlock;
                 var DatetextBlock = templateRoot.Children[3] as TextBlock;
@@ -293,7 +293,7 @@ namespace Eco_Reddit.Views
                 AuthortextBlock.Content = comment.Author;
                 var Upvoted = templateRoot.Children[0] as AppBarToggleButton;
                 var Downvoted = templateRoot.Children[1] as AppBarToggleButton;
-                Upvoted.Label = comment.Likes.ToString();
+                Upvoted.Label = comment.Listing.Likes.ToString();
                 //    Upvoted.IsChecked = comment.Score.ToString();
                 // Downvoted.IsChecked = comment.IsDownvoted;
                 var t = new Thickness();

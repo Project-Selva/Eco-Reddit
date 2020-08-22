@@ -120,7 +120,7 @@ namespace Eco_Reddit.Core.Multi
                     Subreddits.Add(new MultiSubs(agent, json["subreddits"][i]));
                 }
             }
-            Helpers.PopulateObject(json, this);
+            HelpersSharp.PopulateObject(json, this);
         }
 
     }

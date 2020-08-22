@@ -106,7 +106,7 @@ namespace Eco_Reddit.Core.Things
         /// </summary>
         //TODO discuss
         public Task<Thing> GetTargetThing() =>
-            Helpers.GetThingByFullnameAsync(WebAgent, TargetThingFullname);
+            HelpersName.GetThingByFullnameAsync(WebAgent, TargetThingFullname);
 
         /// <inheritdoc />
         internal override JToken GetJsonData(JToken json) => json["data"];

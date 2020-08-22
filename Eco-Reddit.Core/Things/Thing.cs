@@ -79,7 +79,7 @@ namespace Eco_Reddit.Core.Things
             Kind = json["kind"].ValueOrDefault<string>();
             RawJson = data;
             FetchedAt = DateTime.Now;
-            Helpers.PopulateObject(GetJsonData(json), this);
+            HelpersSharp.PopulateObject(GetJsonData(json), this);
         }
 
         // Awaitables don't have to be called asyncronously

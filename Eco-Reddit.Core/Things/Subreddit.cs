@@ -224,7 +224,7 @@ namespace Eco_Reddit.Core.Things
             {
                 throw new ArgumentException(nameof(name));
             }
-            return Helpers.GetThingAsync<Subreddit>(agent, string.Format(SubredditAboutUrl, name));
+            return HelpersSharp.GetThingAsync<Subreddit>(agent, string.Format(SubredditAboutUrl, name));
         }
 
         /// <summary>
@@ -860,7 +860,7 @@ namespace Eco_Reddit.Core.Things
                 throw new Exception(json["errors"][0][0].ToString());
             }
 
-            return new Post(WebAgent, await Helpers.GetTokenAsync(WebAgent, new Uri(json["data"]["url"].ToString())).ConfigureAwait(false));
+            return new Post(WebAgent, await HelpersSharp.GetTokenAsync(WebAgent, new Uri(json["data"]["url"].ToString())).ConfigureAwait(false));
         }
         /// <summary>
         /// Submits a link post in the current subreddit using the logged-in user

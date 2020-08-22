@@ -132,12 +132,13 @@ namespace Eco_Reddit.Core.Things
             }
             //TODO: Convert this into an async function
             var firstPage = thread.First();
-            firstPage.Wait();
-            var firstMessage = firstPage.Result;
-            if (firstMessage?.FullName == ParentID)
-                return firstMessage;
-            else
-                return firstMessage.Replies.First(x => x.FullName == ParentID);
+            // firstPage.Wait();
+            // var firstMessage = firstPage.Result;
+            /*   if (firstMessage?.FullName == ParentID)
+                   return firstMessage;
+               else
+                   return firstMessage.Replies.First(x => x.FullName == ParentID);*/
+            return null;
         }
 
         /// <summary>

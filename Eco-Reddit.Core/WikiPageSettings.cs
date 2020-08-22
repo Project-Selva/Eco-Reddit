@@ -52,7 +52,7 @@ namespace Eco_Reddit.Core
         protected internal WikiPageSettings(IWebAgent agent, JToken json)
         {
             Editors = json["editors"].Select(x => new RedditUser(agent, x)).ToArray();
-            Helpers.PopulateObject(json, this);
+            HelpersSharp.PopulateObject(json, this);
         }
 #pragma warning restore 1591
     }

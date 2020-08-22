@@ -14,7 +14,7 @@ namespace Eco_Reddit.Core
     {
         private static readonly SemaphoreSlim cacheLock = new SemaphoreSlim(1, 1);
         [Obsolete]
-        private readonly MemoryCache activeAgentsCache = new MemoryCache(new MemoryCacheOptions() { CompactOnMemoryPressure = false });
+        private readonly MemoryCache activeAgentsCache = new MemoryCache(new MemoryCacheOptions() {  });
 
         /// <summary>
         /// Returns the <typeparamref name="TAgent"/> corresponding to the <paramref name="key"/>

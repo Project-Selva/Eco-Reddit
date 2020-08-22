@@ -2,7 +2,7 @@
 
 namespace Eco_Reddit.Core
 {
-    partial class Helpers
+    partial class HelpersSharp
     {
         protected static async internal Task<T> GetThingAsync<T>(IWebAgent agent, string url) where T : Things.Thing
         {

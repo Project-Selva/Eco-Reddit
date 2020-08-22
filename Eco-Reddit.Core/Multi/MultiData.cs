@@ -29,7 +29,7 @@ namespace Eco_Reddit.Core.Multi
         protected internal MultiData(IWebAgent agent, JToken json, bool subs = true)
         {
             Data = new MData(agent, json["data"], subs);
-            Helpers.PopulateObject(json, this);
+            HelpersSharp.PopulateObject(json, this);
         }
     }
 

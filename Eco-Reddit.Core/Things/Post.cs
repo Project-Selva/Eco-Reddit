@@ -239,7 +239,7 @@ namespace Eco_Reddit.Core.Things
         /// <summary>
         /// Updates data retrieved for this post.
         /// </summary>
-        public async Task UpdateAsync() => Helpers.PopulateObject(GetJsonData(await Helpers.GetTokenAsync(WebAgent, Url)), this);
+        public async Task UpdateAsync() => HelpersSharp.PopulateObject(GetJsonData(await HelpersSharp.GetTokenAsync(WebAgent, Url)), this);
 
         /// <summary>
         /// Sets your flair

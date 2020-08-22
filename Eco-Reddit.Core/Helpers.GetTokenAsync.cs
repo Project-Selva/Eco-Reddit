@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Eco_Reddit.Core
 {
-    partial class Helpers
+    partial class HelpersSharp
     {
         /// <summary>
         /// Get a <see cref="JToken"/> from a url.

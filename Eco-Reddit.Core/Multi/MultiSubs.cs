@@ -21,7 +21,7 @@ namespace Eco_Reddit.Core.Multi
         /// <param name="json">Token to use for the name</param>
         protected internal MultiSubs(IWebAgent agent, JToken json) : base(agent)
         {
-            Helpers.PopulateObject(json, this);
+            HelpersSharp.PopulateObject(json, this);
         }
 
     }

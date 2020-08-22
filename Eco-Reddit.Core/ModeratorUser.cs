@@ -14,7 +14,7 @@ namespace Eco_Reddit.Core
         /// <param name="json"></param>
         public ModeratorUser(JToken json)
         {
-            Helpers.PopulateObject(json, this);
+            HelpersSharp.PopulateObject(json, this);
         }
 
         /// <summary>

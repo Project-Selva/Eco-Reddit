@@ -48,7 +48,7 @@ namespace Eco_Reddit.Core
             {
                 RevisionBy = new RedditUser(agent, json["revision_by"]);
             }
-            Helpers.PopulateObject(json, this);
+            HelpersSharp.PopulateObject(json, this);
         }
 #pragma warning restore 1591
     }
