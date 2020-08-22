@@ -8,6 +8,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Eco_Reddit.Helpers;
+using Eco_Reddit.Core.Models;
 using Eco_Reddit.Models;
 
 namespace Eco_Reddit.Views
@@ -105,7 +106,7 @@ namespace Eco_Reddit.Views
 
         private async void LoginView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
-            var loginHelper = new LoginHelper(appId, secret);
+            var loginHelper = new Eco_Reddit.Core.Helpers.LoginHelper(appId, secret);
             if (args.Uri.AbsoluteUri.Contains("http://127.0.0.1:3000/reddit_callback"))
             {
                 var result = await loginHelper.Login_Stage2(args.Uri);
@@ -225,12 +226,12 @@ namespace Eco_Reddit.Views
         private void StartUp()
         {
             //UnloadObject(Wblock);
-            var scopes = Constants.Constants.scopeList.Aggregate("", (acc, x) => acc + " " + x);
+            var scopes = Eco_Reddit.Core.Constants.Constants.scopeList.Aggregate("", (acc, x) => acc + " " + x);
             var urlParams = "client_id=" + appId +
                             "&response_type=code&state=uyagsjgfhjs&duration=permanent&redirect_uri=" +
                             HttpUtility.UrlEncode("http://127.0.0.1:3000/reddit_callback") + "&scope=" +
                             HttpUtility.UrlEncode(scopes);
-            var targetUri = new Uri(Constants.Constants.redditApiBaseUrl + "authorize?" + urlParams);
+            var targetUri = new Uri(Eco_Reddit.Core.Constants.Constants.redditApiBaseUrl + "authorize?" + urlParams);
             webView.Navigate(targetUri);
             SettingsFrame.Navigate(typeof(SettingsPage));
             // UnloadObject(loginView);

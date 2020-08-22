@@ -4,13 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Eco_Reddit.Views"
     xmlns:converters="using:Eco_Reddit.Converters"
-    xmlns:utils="using:Eco_Reddit.Models"
+    xmlns:utils="using:Eco_Reddit.Core.Models"
     xmlns:templateselector="using:Eco_Reddit.Templates"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:RedditSharp.Things"
     xmlns:sys="using:System"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="Transparent">
     <Page.Resources>
@@ -122,5 +123,16 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
+        <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="1000" IsLoading="True" >
+            <controls:Loading.Background>
+                <SolidColorBrush Color="Black" Opacity="0.7" />
+            </controls:Loading.Background>
+            <StackPanel Orientation="Horizontal" Padding="12">
+                <Grid Margin="0,0,8,0">
+                    <muxc:ProgressRing IsActive="True" Height="50" Width="50"/>
+                </Grid>
+                <TextBlock Text="Loading" FontSize="30"  VerticalAlignment="Center" />
+            </StackPanel>
+        </controls:Loading>
     </Grid>
 </Page>

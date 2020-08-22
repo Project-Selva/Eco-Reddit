@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Eco_Reddit.Constants
+namespace Eco_Reddit.Core.Constants
 {
-    internal class Constants
+    public class Constants
     {
         public static readonly string redditBaseUrl = "https://reddit.com/";
         public static readonly string redditApiBaseUrl = "https://www.reddit.com/api/v1/";

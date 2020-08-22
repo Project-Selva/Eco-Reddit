@@ -17,7 +17,6 @@ using Windows.UI.Xaml.Media.Imaging;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Reddit;
 using Reddit.Controllers;
-using Comments = Eco_Reddit.Models.Comments;
 using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace Eco_Reddit.Views
@@ -86,7 +85,7 @@ namespace Eco_Reddit.Views
                     Title.Text = PostLocal.Title;
                     Date.Text = "Created: " + PostLocal.Created;
                     User.Content = "u/" + PostLocal.Author;
-                    Commentcount.Label = "Comments: " + PostLocal.Comments.GetComments().Count;
+                    Commentcount.Label = PostLocal.Comments.GetComments().Count + " Comments";
                     Subreddit.Content = "r/" + PostLocal.Subreddit;
                     UpvoteButton.Label = PostLocal.UpVotes.ToString();
                     UpvoteButton.IsChecked = PostLocal.IsUpvoted;
@@ -125,7 +124,7 @@ namespace Eco_Reddit.Views
                             Image.Visibility = Visibility.Collapsed;
                             LinkView.Visibility = Visibility.Visible;
                             MediaRedditPlayer.Visibility = Visibility.Collapsed;
-                            LinkView.Navigate(new Uri("ms-appx-web:///WebFiles/FramePlayer.html"));
+                            LinkView.Navigate(new Uri("ms-appx-web:////Core/WebFiles/FramePlayer.html"));
                             ///current string of p.url is example https://gfycat.com/imaginaryfreeeuropeanfiresalamander but we need https://gfycat.com/ifr/imaginaryfreeeuropeanfiresalamander
                             var gfystringID = p.URL.Remove(0, 19);
                             var GfyCatVideo = "https://gfycat.com/ifr/" + gfystringID;
@@ -174,7 +173,7 @@ namespace Eco_Reddit.Views
 
                     LoadingControl.Visibility = Visibility.Collapsed;
                     await Task.Delay(100);
-                    CommentCount.Text = "Comments: " + PostLocal.Comments.GetComments().Count;
+                    CommentCount.Text = PostLocal.Comments.GetComments().Count + " Comments";
                     //    string rep = Post.Title;
                     //     string dash = rep.Replace("", "_");
                     CommentFrame.Navigate(typeof(PostCommentPage),
@@ -258,7 +257,7 @@ namespace Eco_Reddit.Views
             if (args.Phase != 1) throw new Exception("We should be in phase 1, but we are not.");
             try
             {
-                var SenderComment = args.Item as Comments;
+                var SenderComment = args.Item as Eco_Reddit.Core.Models.Comments;
                 var comment = SenderComment.CommentSelf;
                 var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
                 var textBlock = templateRoot.Children[2] as MarkdownTextBlock;
@@ -284,7 +283,7 @@ namespace Eco_Reddit.Views
             }
             catch
             {
-                var SenderComment = args.Item as Comments;
+                var SenderComment = args.Item as Eco_Reddit.Core.Models.Comments;
                 var comment = SenderComment.CommentSelfThing;
                 var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
                 var textBlock = templateRoot.Children[2] as MarkdownTextBlock;

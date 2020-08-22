@@ -9,9 +9,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Eco_Reddit.Helpers;
-using Eco_Reddit.Models;
+using Eco_Reddit.Core.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using RedditSharp.Things;
+using Eco_Reddit.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -23,7 +24,7 @@ namespace Eco_Reddit.Views
     public sealed partial class PostCommentPage : Page
     {
         private readonly ObservableCollection<Thing> commentTree;
-        private readonly LoginHelper loginHelper = new LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
+        private readonly Eco_Reddit.Core.Helpers.LoginHelper loginHelper = new Eco_Reddit.Core.Helpers.LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
         public ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         private Post selectedPost;
 
@@ -79,6 +80,7 @@ namespace Eco_Reddit.Views
                       commentTree.Add(comment);
                   }
               }*/
+            LoadingControl.IsLoading = false;
         }
 
         public void DepthFirstTraversal(Comment root, Stack<Thing> stack)

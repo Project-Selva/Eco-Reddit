@@ -1,4 +1,4 @@
-﻿namespace Eco_Reddit.Models
+﻿namespace Eco_Reddit.Core.Models
 {
     public class TabViewItemData
     {

@@ -17,6 +17,7 @@ namespace Eco_Reddit.Helpers
         public ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         private List<Post> PostCollection;
         private IEnumerable<Post> posts;
+        int counter = 0;
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
         public string thing;
 
@@ -79,6 +80,12 @@ namespace Eco_Reddit.Helpers
                         {
                             PostCollection.Add(post);
                             thing = post.Fullname;
+                            counter++;
+                            if(counter == 50)
+                            {
+                                counter = 0;
+                                         thing = post.Fullname;
+                            }
                         }
                     );
                 });

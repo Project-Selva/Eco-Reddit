@@ -16,6 +16,9 @@ using Windows.System;
 using Reddit.Controllers;
 using Reddit;
 using RedditSharp;
+using Eco_Reddit.Core.Models;
+using Eco_Reddit.Helpers;
+using Eco_Reddit.Core.Models;
 using Eco_Reddit.Models;
 
 namespace Eco_Reddit.Views
@@ -29,7 +32,7 @@ namespace Eco_Reddit.Views
         private string _versionDescription;
         public ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         public string appId = "mp8hDB_HfbctBg";
-        private readonly LoginHelper loginHelper = new LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
+        private readonly Eco_Reddit.Core.Helpers.LoginHelper loginHelper = new Eco_Reddit.Core.Helpers.LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
         public SettingsPage()
         {

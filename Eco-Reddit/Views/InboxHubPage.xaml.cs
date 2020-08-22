@@ -31,6 +31,7 @@ namespace Eco_Reddit.Views
                 nvInbox.SelectedItem = All;
                 contentFrame.Navigate(typeof(InboxPage));
             }
+            LoadingControl.IsLoading = false;
         }
 
         private void NvInbox_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)

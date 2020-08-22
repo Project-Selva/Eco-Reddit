@@ -37,13 +37,13 @@ namespace Eco_Reddit.Views
             /* if (String.IsNullOrEmpty(subreddit.IconImg.ToString()) == false)
              {
                  BitmapImage img = new BitmapImage();
-                 //  img.UriSource = new Uri("/Images/1409938.png");
+                 //  img.UriSource = new Uri("/Core/Assets/RedditImages/1409938.png");
                  //  SubIcon.ProfilePicture = img;
              }
              if (String.IsNullOrEmpty(subreddit.BannerImg.ToString()) == false)
              {
                  BitmapImage Bimg = new BitmapImage();
-                 //   Bimg.UriSource = new Uri("/Images/1409938.png");
+                 //   Bimg.UriSource = new Uri("/Core/Assets/RedditImages/1409938.png");
                  //  BannerIMG.Source = Bimg;
              }*/
             /*      if (String.IsNullOrEmpty(subreddit.HeaderImg.ToString()) == false)

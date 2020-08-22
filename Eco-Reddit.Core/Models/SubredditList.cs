@@ -1,11 +1,11 @@
-﻿using Windows.UI.Xaml;
+﻿//using Windows.UI.Xaml;
 using Reddit.Controllers;
 
-namespace Eco_Reddit.Models
+namespace Eco_Reddit.Core.Models
 {
     public class SubredditList
     {
-        public Visibility IsNSFW;
+        //public Visibility IsNSFW;
         public string SubredditIcon;
         public Subreddit SubredditSelf;
         public string TitleSubreddit;

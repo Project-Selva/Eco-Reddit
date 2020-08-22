@@ -17,13 +17,15 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Eco_Reddit.Helpers;
-using Eco_Reddit.Models;
+using Eco_Reddit.Core.Models;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Reddit;
 using Reddit.Controllers;
 using WinUI = Microsoft.UI.Xaml.Controls;
 using Things = Reddit.Things;
+using Windows.UI.Xaml.Controls.Primitives;
+using Eco_Reddit.Helpers;
 
 namespace Eco_Reddit.Views
 {
@@ -217,13 +219,13 @@ public event PropertyChangedEventHandler PropertyChanged;
                     /*    if (String.IsNullOrEmpty(subreddit.IconImg.ToString()) == false)
                         {
                             BitmapImage img = new BitmapImage();
-                            //  img.UriSource = new Uri("/Images/1409938.png");
+                            //  img.UriSource = new Uri("/Core/Assets/RedditImages/1409938.png");
                             //  SubIcon.ProfilePicture = img;
                         }
                         if (String.IsNullOrEmpty(subreddit.BannerImg.ToString()) == false)
                         {
                             BitmapImage Bimg = new BitmapImage();
-                            //    Bimg.UriSource = new Uri("/Images/1409938.png");
+                            //    Bimg.UriSource = new Uri("/Core/Assets/RedditImages/1409938.png");
                             //  BannerIMG.Source = Bimg;
                         }
                         /*      if (String.IsNullOrEmpty(subreddit.HeaderImg.ToString()) == false)
@@ -750,6 +752,7 @@ public event PropertyChangedEventHandler PropertyChanged;
 
         private void ProfilePage_Loaded(object sender, RoutedEventArgs e)
         {
+          
             ProfileFrame.Navigate(typeof(ProfilePage));
         }
 
@@ -1113,7 +1116,6 @@ public event PropertyChangedEventHandler PropertyChanged;
                 {
                     SubredditCollectionD.Add(new SubredditList
                     {
-                        IsNSFW = Nsfw,
                         TitleSubreddit = subredditD.Name,
                         SubredditSelf = subredditD,
                         SubredditIcon = subredditD.CommunityIcon
@@ -1227,7 +1229,8 @@ public event PropertyChangedEventHandler PropertyChanged;
             LoginFrameFrame = LoginFrame;
             MainTab = MainTabView;
             var refreshToken = localSettings.Values["refresh_token"].ToString();
-
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
 
             PostsSortOrder = "Best";
             IsHomeEnabled = true;
@@ -1460,6 +1463,11 @@ public event PropertyChangedEventHandler PropertyChanged;
         {
             FindName("LoginFrame");
             LoginFrame.Navigate(typeof(LoginPage));
+        }
+
+        private void PersonPicture_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
         }
     }
 }

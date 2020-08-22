@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Eco_Reddit.Helpers;
-using Eco_Reddit.Models;
+using Eco_Reddit.Core.Models;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Reddit;
@@ -52,7 +52,7 @@ namespace Eco_Reddit.Views
         private async void ShowPhase1(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             if (args.Phase != 1) throw new Exception("We should be in phase 1, but we are not.");
-
+            LoadingControl.IsLoading = false;
             var SenderMessage = args.Item as PrivateMessage;
             var Message = SenderMessage.MessageSelf;
             var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;

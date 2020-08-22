@@ -8,6 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Eco_Reddit.Activation;
+using Eco_Reddit.Helpers;
 using Eco_Reddit.Core.Helpers;
 
 namespace Eco_Reddit.Services

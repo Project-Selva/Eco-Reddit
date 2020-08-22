@@ -7,7 +7,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Eco_Reddit.Helpers;
-using Eco_Reddit.Models;
+using Eco_Reddit.Core.Models;
 using Microsoft.Toolkit.Uwp;
 using Reddit.Controllers;
 

@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
-using Eco_Reddit.Models;
+using Eco_Reddit.Core.Models;
 using Microsoft.Toolkit.Collections;
 using Reddit;
 using Reddit.Controllers;
@@ -44,7 +44,7 @@ namespace Eco_Reddit.Helpers
                             // Console.WriteLine("New Post by " + post.Author + ": " + post.Title);
                             SubredditCollection.Add(new SubredditList
                             {
-                                IsNSFW = Nsfw,
+
                                 TitleSubreddit = subreddit.Name,
                                 SubredditSelf = subreddit,
                                 SubredditIcon = subreddit.CommunityIcon

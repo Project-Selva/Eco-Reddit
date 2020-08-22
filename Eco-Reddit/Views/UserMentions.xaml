@@ -6,16 +6,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:local1="using:Eco_Reddit.Models"
+    xmlns:local1="using:Eco_Reddit.Core.Models"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+Background="#121212">
 
     <Grid>
-        <Grid HorizontalAlignment="Center" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+        <Grid HorizontalAlignment="Center" Background="#121212">
             <ListView SelectionMode="None" ContainerContentChanging="InboxList_ContainerContentChanging"
                       VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="InboxList" BorderThickness="1"
-                      Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Center"
+        Background="#121212" HorizontalAlignment="Center"
                       IsItemClickEnabled="True">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local1:PrivateMessage">

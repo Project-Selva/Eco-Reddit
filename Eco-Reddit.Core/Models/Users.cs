@@ -1,13 +1,13 @@
-﻿using Reddit.Things;
+﻿using Reddit.Controllers;
 
-namespace Eco_Reddit.Models
+namespace Eco_Reddit.Core.Models
 {
-    public class UserChilds
+    public class Users
     {
         // public string TitleText 
         //   public string PostAuthor 
         //   public string PostDate 
-        public MixedListingChild UserSelf;
+        public User UserSelf;
         //public string PostUpvotes 
         // public bool PostDownVoted 
         // public bool PostUpvoted 

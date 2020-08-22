@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Web.Http;
 using Eco_Reddit.Helpers;
-using Eco_Reddit.Models;
+using Eco_Reddit.Core.Models;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Newtonsoft.Json;
@@ -70,7 +70,7 @@ namespace Eco_Reddit.Views
             //  var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
             //  SearchList.ItemsSource = Postscollection;
             Subreddit = null;
-       
+            LoadingControl.IsLoading = false;
             //  UnloadObject(HomePage.L);
         }
 

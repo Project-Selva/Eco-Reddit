@@ -3,8 +3,8 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Eco_Reddit.Helpers;
 using Eco_Reddit.Core.Helpers;
-
 namespace Eco_Reddit.Helpers
 {
     // Use these extension methods to store and retrieve local and roaming app data

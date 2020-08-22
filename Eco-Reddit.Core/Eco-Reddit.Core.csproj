@@ -5,11 +5,29 @@
     <RootNamespace>Eco_Reddit.Core</RootNamespace>
   </PropertyGroup>
 
-   <ItemGroup>
-    <Folder Include="Models\" />
+  <ItemGroup>
+    <None Remove="Assets\RedditImages\1409938.png" />
+    <None Remove="Assets\RedditImages\HeaderImg.jpg" />
+    <None Remove="Assets\RedditImages\IconSub.png" />
+    <None Remove="WebFiles\FramePlayer.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\RedditImages\1409938.png" />
+    <Content Include="Assets\RedditImages\HeaderImg.jpg" />
+    <Content Include="Assets\RedditImages\IconSub.png" />
+    <Content Include="WebFiles\FramePlayer.html" />
   </ItemGroup>
 
    <ItemGroup>
+     <PackageReference Include="AutoMapper" Version="10.0.0" />
+     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.10" />
+     <PackageReference Include="Microsoft.UI.Xaml" Version="2.5.0-prerelease.200812001" />
      <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+     <PackageReference Include="Reddit" Version="1.4.0" />
+   </ItemGroup>
+
+   <ItemGroup>
+     <ProjectReference Include="..\RedditSharp\RedditSharp.csproj" />
    </ItemGroup>
 </Project>

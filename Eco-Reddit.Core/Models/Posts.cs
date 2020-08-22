@@ -1,13 +1,13 @@
 ﻿using Reddit.Controllers;
 
-namespace Eco_Reddit.Models
+namespace Eco_Reddit.Core.Models
 {
-    public class Users
+    public class Posts
     {
         // public string TitleText 
         //   public string PostAuthor 
         //   public string PostDate 
-        public User UserSelf;
+        public Post PostSelf;
         //public string PostUpvotes 
         // public bool PostDownVoted 
         // public bool PostUpvoted 

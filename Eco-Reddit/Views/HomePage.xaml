@@ -9,7 +9,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:local="using:Reddit.Controllers"
     Loaded="Page_Loaded"
-    xmlns:models="using:Eco_Reddit.Models"
+    xmlns:models="using:Eco_Reddit.Core.Models"
 
         xmlns:sys="using:System"
     xmlns:UI="using:VungleSDK.UI"
@@ -31,7 +31,7 @@
         Grid.Row="1"
         Background="{ThemeResource SystemControlAcrylicWindowBrush}">
         <Frame Canvas.ZIndex="9999" x:Load="False" x:Name="LoginFrame" />
-        <muxc:TwoPaneView Pane1Length="auto" Pane2Length="*" x:Name="splitView" Margin="0, 0, 0, 0">
+        <muxc:TwoPaneView Pane1Length="auto" Pane2Length="*" x:Name="splitView" Margin="0, 35, 0, 0">
             <muxc:TwoPaneView.Pane1>
                 <Grid Width="570" Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}">
                     <SplitView Canvas.ZIndex="5000" x:Name="HubsplitView"
@@ -79,7 +79,7 @@
                                                         <DataTemplate x:DataType="things:ModeratedListItem">
                                                             <StackPanel Orientation="Horizontal">
                                                                 <PersonPicture Width="20" Height="20" Margin="5"
-                                                                               ProfilePicture="/Images/IconSub.png" />
+                                                                               ProfilePicture="/Core/Assets/RedditImages/IconSub.png" />
                                                                 <TextBlock Text="{x:Bind SRDisplayNamePrefixed}" Margin="5" />
                                                             </StackPanel>
                                                         </DataTemplate>
@@ -93,7 +93,7 @@
                                         <DataTemplate x:DataType="local:Subreddit">
                                             <StackPanel Orientation="Horizontal">
                                                 <PersonPicture Width="20" Height="20" Margin="5"
-                                                               ProfilePicture="/Images/IconSub.png" />
+                                                               ProfilePicture="/Core/Assets/RedditImages/IconSub.png" />
                                                 <TextBlock Text="{x:Bind Name}" Margin="5" />
                                             </StackPanel>
                                         </DataTemplate>
@@ -113,12 +113,12 @@
                               IsItemClickEnabled="True" ItemClick="HomeList_ItemClick" HorizontalAlignment="Left">
                         <ListView.Header>
                             <controls:ScrollHeader Mode="Sticky">
-                                <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}" 
-                    Orientation="Horizontal" Height="40" VerticalAlignment="Top">
-
-                                    <TextBlock Margin="4" x:Name="Subreddit" Text="Home" HorizontalAlignment="Center" MaxWidth="180" FontSize="20" FontWeight="SemiBold" />
-                                    <CommandBar OverflowButtonVisibility="Collapsed" HorizontalAlignment="Center"
-                        DefaultLabelPosition="Right" Background="Transparent" VerticalAlignment="Center">
+                                <StackPanel Background="{ThemeResource SystemControlAcrylicWindowBrush}" 
+                    Orientation="Horizontal" Height="40" VerticalAlignment="Top" Width="600">
+                                    <AppBarButton Icon="GlobalNavigationButton" Click="HubButton_Click" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                    <TextBlock Margin="4" x:Name="Subreddit" Text="Home"  MaxWidth="180" VerticalAlignment="Center" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Left" />
+                                    <CommandBar OverflowButtonVisibility="Collapsed" HorizontalAlignment="Right" 
+                        DefaultLabelPosition="Right" Background="Transparent" VerticalAlignment="Center" >
 
                                         <AppBarButton Icon="Sort" x:Name="SortOrderButton" Visibility="Collapsed" >
                                             <AppBarButton.Flyout>
@@ -137,11 +137,10 @@
                                                 </MenuFlyout>
                                             </AppBarButton.Flyout>
                                         </AppBarButton>
-                                        <AppBarButton Icon="Home" Label="Hub" Click="HubButton_Click"/>
-                                        <AppBarSeparator/>
-                                        <AppBarButton Icon="Refresh" Click="RefreshBarButton_Click"  IsEnabled="{x:Bind isenabled, Mode=OneWay}"/>
                                         <AppBarButton HorizontalAlignment="Right" Icon="Add" Click="AddBarButton_Click" IsEnabled="{x:Bind isenabled, Mode=OneWay}" />
-                                        <AppBarButton Icon="OpenPane" Label="Sidebar" Click="Expander_Expanded"  IsEnabled="{x:Bind isenabled, Mode=OneWay}"/>
+                                        <AppBarButton Icon="Refresh" Click="RefreshBarButton_Click"  IsEnabled="{x:Bind isenabled, Mode=OneWay}"/>
+                               
+                                        <AppBarButton Icon="ClosePane" Label="Sidebar" Click="Expander_Expanded"  IsEnabled="{x:Bind isenabled, Mode=OneWay}"/>
                                     </CommandBar>
                                 </StackPanel>
                             </controls:ScrollHeader>
@@ -153,11 +152,11 @@
                                     <AppBarToggleButton CornerRadius="10" x:Name="Upvote"
                                                         RelativePanel.AlignLeftWithPanel="True"
                                                         IsChecked="{x:Bind IsUpvoted}" Label="{x:Bind UpVotes}"
-                                                        Checked="{x:Bind UpvoteAsync}" Width="70" Margin="5" Icon="Up" />
+                                                        Checked="{x:Bind UpvoteAsync}" Width="60" Margin="2, 3, 3, 5" Icon="Up" />
                                     <AppBarToggleButton CornerRadius="10" IsChecked="{x:Bind IsDownvoted}"
                                                         x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True"
-                                                        Width="70" RelativePanel.Below="Upvote"
-                                                        Checked="{x:Bind DownvoteAsync}" Margin="5">
+                                                        Width="60" RelativePanel.Below="Upvote"
+                                                        Checked="{x:Bind DownvoteAsync}" Margin="2,5,3 ,0">
                                         <AppBarToggleButton.Icon>
                                             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;" />
                                         </AppBarToggleButton.Icon>
@@ -216,8 +215,8 @@
                                             <ResourceDictionary
                                                 Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                                         </CommandBar.Resources>
-                                        <AppBarButton Icon="Comment" IsEnabled="False" />
-                                        <AppBarButton Icon="SolidStar" Foreground="Gold">
+                                        <AppBarButton Icon="Comment"/>
+                                        <AppBarButton Icon="SolidStar" Label="Awards" Foreground="Gold">
                                             <AppBarButton.Flyout>
                                                 <Flyout>
                                                     <Frame Loaded="Award_Loaded" />
@@ -226,9 +225,11 @@
                                         </AppBarButton>
                                         <AppBarSeparator />
                                         <AppBarButton Icon="Add" Tag="{x:Bind}" Click="NewTabButton_Click" Label="Open in new tab" />
-                                        <AppBarButton Icon="Globe" Tag="{x:Bind}"  Label="Open online"
-                                                      Click="OpenPostInWebButton_Click" />
+                                   
                                         <CommandBar.SecondaryCommands>
+                                            <AppBarButton Icon="Globe" Tag="{x:Bind}"  Label="Open online"
+                                                      Click="OpenPostInWebButton_Click" />
+                                            <AppBarSeparator/>
                                             <AppBarButton Icon="ClosePane" Label="Hide" Click="HideButton_Click" />
                                             <AppBarButton Icon="Share" Label="Share" Click="ShareButton_Click" />
                                             <AppBarButton Icon="Save" Label="Save" Click="SaveButton_Click"/>
@@ -303,7 +304,7 @@
                 </Grid>
             </muxc:TwoPaneView.Pane1>
             <muxc:TwoPaneView.Pane2>
-                <Grid x:Name="SecondPaneGrid" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+                <Grid x:Name="SecondPaneGrid" Background="#121212">
                     <SplitView Canvas.ZIndex="5000" x:Name="SideBarsplitView"
                                PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
                                IsPaneOpen="False" OpenPaneLength="312" PanePlacement="Right" CompactPaneLength="48"
@@ -316,9 +317,9 @@
                                 <StackPanel Background="{ThemeResource SystemControlAcrylicElementBrush}"
                                             Orientation="Vertical">
                                     <Image Height="100" Width="400" Stretch="Fill" x:Name="HeaderIMG"
-                                           Source="/Images/HeaderImg.jpg" />
+                                           Source="/Core/Assets/RedditImages/HeaderImg.jpg" />
                                     <StackPanel Orientation="Horizontal">
-                                        <PersonPicture x:Name="SubIcon" ProfilePicture="/Images/IconSub.png" />
+                                        <PersonPicture x:Name="SubIcon" ProfilePicture="/Core/Assets/RedditImages/IconSub.png" />
                                         <TextBlock x:Name="TitleSidebar" FontSize="30" Margin="5" />
                                     </StackPanel>
                                     <TextBlock x:Name="HeaderSideBar" FontSize="20" Margin="5" />
@@ -366,7 +367,7 @@
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Images/IconSub.png"/>
+                                                        <PersonPicture Width="20" Height="20" Margin="5" ProfilePicture="/Core/Assets/RedditImages/IconSub.png"/>
                                                         <TextBlock Text="{Binding TitleSubreddit}" Margin="5"></TextBlock>
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -389,7 +390,7 @@
                                                 <DataTemplate x:DataType="models:SubredditList">
                                                     <StackPanel Orientation="Horizontal">
                                                         <PersonPicture Width="20" Height="20" Margin="5"
-                                                                       ProfilePicture="/Images/IconSub.png" />
+                                                                       ProfilePicture="/Core/Assets/RedditImages/IconSub.png" />
                                                         <TextBlock Text="{x:Bind TitleSubreddit}" Margin="5" />
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -404,7 +405,7 @@
                                                 <DataTemplate x:DataType="models:SubredditList">
                                                     <StackPanel Orientation="Horizontal">
                                                         <PersonPicture Width="20" Height="20" Margin="5"
-                                                                       ProfilePicture="/Images/IconSub.png" />
+                                                                       ProfilePicture="/Core/Assets/RedditImages/IconSub.png" />
                                                         <TextBlock Text="{x:Bind TitleSubreddit}" Margin="5" />
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -419,7 +420,7 @@
                                                 <DataTemplate x:DataType="models:SubredditList">
                                                     <StackPanel Orientation="Horizontal">
                                                         <PersonPicture Width="20" Height="20" Margin="5"
-                                                                       ProfilePicture="/Images/IconSub.png" />
+                                                                       ProfilePicture="/Core/Assets/RedditImages/IconSub.png" />
                                                         <TextBlock Text="{x:Bind}" Margin="5" />
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -434,7 +435,7 @@
                                                 <DataTemplate x:DataType="things:ModeratedListItem">
                                                     <StackPanel Orientation="Horizontal">
                                                         <PersonPicture Width="20" Height="20" Margin="5"
-                                                                       ProfilePicture="/Images/IconSub.png" />
+                                                                       ProfilePicture="/Core/Assets/RedditImages/IconSub.png" />
                                                         <TextBlock Text="{x:Bind SRDisplayNamePrefixed}" Margin="5" />
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -454,40 +455,52 @@
                         IsAddTabButtonVisible="False"
                         TabCloseRequested="OnTabCloseRequested">
                         <winui:TabView.TabStripFooter>
-                            <CommandBar DefaultLabelPosition="Right" IsDynamicOverflowEnabled="True" OverflowButtonVisibility="Auto" Background="Transparent">
-                            <AppBarButton Height="50" Width="50" Icon="Delete" Click="ClearTabButton_Click" />
-                                <AppBarSeparator/>
-                                <AppBarButton Icon="Account" Background="{ThemeResource SystemAccentColor}" Label="Sign In" x:Name="LoginButton" Click="LoginButton_Click" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                                <CommandBar DefaultLabelPosition="Right" Margin="0,0, 10, 0" OverflowButtonVisibility="Collapsed" Background="Transparent">
+                                    <AppBarButton Height="50" Width="50" Icon="Delete" Click="ClearTabButton_Click" />
+                                    <AppBarSeparator/>
+                                    <AppBarButton Icon="Account" Background="{ThemeResource SystemAccentColor}" Label="Sign In" x:Name="LoginButton" Click="LoginButton_Click" />
 
 
 
-                            <AppBarButton Icon="Find" Click="SearchTipButton_Click"  IsEnabled="{x:Bind isenabled, Mode=OneWay}"/>
-                            <AppBarButton Icon="Mail" Loaded="InboxButton_Loaded" x:Name="InboxButton"
+                                    <AppBarButton Icon="Find" Click="SearchTipButton_Click"  IsEnabled="{x:Bind isenabled, Mode=OneWay}"/>
+                                    <AppBarButton Icon="Mail" Loaded="InboxButton_Loaded" x:Name="InboxButton"
                               Click="InboxButton_Click" IsEnabled="{x:Bind isenabled, Mode=OneWay}" />
-                            <AppBarButton Icon="Contact"  IsEnabled="{x:Bind isenabled, Mode=OneWay}">
-                                <AppBarButton.Flyout>
-                                    <Flyout>
-                                        <Frame x:Name="ProfileFrame" Loaded="ProfilePage_Loaded" />
-                                    </Flyout>
-                                </AppBarButton.Flyout>
-                            </AppBarButton>
+                                </CommandBar>
+                                <PersonPicture Tapped="PersonPicture_Tapped" IsTapEnabled="True" Background="Transparent" HorizontalAlignment="Right" ProfilePicture="https://www.redditstatic.com/avatars/avatar_default_09_7E53C1.png" Height="35" Width="35" >
+                                    <FlyoutBase.AttachedFlyout>
+                                        <Flyout>
+                                            <Frame x:Name="ProfileFrame" Loaded="ProfilePage_Loaded" />
+                                        </Flyout>
+                                    </FlyoutBase.AttachedFlyout>
+                                </PersonPicture>
+                                <CommandBar DefaultLabelPosition="Right" IsDynamicOverflowEnabled="True" OverflowButtonVisibility="Auto" Background="Transparent">
+                                    <!--<AppBarButton IsEnabled="{x:Bind isenabled, Mode=OneWay}">
+                                        <AppBarButton.Flyout>
+                                            <Flyout>
+                                                <Frame x:Name="ProfileFrame" Loaded="ProfilePage_Loaded" />
+                                            </Flyout>
+                                        </AppBarButton.Flyout>
+                                    </AppBarButton>-->
 
-                            <AppBarSeparator/>
-                            <AppBarButton Icon="Setting" x:Name="SettingsButton"
+                                    <AppBarSeparator/>
+                                    <AppBarButton Icon="Setting" x:Name="SettingsButton"
                             Click="SettingsButton_Click">
-                                <AppBarButton.Flyout>
-                                    <Flyout>
-                                        <Frame x:Name="SettingsFrame" Width="440"/>
-                                    </Flyout>
-                                </AppBarButton.Flyout>
-                            </AppBarButton>
-                                <CommandBar.SecondaryCommands>
-                                    <AppBarButton Icon="Message" IsEnabled="{x:Bind isenabled, Mode=OneWay}" x:Name="ChatButton" Label="Chat" Click="ChatButton_Click" />
-                                    <AppBarButton Icon="Video" IsEnabled="{x:Bind isenabled, Mode=OneWay}" x:Name="RPANButton" Label="Network" Click="NetWorkButton_Click" />
-                                    <AppBarButton Icon="OutlineStar" IsEnabled="{x:Bind isenabled, Mode=OneWay}" x:Name="GoldButton" Label="Coins" Click="GoldButton_Click" />
-                                    <AppBarButton Icon="SolidStar" IsEnabled="{x:Bind isenabled, Mode=OneWay}" x:Name="PremiumButton" Label="Premium" Click="PremiumButton_Click" />
-                                </CommandBar.SecondaryCommands>
-                            </CommandBar>
+                                        <AppBarButton.Flyout>
+                                            <Flyout>
+                                                <Frame x:Name="SettingsFrame" Width="440"/>
+                                            </Flyout>
+                                        </AppBarButton.Flyout>
+                                    </AppBarButton>
+                                    <CommandBar.SecondaryCommands>
+                                        <AppBarButton Icon="Message" IsEnabled="{x:Bind isenabled, Mode=OneWay}" x:Name="ChatButton" Label="Chat" Click="ChatButton_Click" />
+                                        <AppBarButton Icon="Video" IsEnabled="{x:Bind isenabled, Mode=OneWay}" x:Name="RPANButton" Label="Network" Click="NetWorkButton_Click" />
+                                        <AppBarButton Icon="OutlineStar" IsEnabled="{x:Bind isenabled, Mode=OneWay}" x:Name="GoldButton" Label="Coins" Click="GoldButton_Click" />
+                                        <AppBarButton Icon="SolidStar" IsEnabled="{x:Bind isenabled, Mode=OneWay}" x:Name="PremiumButton" Label="Premium" Click="PremiumButton_Click" />
+                                    </CommandBar.SecondaryCommands>
+                                </CommandBar>
+                            </StackPanel>
                         </winui:TabView.TabStripFooter>
                     </winui:TabView>
                 </Grid>

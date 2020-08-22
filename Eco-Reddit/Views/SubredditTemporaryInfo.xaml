@@ -20,9 +20,9 @@
                       HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Visible">
             <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
-                <Image Height="100" Stretch="Fill" x:Name="HeaderIMG" Source="/Images/HeaderImg.jpg" />
+                <Image Height="100" Stretch="Fill" x:Name="HeaderIMG" Source="/Core/Assets/RedditImages/HeaderImg.jpg" />
                 <StackPanel Orientation="Horizontal">
-                    <PersonPicture x:Name="SubIcon" ProfilePicture="/Images/IconSub.png" />
+                    <PersonPicture x:Name="SubIcon" ProfilePicture="/Core/Assets/RedditImages/IconSub.png" />
                     <TextBlock x:Name="Title" FontSize="30" Margin="5" />
                 </StackPanel>
                 <TextBlock x:Name="Header" FontSize="20" Margin="5" />

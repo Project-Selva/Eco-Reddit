@@ -5,15 +5,16 @@
     xmlns:local="using:Eco_Reddit.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local1="using:Eco_Reddit.Models"
+    xmlns:local1="using:Eco_Reddit.Core.Models"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+    Background="#121212">
 
-    <Grid HorizontalAlignment="Center" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+    <Grid HorizontalAlignment="Center" Background="#121212">
         <ListView SelectionMode="None" ContainerContentChanging="InboxList_ContainerContentChanging"
                   VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="InboxList" BorderThickness="1"
-                  Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Center"
+            Background="#121212" HorizontalAlignment="Center"
                   IsItemClickEnabled="True">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local1:Inbox">
@@ -47,5 +48,16 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="1000" IsLoading="True" >
+            <controls:Loading.Background>
+                <SolidColorBrush Color="Black" Opacity="0.7" />
+            </controls:Loading.Background>
+            <StackPanel Orientation="Horizontal" Padding="12">
+                <Grid Margin="0,0,8,0">
+                    <muxc:ProgressRing IsActive="True" Height="50" Width="50"/>
+                </Grid>
+                <TextBlock Text="Loading" FontSize="30"  VerticalAlignment="Center" />
+            </StackPanel>
+        </controls:Loading>
     </Grid>
 </Page>

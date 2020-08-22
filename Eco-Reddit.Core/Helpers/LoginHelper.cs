@@ -6,12 +6,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
-using Eco_Reddit.Models;
+using Eco_Reddit.Core.Models;
 using Newtonsoft.Json.Linq;
 
-namespace Eco_Reddit.Helpers
+namespace Eco_Reddit.Core.Helpers
 {
-    internal class LoginHelper
+  public class LoginHelper
     {
         private readonly HttpClient client = new HttpClient();
         private readonly string clientId = "-bL9o_t7kgNNmA";
@@ -32,7 +32,7 @@ namespace Eco_Reddit.Helpers
                 new KeyValuePair<string, string>("refresh_token", refreshToken)
             };
 
-            var req = new HttpRequestMessage(HttpMethod.Post, Constants.Constants.redditApiBaseUrl + "access_token")
+            var req = new HttpRequestMessage(HttpMethod.Post, Eco_Reddit.Core.Constants.Constants.redditApiBaseUrl + "access_token")
                 {Content = new FormUrlEncodedContent(nvc)};
             req.Headers.Authorization = new AuthenticationHeaderValue("Basic",
                 Convert.ToBase64String(Encoding.ASCII.GetBytes(clientId + ":" + clientSecret)));
@@ -54,7 +54,7 @@ namespace Eco_Reddit.Helpers
                 new KeyValuePair<string, string>("redirect_uri", "http://127.0.0.1:3000/reddit_callback")
             };
 
-            var req = new HttpRequestMessage(HttpMethod.Post, Constants.Constants.redditApiBaseUrl + "access_token")
+            var req = new HttpRequestMessage(HttpMethod.Post, Eco_Reddit.Core.Constants.Constants.redditApiBaseUrl + "access_token")
                 {Content = new FormUrlEncodedContent(nvc)};
             req.Headers.Authorization = new AuthenticationHeaderValue("Basic",
                 Convert.ToBase64String(Encoding.ASCII.GetBytes(clientId + ":" + clientSecret)));

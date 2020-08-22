@@ -2,17 +2,15 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
 using AutoMapper;
 using Microsoft.Toolkit.Collections;
 using Reddit;
 using Reddit.Controllers;
 using Reddit.Inputs.LinksAndComments;
-using Comments = Eco_Reddit.Models.Comments;
-
+using Windows.Storage;
 namespace Eco_Reddit.Helpers
 {
-    public class GetComments : IIncrementalSource<Comments>
+    public class GetComments : IIncrementalSource<Eco_Reddit.Core.Models.Comments>
     {
         public static int limit = 10;
         public static int skipInt;
@@ -20,19 +18,19 @@ namespace Eco_Reddit.Helpers
         public static string SortOrder;
         private readonly IMapper _mapper;
         public string appId = "mp8hDB_HfbctBg";
-        private List<Comments> CommentCollection;
+        private List<Eco_Reddit.Core.Models.Comments> CommentCollection;
         private IEnumerable<Comment> Comments;
         public ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
 
-        public async Task<IEnumerable<Comments>> GetPagedItemsAsync(int pageIndex, int pageSize,
+        public async Task<IEnumerable<Eco_Reddit.Core.Models.Comments>> GetPagedItemsAsync(int pageIndex, int pageSize,
             CancellationToken cancellationToken = default)
         {
             await Task.Run(async () =>
             {
                 var refreshToken = localSettings.Values["refresh_token"].ToString();
                 // Gets items from the collection according to pageIndex and pageSize parameters.
-                CommentCollection = new List<Comments>();
+                CommentCollection = new List<Eco_Reddit.Core.Models.Comments>();
                 var reddit = new RedditClient(appId, refreshToken, secret);
                 switch (SortOrder)
                 {
@@ -77,7 +75,7 @@ namespace Eco_Reddit.Helpers
                 {
                     foreach (var comment in Comments)
                     {
-                        CommentCollection.Add(new Comments
+                        CommentCollection.Add(new Eco_Reddit.Core.Models.Comments
                         {
                             CommentSelf = comment
                         });
@@ -90,7 +88,7 @@ namespace Eco_Reddit.Helpers
                         foreach (var item in children.Comments)
                             //  if (item.Replies == null)
                             //    item.Replies = new List<Comment>();
-                            CommentCollection.Add(new Comments
+                            CommentCollection.Add(new Eco_Reddit.Core.Models.Comments
                             {
                                 CommentSelfThing = item
                             });

@@ -1,0 +1,88 @@
+﻿
+    <Page
+   x:Class="Eco_Reddit.Views.UserCommentPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Eco_Reddit.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Eco_Reddit.Core.Models"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:telerik="using:Telerik.UI.Xaml.Controls.Chart"
+    xmlns:strategy="using:Eco_Reddit.Strategies"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:reddit="using:Reddit.Controllers"
+    xmlns:sys="using:System"
+    xmlns:sharp="using:RedditSharp.Things"
+    mc:Ignorable="d"
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+    <Page.Resources>
+        <DataTemplate x:Name="CommentTemplate" x:DataType="reddit:Comment">
+                <TextBlock Text="{x:Bind Body}"/>
+                <!--   <RelativePanel Background="{ThemeResource SystemControlAltHighAcrylicElementBrush}"
+                           Margin="{x:Bind Depth, Converter={StaticResource DepthToMarginConverter}}" CornerRadius="10">
+
+                <AppBarToggleButton CornerRadius="10" Label="{x:Bind Upvotes}" x:Name="Upvote"
+                                    RelativePanel.AlignLeftWithPanel="True" Margin="5" Icon="Up" />
+                <AppBarToggleButton CornerRadius="10" x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True"
+                                    RelativePanel.Below="Upvote" Margin="5">
+                    <AppBarToggleButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;" />
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+
+                <controls:MarkdownTextBlock
+                    RelativePanel.AlignTopWithPanel="True"
+                    Text="{x:Bind Body}"
+                    Background="Transparent"
+                    TextWrapping="Wrap"
+                    IsTextSelectionEnabled="True"
+                    LinkClicked="MarkdownText_LinkClicked"
+                    ImageClicked="MarkdownText_ImageClicked"
+                    x:Name="TitleTextBlock"
+                    Margin="80,5,5,5" />
+
+                <TextBlock RelativePanel.RightOf="DownVote" RelativePanel.Below="TitleTextBlock" x:Name="Date"
+                           Text="{x:Bind models:Utils.UnixTimeStampToLocalTime(Created, sys:String.Empty)}"
+                           FontSize="11" Margin="0,13,3,0" />
+                <HyperlinkButton x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date"
+                                 Content="{x:Bind AuthorName}" Margin="3,6,0,0" FontSize="11">
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout>-->
+                <!--  <Frame Loaded="Frame_Loaded"></Frame>-->
+                <!--     </Flyout>
+                    </FlyoutBase.AttachedFlyout>
+                </HyperlinkButton>
+                <CommandBar IsEnabled="{x:Bind local:HomePage.SingletonReference.isenabled, Mode=OneWay}" x:Name="CommentsBar" IsDynamicOverflowEnabled="True" RelativePanel.RightOf="DownVote"
+                            RelativePanel.Below="User" Background="Transparent" IsOpen="False"
+                            DefaultLabelPosition="Right">
+                    <AppBarButton Icon="Edit" Label="Edit" IsEnabled="False" />
+                    <AppBarButton Icon="Delete" Label="Delete" Click="DeleteButton_Click" />
+                    <AppBarButton Icon="Accept" Label="Approve" Click="ApproveButton_Click" />
+                    <AppBarButton Icon="Save" Label="Save" Click="saveEditButton_Click" />
+                    <AppBarButton Icon="Save" Label="Un Save" Click="UnsaveEditButton_Click" />
+                    <AppBarButton Icon="ReportHacked" Label="Distinguish as moderator"
+                                  Click="DistinguishEditButton_Click" />
+ <AppBarButton  Icon="PostUpdate" Label="Enable replies" Click="EnableRelpyEditButton_Click"/>
+                    <AppBarButton Icon="Remove" Label="Remove" Click="RemoveButton_Click" />
+                    <AppBarButton Icon="Remove" Label="Remove as spam" Click="RemoveAsSpamButton_Click" />
+                </CommandBar>
+                <AutoSuggestBox  IsEnabled="{x:Bind local:HomePage.SingletonReference.isenabled, Mode=OneWay}" PlaceholderText="Enter your reply here..." Width="300" QueryIcon="Send" Header="Reply:"
+                                x:Name="replyBox" RelativePanel.RightOf="DownVote"
+                                QuerySubmitted="ReplyBox_QuerySubmitted" RelativePanel.Below="CommentsBar"
+                                Margin="10, 3, 10, 3" />
+            </RelativePanel>-->
+            </DataTemplate>
+        </Page.Resources>
+
+        <!-- <TextBlock Canvas.ZIndex="1" HorizontalAlignment="Left">Loading userposts has been disabled in this update due to the app freezing.</TextBlock>-->
+    <ListView SelectionMode="None" Margin="5" 
+              VirtualizingStackPanel.VirtualizationMode="Recycling"
+              ContainerContentChanging="HomeList_ContainerContentChanging" x:Name="UserList" BorderThickness="1"
+              Background="{ThemeResource SystemControlAcrylicWindowBrush}" IsItemClickEnabled="True"
+              ItemClick="HomeList_ItemClick" HorizontalAlignment="Center">
+    </ListView>
+
+
+
+</Page>

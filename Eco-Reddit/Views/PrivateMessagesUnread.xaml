@@ -6,52 +6,63 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:local1="using:Eco_Reddit.Models"
+    xmlns:local1="using:Eco_Reddit.Core.Models"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+   Background="#121212">
 
-    <Grid>
-        <Grid HorizontalAlignment="Center" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-            <ListView SelectionMode="None" ContainerContentChanging="MessageList_ContainerContentChanging"
+
+    <Grid HorizontalAlignment="Center" Background="#121212">
+        <ListView SelectionMode="None" ContainerContentChanging="MessageList_ContainerContentChanging"
                       VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="MessageList" BorderThickness="1"
-                      Background="{ThemeResource SystemControlAcrylicWindowBrush}" HorizontalAlignment="Center"
+                     Background="#121212" HorizontalAlignment="Center"
                       IsItemClickEnabled="True">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="local1:PrivateMessage">
-                        <RelativePanel Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}"
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local1:PrivateMessage">
+                    <RelativePanel Background="{ThemeResource SystemControlChromeMediumAcrylicElementMediumBrush}"
                                        CornerRadius="10" Margin="0, 5,0, 5"
                                        BorderBrush="{StaticResource SystemControlBackgroundAccentRevealBorderBrush}">
 
-                            <controls:MarkdownTextBlock x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True"
+                        <controls:MarkdownTextBlock x:Name="TitleTextBlock" RelativePanel.AlignTopWithPanel="True"
                                                         Background="Transparent" FontSize="15" Canvas.ZIndex="6"
                                                         Margin="10, 20, 0, 0" TextWrapping="WrapWholeWords"
                                                         MinWidth="500" />
 
-                            <TextBlock RelativePanel.Below="TitleTextBlock" x:Name="Date" FontSize="11"
+                        <TextBlock RelativePanel.Below="TitleTextBlock" x:Name="Date" FontSize="11"
                                        Margin="5,13,3,0" />
-                            <HyperlinkButton Tapped="HyperlinkButton_Tapped" x:Name="User"
+                        <HyperlinkButton Tapped="HyperlinkButton_Tapped" x:Name="User"
                                              RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date"
                                              Margin="3,6,0,0" FontSize="11">
-                                <FlyoutBase.AttachedFlyout>
-                                    <Flyout>
-                                        <Frame Tag="{x:Bind MessageSelf}" Loaded="Frame_Loaded" />
-                                    </Flyout>
-                                </FlyoutBase.AttachedFlyout>
-                            </HyperlinkButton>
-                            <HyperlinkButton Tapped="HyperlinkButton_Tapped" RelativePanel.Below="TitleTextBlock"
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout>
+                                    <Frame Tag="{x:Bind MessageSelf}" Loaded="Frame_Loaded" />
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
+                        </HyperlinkButton>
+                        <HyperlinkButton Tapped="HyperlinkButton_Tapped" RelativePanel.Below="TitleTextBlock"
                                              RelativePanel.RightOf="User" x:Name="Subreddit" Margin="3,6,0,0"
                                              FontSize="11">
-                                <FlyoutBase.AttachedFlyout>
-                                    <Flyout>
-                                        <Frame Tag="{x:Bind MessageSelf}" Loaded="Frame_LoadedSubreddit" />
-                                    </Flyout>
-                                </FlyoutBase.AttachedFlyout>
-                            </HyperlinkButton>
-                        </RelativePanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout>
+                                    <Frame Tag="{x:Bind MessageSelf}" Loaded="Frame_LoadedSubreddit" />
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
+                        </HyperlinkButton>
+                    </RelativePanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="1000" IsLoading="True" >
+            <controls:Loading.Background>
+                <SolidColorBrush Color="Black" Opacity="0.7" />
+            </controls:Loading.Background>
+            <StackPanel Orientation="Horizontal" Padding="12">
+                <Grid Margin="0,0,8,0">
+                    <muxc:ProgressRing IsActive="True" Height="50" Width="50"/>
+                </Grid>
+                <TextBlock Text="Loading" FontSize="30"  VerticalAlignment="Center" />
+            </StackPanel>
+        </controls:Loading>
     </Grid>
 </Page>

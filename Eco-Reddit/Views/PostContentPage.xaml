@@ -6,16 +6,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:adsjumbo="using:AdsJumbo"
-    xmlns:local="using:Eco_Reddit.Models"
+    xmlns:local="using:Eco_Reddit.Core.Models"
     xmlns:UI="using:VungleSDK.UI"
     xmlns:local1="using:Eco_Reddit.Views"
     Style="{StaticResource PageStyle}"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+    Background="#121212"
     mc:Ignorable="d">
     <Grid x:Name="ContentArea">
 
 
-        <controls:Expander Header="Comments" VerticalAlignment="Bottom" IsExpanded="False"     Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+        <controls:Expander Header="Comments" VerticalAlignment="Bottom" IsExpanded="False"     Background="#121212"
                            ExpandDirection="Up">
             <ScrollViewer Height="1000" MinWidth="800" Background="Transparent">
                 <StackPanel Orientation="Vertical">
@@ -24,14 +24,14 @@
             </ScrollViewer>
             <controls:Expander.ContentOverlay>
                 <ScrollViewer VerticalScrollBarVisibility="Visible" VerticalScrollMode="Enabled">
-                    <Grid Margin="0, 5,0, 5" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+                    <Grid Margin="0, 5,0, 5" Background="#121212">
                         <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="9999" IsLoading="True">
                             <StackPanel>
                                 <ProgressRing Loaded="StartUp" IsActive="True" />
                                 <TextBlock>Loading post</TextBlock>
                             </StackPanel>
                         </controls:Loading>
-                        <StackPanel Orientation="Vertical" Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+                        <StackPanel Orientation="Vertical" Background="Transparent">
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel Orientation="Vertical">
                                     <AppBarToggleButton CornerRadius="10" Margin="5" Icon="Up" x:Name="UpvoteButton" IsEnabled="{x:Bind local1:HomePage.SingletonReference.isenabled, Mode=OneWay}"/>
@@ -186,10 +186,10 @@
                                 TextWrapping="Wrap"
                                 LinkClicked="MarkdownText_LinkClicked"
                                 ImageClicked="MarkdownText_ImageClicked"
-                                Width="500"
+                             HorizontalAlignment="Center"
                                 IsTextSelectionEnabled="True"
                                 x:Name="PostText"
-                                Margin="6" />
+                                Margin="26" />
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Margin="5" FontSize="25" x:Name="CommentCount" />
                                 <AppBarButton Icon="Sort" Label="Top" x:Name="SortOrderCommentButton"

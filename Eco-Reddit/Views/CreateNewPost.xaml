@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:models="using:Eco_Reddit.Models"
+    xmlns:models="using:Eco_Reddit.Core.Models"
     xmlns:things="using:Reddit.Things"
     mc:Ignorable="d"
     Background="Transparent">
