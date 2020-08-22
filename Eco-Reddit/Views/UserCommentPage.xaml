@@ -13,7 +13,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:reddit="using:Reddit.Controllers"
     xmlns:sys="using:System"
-    xmlns:sharp="using:RedditSharp.Things"
+    xmlns:sharp="using: Eco_Reddit.Core.Things"
     mc:Ignorable="d"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
     <Page.Resources>

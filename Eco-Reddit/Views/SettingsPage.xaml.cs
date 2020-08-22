@@ -15,7 +15,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
 using Reddit.Controllers;
 using Reddit;
-using RedditSharp;
+using Eco_Reddit.Core;
 using Eco_Reddit.Core.Models;
 using Eco_Reddit.Helpers;
 using Eco_Reddit.Core.Models;
@@ -32,7 +32,7 @@ namespace Eco_Reddit.Views
         private string _versionDescription;
         public ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         public string appId = "mp8hDB_HfbctBg";
-        private readonly Eco_Reddit.Core.Helpers.LoginHelper loginHelper = new Eco_Reddit.Core.Helpers.LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
+        private readonly Eco_Reddit.Core.Helpers.LoginHelpers.LoginHelper loginHelper = new Eco_Reddit.Core.Helpers.LoginHelpers.LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
         public SettingsPage()
         {
@@ -81,10 +81,10 @@ namespace Eco_Reddit.Views
             var result = await loginHelper.Login_Refresh((string)localSettings.Values["refresh_token"]);
             //   localSettings.Values["refresh_token"] = result.RefreshToken;
             localSettings.Values["access_token"] = result.AccessToken;
-            TokenSharpData.Reddit = new RedditSharp.Reddit(result.AccessToken);
+            TokenSharpData.Reddit = new Eco_Reddit.Core.Reddit(result.AccessToken);
             await TokenSharpData.Reddit.InitOrUpdateUserAsync();
             var s = TokenSharpData.Reddit.User.GetUsernameMentions();
-           RedditSharp.Things.Post selectedPost = await TokenSharpData.Reddit.GetPostAsync(new Uri("https://www.reddit.com/r/ProjectEcoReddit/comments/f7eje3/faq_about_the_app/"));
+            Eco_Reddit.Core.Things.Post selectedPost = await TokenSharpData.Reddit.GetPostAsync(new Uri("https://www.reddit.com/r/ProjectEcoReddit/comments/f7eje3/faq_about_the_app/"));
             MarkDownBlock.Text = selectedPost.SelfText;
                }
         public ElementTheme ElementTheme

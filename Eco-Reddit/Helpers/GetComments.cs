@@ -85,13 +85,13 @@ namespace Eco_Reddit.Helpers
 
                         //  List<Comment> l = new List<Comment>(children.Comments);
 
-                        foreach (var item in children.Comments)
+                      /*  foreach (var item in children.Comments)
                             //  if (item.Replies == null)
                             //    item.Replies = new List<Comment>();
                             CommentCollection.Add(new Eco_Reddit.Core.Models.Comments
                             {
                                 CommentSelfThing = item
-                            });
+                            });*/
                         /* item.Replies.AddRange(
                                  mapped.Where(x => x.ParentFullname == item.Fullname)
                                        .OrderByDescending(x => x.Score)

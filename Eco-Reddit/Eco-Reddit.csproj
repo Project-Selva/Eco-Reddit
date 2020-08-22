@@ -549,10 +549,6 @@
       <Project>{FA73FE9E-52FA-4212-9C8C-3B2281D952DE}</Project>
       <Name>Eco-Reddit.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RedditSharp\RedditSharp.csproj">
-      <Project>{23d018e3-804e-4306-b9b9-f61fe0fb277c}</Project>
-      <Name>RedditSharp</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Themes\" />

@@ -119,7 +119,7 @@ namespace Eco_Reddit.Views
                    // Fillbox.Text = result.RefreshToken + " hhhhhh " + result.AccessToken;
                     localSettings.Values["refresh_token"] = result.RefreshToken;
                     localSettings.Values["access_token"] = result.AccessToken;
-                    TokenSharpData.Reddit = new RedditSharp.Reddit(result.AccessToken);
+                    TokenSharpData.Reddit = new Eco_Reddit.Core.Reddit(result.AccessToken);
                     await TokenSharpData.Reddit.InitOrUpdateUserAsync();
                     FinishedFrame.Visibility = Visibility.Visible;
                   FinishedFrame.Navigate(typeof(HomePage));

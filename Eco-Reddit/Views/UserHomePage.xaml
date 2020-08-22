@@ -13,7 +13,7 @@
     xmlns:reddit="using:Reddit.Controllers"
     xmlns:sys="using:System"
     xmlns:viewModels="using:Eco_Reddit.ViewModels"
-    xmlns:sharp="using:RedditSharp.Things"
+    xmlns:sharp="using:Eco_Reddit.Core.Things"
     xmlns:UserControls="using:Eco_Reddit.UserControls"
     mc:Ignorable="d"
     Background="#121212">

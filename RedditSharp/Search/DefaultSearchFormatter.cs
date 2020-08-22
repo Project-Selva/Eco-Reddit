@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace RedditSharp.Search
+namespace Eco_Reddit.Core.Extensions.Search
 {
     public class DefaultSearchFormatter : IAdvancedSearchFormatter
     {

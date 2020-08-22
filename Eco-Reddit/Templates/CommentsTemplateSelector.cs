@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using RedditSharp.Things;
+using  Eco_Reddit.Core.Things;
 
 namespace Eco_Reddit.Templates
 {

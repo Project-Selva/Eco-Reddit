@@ -2,6 +2,6 @@
 {
     public static class TokenSharpData
     {
-        public static RedditSharp.Reddit Reddit;
+        public static Eco_Reddit.Core.Reddit Reddit;
     }
 }

@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Navigation;
 using Eco_Reddit.Helpers;
 using Eco_Reddit.Core.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using RedditSharp.Things;
+using Eco_Reddit.Core.Things;
 using Eco_Reddit.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -24,7 +24,7 @@ namespace Eco_Reddit.Views
     public sealed partial class PostCommentPage : Page
     {
         private readonly ObservableCollection<Thing> commentTree;
-        private readonly Eco_Reddit.Core.Helpers.LoginHelper loginHelper = new Eco_Reddit.Core.Helpers.LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
+        private readonly Eco_Reddit.Core.Helpers.LoginHelpers.LoginHelper loginHelper = new Eco_Reddit.Core.Helpers.LoginHelpers.LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
         public ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         private Post selectedPost;
 
@@ -42,7 +42,7 @@ namespace Eco_Reddit.Views
             var result = await loginHelper.Login_Refresh((string) localSettings.Values["refresh_token"]);
             //   localSettings.Values["refresh_token"] = result.RefreshToken;
             localSettings.Values["access_token"] = result.AccessToken;
-            TokenSharpData.Reddit = new RedditSharp.Reddit(result.AccessToken);
+            TokenSharpData.Reddit = new Eco_Reddit.Core.Reddit(result.AccessToken);
             await TokenSharpData.Reddit.InitOrUpdateUserAsync();
             var s = TokenSharpData.Reddit.User.GetUsernameMentions();
             selectedPost = await TokenSharpData.Reddit.GetPostAsync(new Uri(e.Parameter.ToString()));

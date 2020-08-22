@@ -121,10 +121,10 @@ namespace Eco_Reddit.Views
         {
             var SenderFramework = (FrameworkElement)sender;
             var DataContext = SenderFramework.DataContext;
-            var Comment = DataContext as RedditSharp.Things.Comment;
+            var Comment = DataContext as  Eco_Reddit.Core.Things.Comment;
             try
             {
-                await Comment.DistinguishAsync(RedditSharp.Things.ModeratableThing.DistinguishType.Moderator);
+                await Comment.DistinguishAsync(Eco_Reddit.Core.Things.ModeratableThing.DistinguishType.Moderator);
             }
             catch
             {
@@ -135,7 +135,7 @@ namespace Eco_Reddit.Views
         {
             var SenderFramework = (FrameworkElement)sender;
             var DataContext = SenderFramework.DataContext;
-            var Comment = DataContext as RedditSharp.Things.Comment;
+            var Comment = DataContext as  Eco_Reddit.Core.Things.Comment;
             try
             {
                 await Comment.SaveAsync();
@@ -149,7 +149,7 @@ namespace Eco_Reddit.Views
         {
             var SenderFramework = (FrameworkElement)sender;
             var DataContext = SenderFramework.DataContext;
-            var Comment = DataContext as RedditSharp.Things.Comment;
+            var Comment = DataContext as  Eco_Reddit.Core.Things.Comment;
             try
             {
                 await Comment.UnsaveAsync();
@@ -163,7 +163,7 @@ namespace Eco_Reddit.Views
         {
             var SenderFramework = (FrameworkElement)sender;
             var DataContext = SenderFramework.DataContext;
-            var Comment = DataContext as RedditSharp.Things.Comment;
+            var Comment = DataContext as  Eco_Reddit.Core.Things.Comment;
             try
             {
                 await Comment.RemoveAsync();
@@ -177,7 +177,7 @@ namespace Eco_Reddit.Views
         {
             var SenderFramework = (FrameworkElement)sender;
             var DataContext = SenderFramework.DataContext;
-            var Comment = DataContext as RedditSharp.Things.Comment;
+            var Comment = DataContext as  Eco_Reddit.Core.Things.Comment;
             try
             {
                 await Comment.RemoveSpamAsync();
@@ -191,7 +191,7 @@ namespace Eco_Reddit.Views
         {
             var SenderFramework = (FrameworkElement)sender;
             var DataContext = SenderFramework.DataContext;
-            var Comment = DataContext as RedditSharp.Things.Comment;
+            var Comment = DataContext as  Eco_Reddit.Core.Things.Comment;
             try
             {
                 await Comment.DelAsync();
@@ -263,7 +263,7 @@ namespace Eco_Reddit.Views
         {
             var SenderFramework = (FrameworkElement)sender;
             var DataContext = SenderFramework.DataContext;
-            var Comment = DataContext as RedditSharp.Things.Comment;
+            var Comment = DataContext as  Eco_Reddit.Core.Things.Comment;
             try
             {
                 await Comment.ApproveAsync();

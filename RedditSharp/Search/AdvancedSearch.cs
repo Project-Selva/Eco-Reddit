@@ -1,4 +1,4 @@
-﻿namespace RedditSharp.Search
+﻿namespace Eco_Reddit.Core.Extensions.Search
 {
     public sealed class AdvancedSearchFilter
     {

@@ -13,7 +13,7 @@ namespace Eco_Reddit.Helpers
 {
     public class GetUserComments: IIncrementalSource<Comment>
     {
-        private readonly Eco_Reddit.Core.Helpers.LoginHelper loginHelper = new Eco_Reddit.Core.Helpers.LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
+        private readonly Eco_Reddit.Core.Helpers.LoginHelpers.LoginHelper loginHelper = new Eco_Reddit.Core.Helpers.LoginHelpers.LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
         public static User UserToGetcommentsFrom;
         public string appId = "mp8hDB_HfbctBg";
         private List<Comment> commentCollection;
@@ -35,9 +35,9 @@ namespace Eco_Reddit.Helpers
                  /*  var result = await loginHelper.Login_Refresh((string)localSettings.Values["refresh_token"]);
         //   localSettings.Values["refresh_token"] = result.RefreshToken;
         localSettings.Values["access_token"] = result.AccessToken;
-        TokenSharpData.Reddit = new RedditSharp.Reddit(result.AccessToken);
+        TokenSharpData.Reddit = new Eco_Reddit.Core.Reddit(result.AccessToken);
         await TokenSharpData.Reddit.InitOrUpdateUserAsync();
-                RedditSharp.Listing<RedditSharp.Things.Post> commentsList = TokenSharpData.Reddit.User.GetDislikedPosts();
+                Eco_Reddit.Core.Listing< Eco_Reddit.Core.Things.Post> commentsList = TokenSharpData.Reddit.User.GetDislikedPosts();
                 // comments = UserToGetcommentsFrom.GetCommentHistory(limit: 10, after: thing);
    commentsList.Stream().f*/
 
