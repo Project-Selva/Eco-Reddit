@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core.Things
+namespace Selva.Core.Things
 {
     /// <summary>
     /// A Reddit Live thread.  https://www.reddit.com/dev/api/#section_live

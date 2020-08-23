@@ -1,6 +1,6 @@
 using System;
 
-namespace Eco_Reddit.Core.Extensions.DateTimeExtensions
+namespace Selva.Core.Extensions.DateTimeExtensions
 {
     internal static class DateTimeExtensions
     {

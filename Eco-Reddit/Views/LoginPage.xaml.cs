@@ -7,11 +7,11 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Eco_Reddit.Helpers;
-using Eco_Reddit.Core.Models;
-using Eco_Reddit.Models;
+using Selva.Helpers;
+using Selva.Core.Models;
+using Selva.Models;
 
-namespace Eco_Reddit.Views
+namespace Selva.Views
 {
     public sealed partial class LoginPage : Page, INotifyPropertyChanged
     {
@@ -106,7 +106,7 @@ namespace Eco_Reddit.Views
 
         private async void LoginView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
-            var loginHelper = new Eco_Reddit.Core.Helpers.LoginHelpers.LoginHelper(appId, secret);
+            var loginHelper = new Selva.Core.Helpers.LoginHelpers.LoginHelper(appId, secret);
             if (args.Uri.AbsoluteUri.Contains("http://127.0.0.1:3000/reddit_callback"))
             {
                 var result = await loginHelper.Login_Stage2(args.Uri);
@@ -119,7 +119,7 @@ namespace Eco_Reddit.Views
                    // Fillbox.Text = result.RefreshToken + " hhhhhh " + result.AccessToken;
                     localSettings.Values["refresh_token"] = result.RefreshToken;
                     localSettings.Values["access_token"] = result.AccessToken;
-                    TokenSharpData.Reddit = new Eco_Reddit.Core.Reddit(result.AccessToken);
+                    TokenSharpData.Reddit = new Selva.Core.Reddit(result.AccessToken);
                     await TokenSharpData.Reddit.InitOrUpdateUserAsync();
                     FinishedFrame.Visibility = Visibility.Visible;
                   FinishedFrame.Navigate(typeof(HomePage));
@@ -226,12 +226,12 @@ namespace Eco_Reddit.Views
         private void StartUp()
         {
             //UnloadObject(Wblock);
-            var scopes = Eco_Reddit.Core.Constants.Constants.scopeList.Aggregate("", (acc, x) => acc + " " + x);
+            var scopes = Selva.Core.Constants.Constants.scopeList.Aggregate("", (acc, x) => acc + " " + x);
             var urlParams = "client_id=" + appId +
                             "&response_type=code&state=uyagsjgfhjs&duration=permanent&redirect_uri=" +
                             HttpUtility.UrlEncode("http://127.0.0.1:3000/reddit_callback") + "&scope=" +
                             HttpUtility.UrlEncode(scopes);
-            var targetUri = new Uri(Eco_Reddit.Core.Constants.Constants.redditApiBaseUrl + "authorize?" + urlParams);
+            var targetUri = new Uri(Selva.Core.Constants.Constants.redditApiBaseUrl + "authorize?" + urlParams);
             webView.Navigate(targetUri);
             SettingsFrame.Navigate(typeof(SettingsPage));
             // UnloadObject(loginView);

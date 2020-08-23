@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Eco_Reddit.Core.Things;
+using Selva.Core.Things;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     /// <summary>
     /// The settings for an individual wiki page.

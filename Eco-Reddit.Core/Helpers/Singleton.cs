@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
-namespace Eco_Reddit.Core.Helpers
+namespace Selva.Core.Helpers
 {
     public static class Singleton<T>
         where T : new()

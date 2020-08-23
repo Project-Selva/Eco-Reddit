@@ -7,7 +7,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     /// <inheritdoc />
     public class WebAgent : IWebAgent
@@ -17,7 +17,7 @@ namespace Eco_Reddit.Core
         private static readonly HttpClient _httpClient;
 
         /// <summary>
-        /// Additional values to append to the default Eco_Reddit.Core user agent.
+        /// Additional values to append to the default Selva.Core user agent.
         /// </summary>
         public static string DefaultUserAgent { get; set; } = "RedditSharp";
 
@@ -27,7 +27,7 @@ namespace Eco_Reddit.Core
         public static string Protocol { get; set; }
 
         /// <summary>
-        /// The root domain Eco_Reddit.Core uses to address Reddit.
+        /// The root domain Selva.Core uses to address Reddit.
         /// www.reddit.com by default
         /// </summary>
         public static string RootDomain { get; set; }

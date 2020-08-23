@@ -1,4 +1,4 @@
-﻿using Eco_Reddit.Views;
+﻿using Selva.Views;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Reddit;
 using Reddit.Controllers;
@@ -26,7 +26,7 @@ using Windows.UI.Xaml.Navigation;
 using WinUI = Microsoft.UI.Xaml.Controls;
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Eco_Reddit.UserControls
+namespace Selva.UserControls
 {
     public sealed partial class PostUserControl : UserControl
     {

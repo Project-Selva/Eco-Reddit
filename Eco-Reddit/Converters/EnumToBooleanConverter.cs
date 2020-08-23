@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace Eco_Reddit.Helpers
+namespace Selva.Helpers
 {
     public class EnumToBooleanConverter : IValueConverter
     {

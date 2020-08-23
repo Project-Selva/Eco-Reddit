@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Eco_Reddit.Core.Multi
+namespace Selva.Core.Multi
 {
     /// <summary>
     /// Class to contain the information for a single subreddit in a multi

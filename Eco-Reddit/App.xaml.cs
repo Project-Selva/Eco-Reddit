@@ -6,9 +6,9 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Xaml;
-using Eco_Reddit.Helpers;
-using Eco_Reddit.Services;
-using Eco_Reddit.Views;
+using Selva.Helpers;
+using Selva.Services;
+using Selva.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -18,7 +18,8 @@ using Reddit.Controllers;
 using UnhandledExceptionEventArgs = Windows.UI.Xaml.UnhandledExceptionEventArgs;
 using Microsoft.Toolkit.Uwp.Helpers;
 
-namespace Eco_Reddit
+namespace Selva
+
 {
     public sealed partial class App : Application
     {

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Eco_Reddit.Core</RootNamespace>
+    <RootNamespace>Selva.Core</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

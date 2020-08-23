@@ -1,6 +1,6 @@
 using System;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     /// <summary>
     /// Represents an error that occurred during accessing or manipulating data on Reddit.

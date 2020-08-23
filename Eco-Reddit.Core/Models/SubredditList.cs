@@ -1,7 +1,7 @@
 ﻿//using Windows.UI.Xaml;
 using Reddit.Controllers;
 
-namespace Eco_Reddit.Core.Models
+namespace Selva.Core.Models
 {
     public class SubredditList
     {

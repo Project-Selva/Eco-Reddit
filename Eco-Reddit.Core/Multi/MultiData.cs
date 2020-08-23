@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Eco_Reddit.Core.Multi
+namespace Selva.Core.Multi
 {
     /// <summary>
     /// Master Multi Class that contains the all of the Multi Data

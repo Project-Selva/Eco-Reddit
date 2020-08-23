@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     partial class HelpersSharp
     {

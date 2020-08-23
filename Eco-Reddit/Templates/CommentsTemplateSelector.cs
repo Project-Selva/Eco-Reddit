@@ -1,8 +1,8 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using  Eco_Reddit.Core.Things;
+using  Selva.Core.Things;
 
-namespace Eco_Reddit.Templates
+namespace Selva.Templates
 {
     public class CommentsTemplateSelector : DataTemplateSelector
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     /// <summary>
     /// Caching class to manage WebAgents for multiple users

@@ -7,21 +7,21 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Eco_Reddit.Helpers;
-using Eco_Reddit.Services;
+using Selva.Helpers;
+using Selva.Services;
 using Microsoft.Services.Store.Engagement;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
 using Reddit.Controllers;
 using Reddit;
-using Eco_Reddit.Core;
-using Eco_Reddit.Core.Models;
-using Eco_Reddit.Helpers;
-using Eco_Reddit.Core.Models;
-using Eco_Reddit.Models;
+using Selva.Core;
+using Selva.Core.Models;
+using Selva.Helpers;
+using Selva.Core.Models;
+using Selva.Models;
 
-namespace Eco_Reddit.Views
+namespace Selva.Views
 {
     // TODO WTS: Add other settings as necessary. For help see https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/pages/settings-codebehind.md
     // TODO WTS: Change the URL for your privacy policy in the Resource File, currently set to https://YourPrivacyUrlGoesHere
@@ -32,7 +32,7 @@ namespace Eco_Reddit.Views
         private string _versionDescription;
         public ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         public string appId = "mp8hDB_HfbctBg";
-        private readonly Eco_Reddit.Core.Helpers.LoginHelpers.LoginHelper loginHelper = new Eco_Reddit.Core.Helpers.LoginHelpers.LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
+        private readonly Selva.Core.Helpers.LoginHelpers.LoginHelper loginHelper = new Selva.Core.Helpers.LoginHelpers.LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
         public string secret = "UCIGqKPDABnjb0XtMh0Q_LhrNks";
         public SettingsPage()
         {
@@ -81,10 +81,10 @@ namespace Eco_Reddit.Views
             var result = await loginHelper.Login_Refresh((string)localSettings.Values["refresh_token"]);
             //   localSettings.Values["refresh_token"] = result.RefreshToken;
             localSettings.Values["access_token"] = result.AccessToken;
-            TokenSharpData.Reddit = new Eco_Reddit.Core.Reddit(result.AccessToken);
+            TokenSharpData.Reddit = new Selva.Core.Reddit(result.AccessToken);
             await TokenSharpData.Reddit.InitOrUpdateUserAsync();
             var s = TokenSharpData.Reddit.User.GetUsernameMentions();
-            Eco_Reddit.Core.Things.Post selectedPost = await TokenSharpData.Reddit.GetPostAsync(new Uri("https://www.reddit.com/r/ProjectEcoReddit/comments/f7eje3/faq_about_the_app/"));
+            Selva.Core.Things.Post selectedPost = await TokenSharpData.Reddit.GetPostAsync(new Uri("https://www.reddit.com/r/ProjectEcoReddit/comments/f7eje3/faq_about_the_app/"));
             MarkDownBlock.Text = selectedPost.SelfText;
                }
         public ElementTheme ElementTheme

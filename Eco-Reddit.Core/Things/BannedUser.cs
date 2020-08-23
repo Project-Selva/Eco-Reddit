@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Eco_Reddit.Core.Extensions;
+using Selva.Core.Extensions;
 using System;
 
-namespace Eco_Reddit.Core.Things
+namespace Selva.Core.Things
 {
     /// <summary>
     /// A user that is banned in a subreddit.

@@ -1,6 +1,6 @@
 ﻿#pragma warning disable 1591
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     public enum ModActionType
     {

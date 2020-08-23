@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
-namespace Eco_Reddit.Core.Extensions
+namespace Selva.Core.Extensions
 {
     public static class Extensions
     {

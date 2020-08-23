@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     /// <summary>
     /// Generic memory cache wrapper for storing and retrieving <see cref="IWebAgent"/>s. Items are stored in memory until explicitly removed.

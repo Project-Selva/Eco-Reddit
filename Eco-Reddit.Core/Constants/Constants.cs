@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Eco_Reddit.Core.Constants
+namespace Selva.Core.Constants
 {
     public class Constants
     {

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core.Helpers
+namespace Selva.Core.Helpers
 {
     public static class Json
     {

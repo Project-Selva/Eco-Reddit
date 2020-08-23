@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Eco_Reddit.Core.Extensions;
-using Eco_Reddit.Core.Things;
+using Selva.Core.Extensions;
+using Selva.Core.Things;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     /// <summary>
     /// Subreddit settings.

@@ -2,7 +2,7 @@
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Eco_Reddit.Views
+namespace Selva.Views
 {
     public sealed partial class Errordialog : ContentDialog
     {

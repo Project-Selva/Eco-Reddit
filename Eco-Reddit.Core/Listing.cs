@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
-using Eco_Reddit.Core.Extensions;
-using Eco_Reddit.Core.Things;
+using Selva.Core.Extensions;
+using Selva.Core.Things;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     /// <summary>
     /// Method to sort by (e.g. relevance, new)

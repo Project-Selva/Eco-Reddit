@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core.Things
+namespace Selva.Core.Things
 {
     /// <summary>
     /// A live update.

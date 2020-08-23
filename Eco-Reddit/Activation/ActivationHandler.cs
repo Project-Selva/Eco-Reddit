@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Eco_Reddit.Activation
+namespace Selva.Activation
 {
     // For more information on understanding and extending activation flow see
     // https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/activation.md

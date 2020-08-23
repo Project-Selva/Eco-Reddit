@@ -3,7 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls;
 
-namespace Eco_Reddit.Views
+namespace Selva.Views
 {
     public sealed partial class WhatsNewDialog : ContentDialog
     {

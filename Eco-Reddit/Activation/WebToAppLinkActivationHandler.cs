@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 
-namespace Eco_Reddit.Activation
+namespace Selva.Activation
 {
     internal class WebToAppLinkActivationHandler : ActivationHandler<ProtocolActivatedEventArgs>
     {

@@ -545,9 +545,9 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Eco-Reddit.Core\Eco-Reddit.Core.csproj">
+    <ProjectReference Include="..\Eco-Reddit.Core\Selva.Core.csproj">
       <Project>{FA73FE9E-52FA-4212-9C8C-3B2281D952DE}</Project>
-      <Name>Eco-Reddit.Core</Name>
+      <Name>Selva.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

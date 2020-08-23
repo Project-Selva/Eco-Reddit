@@ -1,19 +1,19 @@
 ﻿
     <Page
-   x:Class="Eco_Reddit.Views.UserCommentPage"
+   x:Class="Selva.Views.UserCommentPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Eco_Reddit.Views"
+    xmlns:local="using:Selva.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:Eco_Reddit.Core.Models"
+    xmlns:models="using:Selva.Core.Models"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:telerik="using:Telerik.UI.Xaml.Controls.Chart"
-    xmlns:strategy="using:Eco_Reddit.Strategies"
+    xmlns:strategy="using:Selva.Strategies"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:reddit="using:Reddit.Controllers"
     xmlns:sys="using:System"
-    xmlns:sharp="using: Eco_Reddit.Core.Things"
+    xmlns:sharp="using: Selva.Core.Things"
     mc:Ignorable="d"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}">
     <Page.Resources>

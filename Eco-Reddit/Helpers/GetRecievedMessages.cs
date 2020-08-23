@@ -3,12 +3,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Eco_Reddit.Core.Models;
+using Selva.Core.Models;
 using Microsoft.Toolkit.Collections;
 using Reddit;
 using Reddit.Things;
 
-namespace Eco_Reddit.Helpers
+namespace Selva.Helpers
 {
     public class GetRecievedMessagesClass : IIncrementalSource<PrivateMessage>
     {

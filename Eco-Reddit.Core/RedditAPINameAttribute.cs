@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     internal class RedditAPINameAttribute : Attribute

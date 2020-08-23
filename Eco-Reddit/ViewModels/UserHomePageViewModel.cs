@@ -9,18 +9,18 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
 using Reddit.Controllers;
-using Eco_Reddit.Helpers;
+using Selva.Helpers;
 using Microsoft.Toolkit.Uwp;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.ApplicationModel.DataTransfer;
-using Eco_Reddit.Core.Models;
+using Selva.Core.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.System;
-using Eco_Reddit.Views;
+using Selva.Views;
 using Windows.UI.Xaml.Input;
 
-namespace Eco_Reddit.ViewModels
+namespace Selva.ViewModels
 {
     /// <summary>
     /// A base class for viewmodels for sample pages in the app.

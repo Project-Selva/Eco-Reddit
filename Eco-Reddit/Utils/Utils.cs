@@ -3,7 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Eco_Reddit.Core.Models
+namespace Selva.Core.Models
 {
     public class Utils
     {

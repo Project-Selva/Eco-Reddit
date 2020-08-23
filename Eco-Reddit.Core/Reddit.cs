@@ -1,14 +1,14 @@
 
-using Eco_Reddit.Core.Search;
-using Eco_Reddit.Core.Things;
+using Selva.Core.Search;
+using Selva.Core.Things;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Authentication;
 using System.Threading.Tasks;
-using DefaultWebAgent = Eco_Reddit.Core.WebAgent;
+using DefaultWebAgent = Selva.Core.WebAgent;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     /// <summary>
     /// Class to communicate with Reddit.com

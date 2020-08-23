@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     /// <summary>
     /// Wrapper class to provide <see cref="IWebAgent"/> to children.

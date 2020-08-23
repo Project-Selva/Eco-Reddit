@@ -16,8 +16,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
-using Eco_Reddit.Helpers;
-using Eco_Reddit.Core.Models;
+using Selva.Helpers;
+using Selva.Core.Models;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Reddit;
@@ -25,9 +25,9 @@ using Reddit.Controllers;
 using WinUI = Microsoft.UI.Xaml.Controls;
 using Things = Reddit.Things;
 using Windows.UI.Xaml.Controls.Primitives;
-using Eco_Reddit.Helpers;
+using Selva.Helpers;
 
-namespace Eco_Reddit.Views
+namespace Selva.Views
 {
     public sealed partial class HomePage : Page, INotifyPropertyChanged
     {

@@ -2,12 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Eco_Reddit.Core.Models;
+using Selva.Core.Models;
 using Microsoft.Toolkit.Collections;
 using Reddit;
 using Reddit.Controllers;
 
-namespace Eco_Reddit.Helpers
+namespace Selva.Helpers
 {
     public class GetUserPostsClass : IIncrementalSource<Post>
     {

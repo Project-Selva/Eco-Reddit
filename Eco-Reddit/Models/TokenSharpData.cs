@@ -1,7 +1,7 @@
-﻿namespace Eco_Reddit.Models
+﻿namespace Selva.Models
 {
     public static class TokenSharpData
     {
-        public static Eco_Reddit.Core.Reddit Reddit;
+        public static Selva.Core.Reddit Reddit;
     }
 }

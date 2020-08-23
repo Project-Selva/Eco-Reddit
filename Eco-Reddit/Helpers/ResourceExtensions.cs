@@ -1,6 +1,6 @@
 ﻿using Windows.ApplicationModel.Resources;
 
-namespace Eco_Reddit.Helpers
+namespace Selva.Helpers
 {
     internal static class ResourceExtensions
     {

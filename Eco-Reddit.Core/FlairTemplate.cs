@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     public enum FlairType
     {

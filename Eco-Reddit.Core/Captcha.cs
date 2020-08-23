@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     /// <summary>
     /// A captcha challenge.

@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace Eco_Reddit.Converters
+namespace Selva.Converters
 {
     public class DepthToMarginConverter : IValueConverter
     {

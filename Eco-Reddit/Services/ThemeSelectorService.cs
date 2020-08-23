@@ -4,9 +4,9 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Eco_Reddit.Helpers;
+using Selva.Helpers;
 
-namespace Eco_Reddit.Services
+namespace Selva.Services
 {
     public static class ThemeSelectorService
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core.Multi
+namespace Selva.Core.Multi
 {
     /// <summary>
     /// A Multireddit.

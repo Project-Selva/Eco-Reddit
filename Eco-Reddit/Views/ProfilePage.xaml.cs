@@ -9,7 +9,7 @@ using Reddit;
 using Reddit.Controllers;
 using WinUI = Microsoft.UI.Xaml.Controls;
 
-namespace Eco_Reddit.Views
+namespace Selva.Views
 {
     public sealed partial class ProfilePage : Page, INotifyPropertyChanged
     {

@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json.Linq;
-using Eco_Reddit.Core.Things;
+using Selva.Core.Things;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
 #pragma warning disable 1591
     public class SubredditStyle : RedditObject

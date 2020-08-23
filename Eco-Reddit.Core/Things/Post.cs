@@ -7,7 +7,7 @@ using System.Reactive.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core.Things
+namespace Selva.Core.Things
 {
     /// <summary>
     /// A post.

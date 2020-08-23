@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
-using Eco_Reddit.Activation;
+using Selva.Activation;
 using Microsoft.Services.Store.Engagement;
 
-namespace Eco_Reddit.Services
+namespace Selva.Services
 {
     internal class DevCenterNotificationsService : ActivationHandler<ToastNotificationActivatedEventArgs>
     {

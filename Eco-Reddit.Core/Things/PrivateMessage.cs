@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core.Things
+namespace Selva.Core.Things
 {
     /// <summary>
     /// A private message (or modmail).

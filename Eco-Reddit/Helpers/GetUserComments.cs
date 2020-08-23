@@ -2,18 +2,18 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Eco_Reddit.Core.Models;
+using Selva.Core.Models;
 using Microsoft.Toolkit.Collections;
 using Reddit;
 
 using Reddit.Controllers;
 
 
-namespace Eco_Reddit.Helpers
+namespace Selva.Helpers
 {
     public class GetUserComments: IIncrementalSource<Comment>
     {
-        private readonly Eco_Reddit.Core.Helpers.LoginHelpers.LoginHelper loginHelper = new Eco_Reddit.Core.Helpers.LoginHelpers.LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
+        private readonly Selva.Core.Helpers.LoginHelpers.LoginHelper loginHelper = new Selva.Core.Helpers.LoginHelpers.LoginHelper("mp8hDB_HfbctBg", "UCIGqKPDABnjb0XtMh0Q_LhrNks");
         public static User UserToGetcommentsFrom;
         public string appId = "mp8hDB_HfbctBg";
         private List<Comment> commentCollection;
@@ -35,9 +35,9 @@ namespace Eco_Reddit.Helpers
                  /*  var result = await loginHelper.Login_Refresh((string)localSettings.Values["refresh_token"]);
         //   localSettings.Values["refresh_token"] = result.RefreshToken;
         localSettings.Values["access_token"] = result.AccessToken;
-        TokenSharpData.Reddit = new Eco_Reddit.Core.Reddit(result.AccessToken);
+        TokenSharpData.Reddit = new Selva.Core.Reddit(result.AccessToken);
         await TokenSharpData.Reddit.InitOrUpdateUserAsync();
-                Eco_Reddit.Core.Listing< Eco_Reddit.Core.Things.Post> commentsList = TokenSharpData.Reddit.User.GetDislikedPosts();
+                Selva.Core.Listing< Selva.Core.Things.Post> commentsList = TokenSharpData.Reddit.User.GetDislikedPosts();
                 // comments = UserToGetcommentsFrom.GetCommentHistory(limit: 10, after: thing);
    commentsList.Stream().f*/
 

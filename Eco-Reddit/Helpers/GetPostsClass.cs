@@ -7,7 +7,7 @@ using Reddit;
 using Reddit.Controllers;
 using Reddit.Inputs;
 
-namespace Eco_Reddit.Helpers
+namespace Selva.Helpers
 {
     public class GetPostsClass : IIncrementalSource<Post>
     {

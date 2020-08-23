@@ -37,7 +37,7 @@
       Executable="$targetnametoken$.exe"
                       desktop4:SupportsMultipleInstances="true"
 	  iot2:SupportsMultipleInstances="true"
-      EntryPoint="Eco_Reddit.App">
+      EntryPoint="Selva.App">
       <uap:VisualElements
         DisplayName="Selva for reddit - preview beta"
         Square150x150Logo="Assets\Square150x150Logo.png"

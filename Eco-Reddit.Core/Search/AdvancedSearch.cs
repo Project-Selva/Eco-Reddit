@@ -1,4 +1,4 @@
-﻿namespace Eco_Reddit.Core.Search
+﻿namespace Selva.Core.Search
 {
     public sealed class AdvancedSearchFilter
     {

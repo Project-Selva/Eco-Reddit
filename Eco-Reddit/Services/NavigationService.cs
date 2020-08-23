@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-namespace Eco_Reddit.Services
+namespace Selva.Services
 {
     public static class NavigationService
     {

@@ -1,4 +1,4 @@
-﻿namespace Eco_Reddit.Core.Models
+﻿namespace Selva.Core.Models
 {
     public class TabViewItemData
     {

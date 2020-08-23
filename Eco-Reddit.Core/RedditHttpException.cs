@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     /// <summary>
     /// HTTP exception from Reddit

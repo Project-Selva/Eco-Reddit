@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net.Http;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     /// <summary>
     /// Builds form post data.

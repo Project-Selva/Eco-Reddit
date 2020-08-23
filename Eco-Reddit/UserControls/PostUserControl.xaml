@@ -1,13 +1,13 @@
 ﻿<UserControl
-    x:Class="Eco_Reddit.UserControls.PostUserControl"
+    x:Class="Selva.UserControls.PostUserControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:local="using:Eco_Reddit.Views"
+    xmlns:local="using:Selva.Views"
     Loaded="UserControl_Loaded"
-    xmlns:viewModels="using:Eco_Reddit.ViewModels"
+    xmlns:viewModels="using:Selva.ViewModels"
     mc:Ignorable="d">
   <!--  <UserControl.DataContext>
         <viewModels:UserHomePageViewModel x:Name="ViewModel"/>

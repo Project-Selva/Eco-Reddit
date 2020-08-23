@@ -1,4 +1,4 @@
-﻿using Eco_Reddit.Helpers;
+﻿using Selva.Helpers;
 using Microsoft.Toolkit.Uwp;
 using Reddit.Controllers;
 using System;
@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Eco_Reddit.Views
+namespace Selva.Views
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.

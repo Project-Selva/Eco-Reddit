@@ -14,8 +14,8 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Web.Http;
-using Eco_Reddit.Helpers;
-using Eco_Reddit.Core.Models;
+using Selva.Helpers;
+using Selva.Core.Models;
 using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Newtonsoft.Json;
@@ -23,7 +23,7 @@ using Reddit;
 using Reddit.Controllers;
 using WinUI = Microsoft.UI.Xaml.Controls;
 
-namespace Eco_Reddit.Views
+namespace Selva.Views
 {
     public sealed partial class SearchPage : Page, INotifyPropertyChanged
     {

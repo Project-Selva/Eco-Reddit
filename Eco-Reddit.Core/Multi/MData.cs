@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Eco_Reddit.Core.Multi
+namespace Selva.Core.Multi
 {
     /// <summary>
     /// Contains the innner information of the Multi

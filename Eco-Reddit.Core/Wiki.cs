@@ -1,8 +1,8 @@
-﻿using Eco_Reddit.Core.Things;
+﻿using Selva.Core.Things;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
 
     /// <summary>

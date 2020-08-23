@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json.Linq;
-using Eco_Reddit.Core.Extensions;
+using Selva.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     public static class ToolBoxUserNotes
     {

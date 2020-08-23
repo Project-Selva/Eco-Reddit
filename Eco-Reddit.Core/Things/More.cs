@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core.Things
+namespace Selva.Core.Things
 {
     /// <summary>
     /// Represents more comments omitted from the base comment tree.

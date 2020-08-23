@@ -1,7 +1,7 @@
-﻿using Eco_Reddit.Core.Things;
+﻿using Selva.Core.Things;
 using System.Threading.Tasks;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     partial class HelpersName
     {

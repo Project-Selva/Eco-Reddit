@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-namespace Eco_Reddit.Models
+namespace Selva.Models
 {
     public class Images
     {

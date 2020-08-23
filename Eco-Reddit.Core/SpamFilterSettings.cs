@@ -1,4 +1,4 @@
-﻿namespace Eco_Reddit.Core
+﻿namespace Selva.Core
 {
     public class SpamFilterSettings
     {

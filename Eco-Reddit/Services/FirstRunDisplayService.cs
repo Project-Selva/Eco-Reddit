@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
-using Eco_Reddit.Views;
+using Selva.Views;
 using Microsoft.Toolkit.Uwp.Helpers;
 
-namespace Eco_Reddit.Services
+namespace Selva.Services
 {
     public static class FirstRunDisplayService
     {

@@ -19,7 +19,7 @@ using Reddit;
 using Reddit.Controllers;
 using WinUI = Microsoft.UI.Xaml.Controls;
 
-namespace Eco_Reddit.Views
+namespace Selva.Views
 {
     public sealed partial class PostContentPage : Page, INotifyPropertyChanged
     {
@@ -257,7 +257,7 @@ namespace Eco_Reddit.Views
             if (args.Phase != 1) throw new Exception("We should be in phase 1, but we are not.");
             try
             {
-                var SenderComment = args.Item as Eco_Reddit.Core.Models.Comments;
+                var SenderComment = args.Item as Selva.Core.Models.Comments;
                 var comment = SenderComment.CommentSelf;
                 var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
                 var textBlock = templateRoot.Children[2] as MarkdownTextBlock;
@@ -283,7 +283,7 @@ namespace Eco_Reddit.Views
             }
             catch
             {
-                var SenderComment = args.Item as Eco_Reddit.Core.Models.Comments;
+                var SenderComment = args.Item as Selva.Core.Models.Comments;
                 var comment = SenderComment.CommentSelf;
                 var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
                 var textBlock = templateRoot.Children[2] as MarkdownTextBlock;
@@ -525,7 +525,7 @@ namespace Eco_Reddit.Views
               GetComments.limit = 100;
               GetComments.skipInt = 0;
               GetComments.PostToGetCommentsFrom = PostLocal;
-             // var CommentsCollection = new IncrementalLoadingCollection<GetComments, Eco_Reddit.Models.Comments>();
+             // var CommentsCollection = new IncrementalLoadingCollection<GetComments, Selva.Models.Comments>();
 
             //  CommentList.ItemsSource = CommentsCollection;
               await Task.Delay(500);
@@ -546,7 +546,7 @@ namespace Eco_Reddit.Views
                  GetComments.skipInt = 0;
                  lOADCOM.Visibility = Visibility.Collapsed;
                  GetComments.PostToGetCommentsFrom = PostLocal;
-                 var CommentsCollection = new IncrementalLoadingCollection<GetComments, Eco_Reddit.Models.Comments>();
+                 var CommentsCollection = new IncrementalLoadingCollection<GetComments, Selva.Models.Comments>();
                  await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                  {
                      CommentList.ItemsSource = CommentsCollection;

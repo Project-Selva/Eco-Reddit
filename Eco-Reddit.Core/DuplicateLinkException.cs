@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     /// <summary>
     /// Exception that gets thrown if you try and submit a duplicate link to a SubReddit

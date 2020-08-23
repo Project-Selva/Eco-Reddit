@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Eco_Reddit.Core.Search
+namespace Selva.Core.Search
 {
     public class DefaultSearchFormatter : IAdvancedSearchFormatter
     {

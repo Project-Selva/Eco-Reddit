@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
-using Eco_Reddit.Services;
+using Selva.Services;
 
-namespace Eco_Reddit.Activation
+namespace Selva.Activation
 {
     internal class DefaultActivationHandler : ActivationHandler<IActivatedEventArgs>
     {

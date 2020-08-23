@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 
-namespace Eco_Reddit.Core
+namespace Selva.Core
 {
     partial class HelpersSharp
     {

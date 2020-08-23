@@ -8,7 +8,7 @@ using Telerik.UI.Xaml.Controls.Chart;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Eco_Reddit.Strategies
+namespace Selva.Strategies
 {
     public class PieLabelStrategy : ChartSeriesLabelStrategy
     {

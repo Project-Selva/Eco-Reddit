@@ -7,11 +7,11 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Eco_Reddit.Activation;
-using Eco_Reddit.Helpers;
-using Eco_Reddit.Core.Helpers;
+using Selva.Activation;
+using Selva.Helpers;
+using Selva.Core.Helpers;
 
-namespace Eco_Reddit.Services
+namespace Selva.Services
 {
     // For more information on understanding and extending activation flow see
     // https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/activation.md

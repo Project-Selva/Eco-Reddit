@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Eco_Reddit.Core.Extensions.Search
+namespace Selva.Core.Extensions.Search
 {
     public static class SearchExtensions
     {
