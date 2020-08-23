@@ -217,12 +217,12 @@
     <Compile Include="Services\WhatsNewDisplayService.cs" />
     <Compile Include="Strategies\PieLabelStrategy.cs" />
     <Compile Include="Templates\CommentsTemplateSelector.cs" />
-    <Compile Include="UserControls\UserPostPage.xaml.cs">
-      <DependentUpon>UserPostPage.xaml</DependentUpon>
+    <Compile Include="UserControls\PostUserControl.xaml.cs">
+      <DependentUpon>PostUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\Utils.cs" />
+    <Compile Include="ViewModels\PostUserControlViewModel.cs" />
     <Compile Include="ViewModels\UserHomePageViewModel.cs" />
-    <Compile Include="ViewModels\UserPostViewModel.cs" />
     <Compile Include="Views\AwardsFlyoutFrame.xaml.cs">
       <DependentUpon>AwardsFlyoutFrame.xaml</DependentUpon>
     </Compile>
@@ -341,7 +341,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\UserPostPage.xaml">
+    <Page Include="UserControls\PostUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

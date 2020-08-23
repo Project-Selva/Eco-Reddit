@@ -67,7 +67,7 @@ namespace Eco_Reddit.Views
             GetSearchResults.SearchSort = "relevance";
             GetSearchResults.skipInt = 0;
             nvSearch.SelectedItem = Posts;
-            //  var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
+            //  var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Post>();
             //  SearchList.ItemsSource = Postscollection;
             Subreddit = null;
             LoadingControl.IsLoading = false;
@@ -104,17 +104,20 @@ namespace Eco_Reddit.Views
 
         private void HomeList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var P = e.ClickedItem as Posts;
-            var newTab = HomePage.MainTab.SelectedItem as WinUI.TabViewItem;
-            HomePage.MainTab.TabItems.Remove(newTab);
-            var SelectedView = new WinUI.TabViewItem();
-            SelectedView.Header = P.PostSelf.Title;
-            var frame = new Frame();
-            SelectedView.Content = frame;
-            PostContentPage.Post = P.PostSelf;
-            frame.Navigate(typeof(PostContentPage));
-            HomePage.MainTab.TabItems.Add(SelectedView);
-            HomePage.MainTab.SelectedItem = SelectedView;
+            if (SearchList.ItemTemplate == POST)
+            {
+                var P = e.ClickedItem as Post;
+                var newTab = HomePage.MainTab.SelectedItem as WinUI.TabViewItem;
+                HomePage.MainTab.TabItems.Remove(newTab);
+                var SelectedView = new WinUI.TabViewItem();
+                SelectedView.Header = P.Title;
+                var frame = new Frame();
+                SelectedView.Content = frame;
+                frame.Navigate(typeof(PostContentPage));
+                PostContentPage.Post = P;
+                HomePage.MainTab.TabItems.Add(SelectedView);
+                HomePage.MainTab.SelectedItem = SelectedView;
+            }
         }
 
         private void HomeList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -133,37 +136,7 @@ namespace Eco_Reddit.Views
             if (args.Phase != 1) throw new Exception("We should be in phase 1, but we are not.");
             if (SearchList.ItemTemplate == POST)
             {
-                var SenderPost = args.Item as Posts;
-                var post = SenderPost.PostSelf;
-                var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
-                var img = templateRoot.Children[11] as Image;
-                var Text = templateRoot.Children[9] as MarkdownTextBlock;
-                //Downvoted.IsChecked = post.IsDownvoted;
-                try
-                {
-                    var s = (SelfPost) SenderPost.PostSelf;
-                    if (s.SelfText.Length < 800)
-                        Text.Text = s.SelfText;
-                    else
-                        Text.Text = s.SelfText.Substring(0, 800) + "...";
-                }
-                catch
-                {
-                }
-
-                //Downvoted.IsChecked = post.IsDownvoted;
-                try
-                {
-                    var p = post as LinkPost;
-                    var bit = new BitmapImage();
-                    bit.UriSource = new Uri(p.URL);
-                    img.Source = bit;
-                    img.Visibility = Visibility.Visible;
-                }
-                catch
-                {
-                    img.Visibility = Visibility.Collapsed;
-                }
+              
             }
             else if (SearchList.ItemTemplate == SubredditTemplate)
             {
@@ -199,267 +172,6 @@ namespace Eco_Reddit.Views
             if (Uri.TryCreate(e.Link, UriKind.Absolute, out var link)) await Launcher.LaunchUriAsync(link);
         }
 
-        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var SubredditLocal = AppBarButtonObject.Tag as Subreddit;
-            await Launcher.LaunchUriAsync(new Uri("https://www.reddit.com/r/" + SubredditLocal.Name));
-        }
-
-        private async void SubEditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var SubredditLocal = AppBarButtonObject.Tag as Subreddit;
-            await SubredditLocal.SubscribeAsync();
-        }
-
-        private async void unsubEditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var SubredditLocal = AppBarButtonObject.Tag as Subreddit;
-            await SubredditLocal.UnsubscribeAsync();
-        }
-
-        private async void PermaLinkSubredditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var SubredditLocal = AppBarButtonObject.Tag as Subreddit;
-            var dataPackage = new DataPackage();
-            dataPackage.SetText("https://www.reddit.com/r/" + SubredditLocal.Title);
-            Clipboard.SetContent(dataPackage);
-        }
-
-        private async void ReportButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            // await PostLocal.ReportAsync(violatorUsername: PostLocal.Author, reason: Reason.Text, ruleReason: RuleReason.Text, banEvadingAccountsNames: PostLocal.Author, siteReason: SiteReason.Text, additionalInfo: AdditionalInfo.Text, customText: Reason.Text, otherReason: OtherInfo.Text, fromHelpCenter: false);
-        }
-
-        private void EditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            //  PostLocal.set
-        }
-
-        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            await PostLocal.DeleteAsync();
-        }
-
-        private async void DistinguishButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            await PostLocal.DistinguishAsync("yes");
-        }
-
-        private void ShareButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            SharePost = AppBarButtonObject.Tag as Post;
-            DataTransferManager.ShowShareUI();
-        }
-
-        private async void StickyButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            await PostLocal.SetSubredditStickyAsync(1, false);
-        }
-
-        private async void UnHideEditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            await PostLocal.UnhideAsync();
-        }
-
-        private async void UnSaveditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            await PostLocal.UnsaveAsync();
-        }
-
-        private async void CrosspostButton_Click(object sender, RoutedEventArgs e)
-        {
-            /* AppBarButton AppBarButtonObject = (AppBarButton)sender;
-             Post PostLocal = (AppBarButtonObject).Tag as Post;
-             // try
-             // {
-             if (PostLocal.Listing.IsSelf == true)
-             {
-                 var newSelfPost = (PostLocal as SelfPost).About().XPostToAsync(CrosspsotText.Text);
-             }
-             else
-             {
-                 var newSelfPost = (PostLocal as LinkPost).About().XPostToAsync(CrosspsotText.Text);
-             }
-             /* }
-              catch
-              {
-                  return;
-              }*/
-        }
-
-        private async void RemoveEditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            await PostLocal.RemoveAsync();
-        }
-
-        private async void UnStickyEditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            await PostLocal.UnsetSubredditStickyAsync(1, false);
-        }
-
-        private async void SpoilerEditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            await PostLocal.SpoilerAsync();
-        }
-
-        private async void UnSpoilerEditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            await PostLocal.UnspoilerAsync();
-        }
-
-        private async void NSFWEditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            await PostLocal.MarkNSFWAsync();
-        }
-
-        private async void UNNSFWEditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            await PostLocal.UnmarkNSFWAsync();
-        }
-
-        private async void LockEditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            await PostLocal.LockAsync();
-        }
-
-        private async void UnlockEditButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            await PostLocal.UnlockAsync();
-        }
-
-        private async void PermaLinkButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonObject = (AppBarButton) sender;
-            var PostLocal = AppBarButtonObject.Tag as Post;
-            var pl = PostLocal.Permalink;
-            var dataPackage = new DataPackage();
-            dataPackage.SetText("https://www.reddit.com" + pl);
-            Clipboard.SetContent(dataPackage);
-        }
-
-        private void ShowPhase2(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (args.Phase != 2) throw new Exception("We should be in phase 2, but we are not.");
-        }
-
-        private void NewTabButton_Click(object sender, RoutedEventArgs e)
-        {
-            var NewTabButton = (AppBarButton) sender;
-            var pp = NewTabButton.Tag as Post;
-            // Reddit.Controllers.Post post = SenderPost.PostSelf;
-            var newTab = new WinUI.TabViewItem();
-            newTab.IconSource = new WinUI.SymbolIconSource {Symbol = Symbol.Document};
-            newTab.Header = pp.Title;
-            var frame = new Frame();
-            newTab.Content = frame;
-            PostContentPage.Post = pp;
-            frame.Navigate(typeof(PostContentPage));
-            //  PostContentPage.SingletonReference.StartUp();
-            HomePage.MainTab.TabItems.Add(newTab);
-            // }
-        }
-
-        private void ClearTabButton_Click(object sender, RoutedEventArgs e)
-        {
-            HomePage.MainTab.TabItems.Clear();
-        }
-
-        private async void HideButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonHide = (AppBarButton) sender;
-            var pp = AppBarButtonHide.Tag as Post;
-            await pp.HideAsync();
-        }
-
-        private async void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonSave = (AppBarButton) sender;
-            var pp = AppBarButtonSave.Tag as Post;
-            await pp.SaveAsync("");
-        }
-
-        private async void OpenPostInWebButton_Click(object sender, RoutedEventArgs e)
-        {
-            var AppBarButtonWEB = (AppBarButton) sender;
-            var pp = AppBarButtonWEB.Tag as Post;
-            await Launcher.LaunchUriAsync(new Uri("https://www.reddit.com/r/" + pp.Subreddit + "/comments/" + pp.Id));
-        }
-
-        private async void Award_Loaded(object sender, RoutedEventArgs e)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                var Frames = (Frame) sender;
-                var pp = Frames.Tag as Post;
-                var AwardFrame = sender as Frame;
-                AwardFrame.Navigate(typeof(AwardsFlyoutFrame));
-                AwardsFlyoutFrame.post = pp;
-            });
-        }
-
-        private async void Frame_Loaded(object sender, RoutedEventArgs e)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                var Frames = (Frame) sender;
-                var pp = Frames.Tag as Post;
-                var refreshToken = localSettings.Values["refresh_token"].ToString();
-                var reddit = new RedditClient(appId, refreshToken, secret);
-                var PostUser = reddit.User(pp.Author);
-                UserTemporaryInfo.PostUser = PostUser;
-                var f = sender as Frame;
-                f.Navigate(typeof(UserTemporaryInfo));
-            });
-        }
-
-        private async void Frame_LoadedSubreddit(object sender, RoutedEventArgs e)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                var Frames = (Frame) sender;
-                var pp = Frames.Tag as Post;
-                var refreshToken = localSettings.Values["refresh_token"].ToString();
-                var reddit = new RedditClient(appId, refreshToken, secret);
-                SubredditTemporaryInfo.InfoSubReddit = reddit.Subreddit(pp.Subreddit);
-                var f = sender as Frame;
-                f.Navigate(typeof(SubredditTemporaryInfo));
-            });
-        }
 
         private void OnPropertyChanged(string propertyName)
         {
@@ -481,7 +193,7 @@ namespace Eco_Reddit.Views
                     GetSearchResults.SearchSort = SortBox.SelectedItem.ToString();
                     GetSearchResults.skipInt = 0;
                     SearchList.ItemTemplate = POST;
-                    var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
+                    var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Post>();
                     SearchList.ItemsSource = Postscollection;
                 }
 
@@ -540,7 +252,7 @@ namespace Eco_Reddit.Views
                     GetSearchResults.SearchSort = SortBox.SelectedItem.ToString();
                     GetSearchResults.skipInt = 0;
                     SearchList.ItemTemplate = POST;
-                    var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
+                    var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Post>();
                     SearchList.ItemsSource = Postscollection;
                 }
 
@@ -613,7 +325,7 @@ namespace Eco_Reddit.Views
                     GetSearchResults.SearchSort = SortBox.SelectedItem.ToString();
                     GetSearchResults.skipInt = 0;
                     SearchList.ItemTemplate = POST;
-                    var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Posts>();
+                    var Postscollection = new IncrementalLoadingCollection<GetSearchResults, Post>();
                     SearchList.ItemsSource = Postscollection;
                 }
 

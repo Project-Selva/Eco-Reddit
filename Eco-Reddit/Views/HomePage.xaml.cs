@@ -135,17 +135,6 @@ public event PropertyChangedEventHandler PropertyChanged;
         }
 
 
-        private async void Award_Loaded(object sender, RoutedEventArgs e)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                var Frames = (Frame) sender;
-                var pp = Frames.Tag as Post;
-                var AwardFrame = sender as Frame;
-                AwardFrame.Navigate(typeof(AwardsFlyoutFrame));
-                AwardsFlyoutFrame.post = pp;
-            });
-        }
 
         private async void Expander_Expanded(object sender, RoutedEventArgs e)
         {
@@ -387,45 +376,7 @@ public event PropertyChangedEventHandler PropertyChanged;
                 }
             });
         }
-        /* private void Search_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-         {
-             if (SortBox.SelectedItem.ToString() == "Posts")
-             {
-                 var newTab = new WinUI.TabViewItem();
-                 newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Find };
-                 newTab.Header = "Search results for: " + args.QueryText;
-                 Frame frame = new Frame();
-                 newTab.Content = frame;
-                 SearchPage.SearchString = args.QueryText;
-                 if (IsHomeEnabled == true)
-                 {
-                     SearchPage.Subreddit = "all";
-                 }
-                 else
-                 {
-                     SearchPage.Subreddit = CurrentSub.Name;
-                 }
-                 frame.Navigate(typeof(SearchPage));
-                 MainTabView.TabItems.Add(newTab);
-                 MainTabView.SelectedItem = newTab;
-             }
-             else if (SortBox.SelectedItem.ToString() == "Subreddits")
-             {
-                 var newTab = new WinUI.TabViewItem();
-                 newTab.IconSource = new WinUI.SymbolIconSource() { Symbol = Symbol.Find };
-                 newTab.Header = "Subreddit search results for: " + args.QueryText;
-                 Frame frame = new Frame();
-                 newTab.Content = frame;
-                 SearchSubredditPage.SearchString = args.QueryText;
-                 frame.Navigate(typeof(SearchSubredditPage));
-                 MainTabView.TabItems.Add(newTab);
-                 MainTabView.SelectedItem = newTab;
-             }
-             else
-             {
 
-             }
-         }*/
 
         private async void SortOrderItem_Click(object sender, RoutedEventArgs e)
         {
@@ -458,92 +409,14 @@ public event PropertyChangedEventHandler PropertyChanged;
             });
         }
 
-        private void NewTabButton_Click(object sender, RoutedEventArgs e)
-        {
-            AppBarButton S = sender as AppBarButton;
-            var pp = S.Tag as Post;
-            // Reddit.Controllers.Post post = SenderPost.PostSelf;
-            var newTab = new WinUI.TabViewItem();
-            newTab.IconSource = new WinUI.SymbolIconSource {Symbol = Symbol.Document};
-            newTab.Header = pp.Title;
-            var frame = new Frame();
-            newTab.Content = frame;
-            PostContentPage.Post = pp;
-            frame.Navigate(typeof(PostContentPage));
-            //  PostContentPage.SingletonReference.StartUp();
-            MainTabView.TabItems.Add(newTab);
-            // }
-        }
-
+     
         private void ClearTabButton_Click(object sender, RoutedEventArgs e)
         {
             MainTabView.TabItems.Clear();
             GC.Collect(2);
         }
 
-        private async void HideButton_Click(object sender, RoutedEventArgs e)
-        {
-            AppBarButton S = sender as AppBarButton;
-            var PostLocal = S.Tag as Post;
 
-            await PostLocal.HideAsync();
-        }
-
-        private async void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            AppBarButton S = sender as AppBarButton;
-            var PostLocal = S.Tag as Post;
-
-            await PostLocal.SaveAsync("");
-        }
-
-        private async void Frame_Loaded(object sender, RoutedEventArgs e)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                AppBarButton S = sender as AppBarButton;
-                var PostLocal = S.Tag as Post;
-
-                var refreshToken = localSettings.Values["refresh_token"].ToString();
-                var reddit = new RedditClient(appId, refreshToken, secret);
-                var PostUser = reddit.User(PostLocal.Author);
-                UserTemporaryInfo.PostUser = PostUser;
-                var f = sender as Frame;
-                f.Navigate(typeof(UserTemporaryInfo));
-            });
-        }
-
-        private void HyperlinkButton_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            var h = sender as HyperlinkButton;
-            var s = h.Content.ToString().Replace("u/", "");
-            var newTab = new WinUI.TabViewItem();
-            var refreshToken = localSettings.Values["refresh_token"].ToString();
-            newTab.IconSource = new WinUI.SymbolIconSource {Symbol = Symbol.Document};
-            var reddit = new RedditClient(appId, refreshToken, secret);
-            var u = reddit.User(s);
-            newTab.Header = "u/" + s;
-            var frame = new Frame();
-            newTab.Content = frame;
-            UserHomePage.PostUser = reddit.User(s);
-            frame.Navigate(typeof(UserHomePage));
-            MainTab.TabItems.Add(newTab);
-            MainTab.SelectedItem = newTab;
-        }
-
-        private async void Frame_LoadedSubreddit(object sender, RoutedEventArgs e)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                var Frames = (Frame) sender;
-                var pp = Frames.Tag as Post;
-                var refreshToken = localSettings.Values["refresh_token"].ToString();
-                var reddit = new RedditClient(appId, refreshToken, secret);
-                SubredditTemporaryInfo.InfoSubReddit = reddit.Subreddit(pp.Subreddit);
-                var f = sender as Frame;
-                f.Navigate(typeof(SubredditTemporaryInfo));
-            });
-        }
 
         private void Subreddit_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -774,81 +647,7 @@ public event PropertyChangedEventHandler PropertyChanged;
             MainTabView.SelectedItem = newTab;
         }
 
-        private async void CreatePostDialog_PrimaryButtonClick(ContentDialog sender,
-            ContentDialogButtonClickEventArgs args)
-        {
-            /*  string refreshToken = localSettings.Values["refresh_token"].ToString();
-              var reddit = new RedditClient(appId, refreshToken, secret);
-              PivotItem pivotitem = (PivotItem)CreatePostPivot.SelectedItem;
-              String RichText;
-              EditZone.TextDocument.GetText(Windows.UI.Text.TextGetOptions.None, out RichText);
-              if (pivotitem.Header.ToString() == "Text")
-              {
-                  reddit.Models.LinksAndComments.Submit(new LinksAndCommentsSubmitInput(title: TitleBox.Text, kind: "self", text: RichText, sr: CurrentSub.Name));
-              }
-              else
-              {
-                  reddit.Models.LinksAndComments.Submit(new LinksAndCommentsSubmitInput(title: TitleBox.Text, url: Link.Text, sr: CurrentSub.Name));
-              }*/
-        }
-
-        private async void OpenPostInWebButton_Click(object sender, RoutedEventArgs e)
-        {
-            AppBarButton S = sender as AppBarButton;
-            var pp = S.Tag as Post;
-
-            await Launcher.LaunchUriAsync(new Uri("https://www.reddit.com/r/" + pp.Subreddit + "/comments/" + pp.Id));
-        }
-
-        private void HomeList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (args.Phase != 0) throw new Exception("We should be in phase 0, but we are not.");
-
-            // It's phase 0, so this item's title will already be bound and displayed.
-
-            args.RegisterUpdateCallback(ShowPhase1);
-  
-            args.Handled = true;
-        }
-
-        private async void ShowPhase1(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            if (args.Phase != 1) throw new Exception("We should be in phase 1, but we are not.");
-
-            var SenderPost = args.Item as Post;
-            var templateRoot = args.ItemContainer.ContentTemplateRoot as RelativePanel;
-            var img = templateRoot.Children[11] as Image;
-            var Text = templateRoot.Children[9] as MarkdownTextBlock;
-            //Downvoted.IsChecked = post.IsDownvoted;
-            try
-            {
-                var s = (SelfPost) SenderPost;
-                if (s.SelfText.Length < 800)
-                    Text.Text = s.SelfText;
-                else
-                    Text.Text = s.SelfText.Substring(0, 800) + "...";
-            }
-            catch
-            {
-                Text.Text = "";
-            }
-
-            try
-            {
-                var p = SenderPost as LinkPost;
-                var bit = new BitmapImage();
-                bit.UriSource = new Uri(p.URL);
-                img.Source = bit;
-                img.Visibility = Visibility.Visible;
-            }
-            catch
-            {
-                img.Visibility = Visibility.Collapsed;
-            }
-            ///   TextFlairBlock.Foreground = post.Listing.LinkFlairBackgroundColor;
-
-            //  args.RegisterUpdateCallback(this.ShowPhase2);
-        }
+    
 
 
 
@@ -877,127 +676,7 @@ public event PropertyChangedEventHandler PropertyChanged;
             }
         }
 
-        private async void ReportButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Task.Run(async () =>
-            {
-                var AppBarButtonObject = (AppBarButton) sender;
-                var PostLocal = AppBarButtonObject.Tag as Post;
-                // await PostLocal.ReportAsync(violatorUsername: PostLocal.Author, reason: Reason.Text, ruleReason: RuleReason.Text, banEvadingAccountsNames: PostLocal.Author, siteReason: SiteReason.Text, additionalInfo: AdditionalInfo.Text, customText: Reason.Text, otherReason: OtherInfo.Text, fromHelpCenter: false);
-            });
-        }
-
-        private async void EditButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Task.Run(async () =>
-            {
-                var AppBarButtonObject = (AppBarButton) sender;
-                var PostLocal = AppBarButtonObject.Tag as Post;
-                //  PostLocal.set
-            });
-        }
-
-        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Task.Run(async () =>
-            {
-                var AppBarButtonObject = (AppBarButton) sender;
-                var PostLocal = AppBarButtonObject.Tag as Post;
-                await PostLocal.DeleteAsync();
-            });
-        }
-
-        private async void DistinguishButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Task.Run(async () =>
-            {
-                var AppBarButtonObject = (AppBarButton) sender;
-                var PostLocal = AppBarButtonObject.Tag as Post;
-                await PostLocal.DistinguishAsync("yes");
-            });
-        }
-
-        private async void ShareButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Task.Run(async () =>
-            {
-                var AppBarButtonObject = (AppBarButton) sender;
-                SharePost = AppBarButtonObject.Tag as Post;
-                await Task.Delay(500);
-                DataTransferManager.ShowShareUI();
-            });
-        }
-
-        private async void StickyButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Task.Run(async () =>
-            {
-                var AppBarButtonObject = (AppBarButton) sender;
-                var PostLocal = AppBarButtonObject.Tag as Post;
-                await PostLocal.SetSubredditStickyAsync(1, false);
-            });
-        }
-
-
-        private void CrosspostButton_Click(object sender, RoutedEventArgs e)
-        {
-            /* AppBarButton AppBarButtonObject = (AppBarButton)sender;
-             Post PostLocal = (AppBarButtonObject).Tag as Post;
-             // try
-             // {
-             if (PostLocal.Listing.IsSelf == true)
-             {
-                 var newSelfPost = (PostLocal as SelfPost).About().XPostToAsync(CrosspsotText.Text);
-             });}
-             else
-             {
-                 var newSelfPost = (PostLocal as LinkPost).About().XPostToAsync(CrosspsotText.Text);
-             });}
-             /* });}
-              catch
-              {
-                  return;
-              });}*/
-        }
-
-        private async void RemoveEditButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Task.Run(async () =>
-            {
-                AppBarButton S = sender as AppBarButton;
-                var PostLocal = S.Tag as Post;
-
-                await PostLocal.RemoveAsync();
-            });
-        }
-
-        private async void UnStickyEditButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Task.Run(async () =>
-            {
-                AppBarButton S = sender as AppBarButton;
-                var PostLocal = S.Tag as Post;
-
-                await PostLocal.UnsetSubredditStickyAsync(1, false);
-            });
-        }
-
-
-
-        private async void PermaLinkButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Task.Run(async () =>
-            {
-                AppBarButton S = sender as AppBarButton;
-                var PostLocal = S.Tag as Post;
-
-                var pl = PostLocal.Permalink;
-                var dataPackage = new DataPackage();
-                dataPackage.SetText("https://www.reddit.com" + pl);
-                Clipboard.SetContent(dataPackage);
-            });
-        }
-
+        
         private void SearchTipButton_Click(object sender, RoutedEventArgs e)
         {
             // SearchTip.IsOpen = true;

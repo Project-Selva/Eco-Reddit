@@ -17,6 +17,7 @@
     xmlns:controllers="using:Reddit.Controllers"
     xmlns:views="using:Eco_Reddit.Views"
     xmlns:things="using:Reddit.Things"
+    xmlns:UserControls="using:Eco_Reddit.UserControls"
     Style="{StaticResource PageStyle}"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     mc:Ignorable="d">
@@ -106,7 +107,7 @@
                     <muxc:ProgressRing VerticalAlignment="Bottom" Height="30" Width="30"
                                   Foreground="{ThemeResource SystemControlAccentAcrylicElementAccentMediumHighBrush}"
                                   IsActive="True" Canvas.ZIndex="6" />
-                    <ListView SelectionMode="None" ContainerContentChanging="HomeList_ContainerContentChanging"
+                    <ListView SelectionMode="None" 
                               VirtualizingStackPanel.VirtualizationMode="Recycling" x:Name="HomeList"
                               BorderThickness="1"
                               Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}"
@@ -147,157 +148,7 @@
                         </ListView.Header>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="controllers:Post">
-                                <RelativePanel Background="{ThemeResource SystemControlAcrylicElementBrush}"
-                                               CornerRadius="2" Margin="0, 2,0, 2" Width="540">
-                                    <AppBarToggleButton CornerRadius="10" x:Name="Upvote"
-                                                        RelativePanel.AlignLeftWithPanel="True"
-                                                        IsChecked="{x:Bind IsUpvoted}" Label="{x:Bind UpVotes}"
-                                                        Checked="{x:Bind UpvoteAsync}" Width="60" Margin="2, 3, 3, 5" Icon="Up" />
-                                    <AppBarToggleButton CornerRadius="10" IsChecked="{x:Bind IsDownvoted}"
-                                                        x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True"
-                                                        Width="60" RelativePanel.Below="Upvote"
-                                                        Checked="{x:Bind DownvoteAsync}" Margin="2,5,3 ,0">
-                                        <AppBarToggleButton.Icon>
-                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;" />
-                                        </AppBarToggleButton.Icon>
-                                    </AppBarToggleButton>
-
-                                    <TextBlock Text="{x:Bind Title}" x:Name="TitleTextBlock"
-                                               RelativePanel.AlignTopWithPanel="True" RelativePanel.RightOf="Upvote"
-                                               FontSize="15" Canvas.ZIndex="6" Margin="10, 20, 0, 0"
-                                               TextWrapping="WrapWholeWords" Width="400" />
-                                    <TextBlock Name="datecreatedstring" RelativePanel.RightOf="DownVote"
-                                               RelativePanel.Below="TitleTextBlock" Text="Created:" FontSize="11"
-                                               Margin="10,13,3,0" />
-                                    <TextBlock RelativePanel.RightOf="datecreatedstring"
-                                               RelativePanel.Below="TitleTextBlock" x:Name="Date"
-                                               Text="{x:Bind Created}" FontSize="11" Margin="1,13,3,0" />
-                                    <HyperlinkButton  x:Name="User" RelativePanel.Below="TitleTextBlock"
-                                                     Content="{x:Bind Author}" RelativePanel.RightOf="Date"
-                                                     Margin="3,6,0,0" FontSize="11" Tapped="HyperlinkButton_Tapped">
-                                        <ToolTipService.ToolTip>
-                                            <Frame Loaded="Frame_Loaded" />
-                                        </ToolTipService.ToolTip>
-                                    </HyperlinkButton>
-                                    <HyperlinkButton  Tapped="Subreddit_Tapped" RelativePanel.Below="TitleTextBlock"
-                                                     Content="{x:Bind Subreddit}" RelativePanel.RightOf="User"
-                                                     x:Name="Subreddit" Margin="3,6,0,0" FontSize="11">
-                                        <ToolTipService.ToolTip>
-                                            <Frame Loaded="Frame_LoadedSubreddit" />
-                                        </ToolTipService.ToolTip>
-                                    </HyperlinkButton>
-
-                                    <TextBlock Name="flairstring" RelativePanel.RightOf="DownVote"
-                                               RelativePanel.Below="Subreddit" Text="Flair: " Padding="10, 5, 1, 5" />
-                                    <TextBlock Margin="1,0,0,0" x:Name="Flair" RelativePanel.Below="Subreddit"
-                                               RelativePanel.RightOf="flairstring"
-                                               Text="{x:Bind Listing.LinkFlairText}" Padding="1, 5, 10, 5"
-                                               HorizontalAlignment="Left" TextWrapping="WrapWholeWords" />
-                                    <!--<TextBlock Margin="3,0,0,0" HorizontalAlignment="Left"  Padding="10, 5, 10, 5" x:Name="NSFW" x:Phase="2" Text="{x:Bind IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>-->
-                                    <controls:MarkdownTextBlock
-                                        TextWrapping="WrapWholeWords"
-                                        VerticalContentAlignment="Stretch"
-                                        RelativePanel.Below="Flair"
-                                        Padding="10,3"
-                                        MinWidth="400"
-                                        CornerRadius="5"
-                                        RelativePanel.RightOf="DownVote"
-                                        BorderThickness="1"
-                                        x:Name="MarkDownBlockPreview"
-                                        ImageClicked="MarkdownText_ImageClicked"
-                                        LinkClicked="MarkdownText_LinkClicked"
-                                        Margin="6" />
-                                    <CommandBar x:Name="PostsBar" IsDynamicOverflowEnabled="True" Margin="3" IsEnabled="{x:Bind views:HomePage.SingletonReference.isenabled, Mode=OneWay}"
-                                                RelativePanel.Above="PostImage" RelativePanel.RightOf="DownVote"
-                                                RelativePanel.Below="MarkDownBlockPreview" Background="Transparent"
-                                                IsOpen="False" DefaultLabelPosition="Right">
-                                        <CommandBar.Resources>
-                                            <ResourceDictionary
-                                                Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
-                                        </CommandBar.Resources>
-                                        <AppBarButton Icon="Comment"/>
-                                        <AppBarButton Icon="SolidStar" Label="Awards" Foreground="Gold">
-                                            <AppBarButton.Flyout>
-                                                <Flyout>
-                                                    <Frame Loaded="Award_Loaded" />
-                                                </Flyout>
-                                            </AppBarButton.Flyout>
-                                        </AppBarButton>
-                                        <AppBarSeparator />
-                                        <AppBarButton Icon="Add" Tag="{x:Bind}" Click="NewTabButton_Click" Label="Open in new tab" />
-                                   
-                                        <CommandBar.SecondaryCommands>
-                                            <AppBarButton Icon="Globe" Tag="{x:Bind}"  Label="Open online"
-                                                      Click="OpenPostInWebButton_Click" />
-                                            <AppBarSeparator/>
-                                            <AppBarButton Icon="ClosePane" Label="Hide" Click="HideButton_Click" />
-                                            <AppBarButton Icon="Share" Label="Share" Click="ShareButton_Click" />
-                                            <AppBarButton Icon="Save" Label="Save" Click="SaveButton_Click"/>
-                                            <AppBarButton Icon="ReportHacked" IsEnabled="False" Label="Report">
-                                                <AppBarButton.Flyout>
-                                                    <Flyout>
-                                                        <StackPanel>
-                                                            <TextBox x:Name="Reason" Header="Reason:"
-                                                                     PlaceholderText="e.g. Spam" Margin="5" Width="300" />
-                                                            <TextBox x:Name="RuleReason" Header="Rule reason:"
-                                                                     PlaceholderText="e.g. it breaks r/example rules"
-                                                                     Margin="5" Width="300" />
-                                                            <TextBox x:Name="SiteReason" Header="Site reason:"
-                                                                     PlaceholderText="e.g. Infringes copyright"
-                                                                     Margin="5" Width="300" />
-                                                            <TextBox x:Name="AdditionalInfo" Header="Additional info"
-                                                                     PlaceholderText="Addional info" Margin="5"
-                                                                     Width="300" />
-                                                            <TextBox x:Name="OtherInfo" Header="Other reason:"
-                                                                     Margin="5" Width="300" />
-                                                            <Button Margin="5" Content="Report"
-                                                                    Click="ReportButton_Click" />
-                                                        </StackPanel>
-                                                    </Flyout>
-                                                </AppBarButton.Flyout>
-                                            </AppBarButton>
-                                            <AppBarButton Icon="ReShare" IsEnabled="False" Label="Crosspost">
-                                                <AppBarButton.Flyout>
-                                                    <Flyout>
-                                                        <StackPanel>
-                                                            <TextBox x:Name="CrosspsotText" Header="Subreddit name:"
-                                                                     PlaceholderText="Enter subreddit" Margin="5"
-                                                                     Width="300" />
-                                                            <Button Margin="5" Content="Crosspost"
-                                                                    Click="CrosspostButton_Click" />
-                                                        </StackPanel>
-                                                    </Flyout>
-                                                </AppBarButton.Flyout>
-                                            </AppBarButton>
-                                            <AppBarSeparator />
-                                            <AppBarButton Icon="Link" Label="PermaLink" Click="PermaLinkButton_Click" />
-                                            <AppBarButton Icon="Edit" IsEnabled="False" Label="Edit"
-                                                          Click="EditButton_Click" />
-                                            <AppBarButton Icon="Delete" Label="Delete" Click="{x:Bind DeleteAsync}" />
-                                            <AppBarButton Icon="Priority" Label="Lock"  Click="{x:Bind LockAsync}" />
-                                            <AppBarButton Icon="ReportHacked" Label="Spoiler"
-                                                        Click="{x:Bind SpoilerAsync}"/>
-                                            <AppBarButton Icon="ReportHacked" Label="Mark NSFW"
-                                                          Click="{x:Bind MarkNSFWAsync}" />
-                                            <AppBarButton Icon="ReportHacked" Label="Distinguish"
-                                                          Click="DistinguishButton_Click" />
-                                            <AppBarButton Icon="Delete" Label="Remove" Click="RemoveEditButton_Click" />
-                                            <AppBarButton Icon="Cut" Label="Sticky" Click="StickyButton_Click"  />
-                                            <AppBarSeparator />
-                                            <AppBarButton Icon="ClosePane" Label="UnHide"
-                                                          Click="{x:Bind UnhideAsync}"/>
-                                            <AppBarButton Icon="Save" Label="UnSave"    Click="{x:Bind UnsaveAsync}"/>
-                                            <AppBarButton Icon="Priority" Label="Unlock"   Click="{x:Bind UnlockAsync}"/>
-                                            <AppBarButton Icon="ReportHacked" Label="UnMark NSFW"
-                                                           Click="{x:Bind UnmarkNSFWAsync}" />
-                                            <AppBarButton Icon="ReportHacked" Label="UnSpoiler"
-                                                  Click="{x:Bind UnspoilerAsync}"/>
-                                            <AppBarButton Icon="Cut" Label="UnSticky" Click="UnStickyEditButton_Click" />
-                                        </CommandBar.SecondaryCommands>
-                                    </CommandBar>
-                                    <Image x:Name="PostImage" RelativePanel.AlignBottomWithPanel="True"
-                                           Margin="0, 10,0,0 " Stretch="Fill" />
-                                </RelativePanel>
+                                <UserControls:PostUserControl PostItem="{x:Bind}"/>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
