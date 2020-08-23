@@ -1,0 +1,301 @@
+﻿<Page
+    x:Class="Selva.Views.PostContentPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:adsjumbo="using:AdsJumbo"
+    xmlns:local="using:Selva.Core.Models"
+    xmlns:UI="using:VungleSDK.UI"
+    xmlns:local1="using:Selva.Views"
+    Style="{StaticResource PageStyle}"
+    Background="#121212"
+    mc:Ignorable="d">
+    <Grid x:Name="ContentArea">
+
+
+        <controls:Expander Header="Comments" VerticalAlignment="Bottom" IsExpanded="False"     Background="#121212"
+                           ExpandDirection="Up">
+            <ScrollViewer Height="1000" MinWidth="800" Background="Transparent">
+                <StackPanel Orientation="Vertical">
+                    <Frame x:Name="CommentFrame" Height="1000" />
+                </StackPanel>
+            </ScrollViewer>
+            <controls:Expander.ContentOverlay>
+                <ScrollViewer VerticalScrollBarVisibility="Visible" VerticalScrollMode="Enabled">
+                    <Grid Margin="0, 5,0, 5" Background="#121212">
+                        <controls:Loading x:Name="LoadingControl" Canvas.ZIndex="9999" IsLoading="True">
+                            <StackPanel>
+                                <ProgressRing Loaded="StartUp" IsActive="True" />
+                                <TextBlock>Loading post</TextBlock>
+                            </StackPanel>
+                        </controls:Loading>
+                        <StackPanel Orientation="Vertical" Background="Transparent">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Vertical">
+                                    <AppBarToggleButton CornerRadius="10" Margin="5" Icon="Up" x:Name="UpvoteButton" IsEnabled="{x:Bind local1:HomePage.SingletonReference.isenabled, Mode=OneWay}"/>
+                                    <AppBarToggleButton Margin="5" CornerRadius="10" x:Name="DownVoteButton" IsEnabled="{x:Bind local1:HomePage.SingletonReference.isenabled, Mode=OneWay}">
+                                        <AppBarToggleButton.Icon>
+                                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;" />
+                                        </AppBarToggleButton.Icon>
+                                    </AppBarToggleButton>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock FontSize="20" Margin="0, 10,10,0" x:Name="Title" MaxWidth="600"
+                                               TextWrapping="WrapWholeWords" />
+                                    <TextBlock FontSize="11" Margin="1" x:Name="Date" />
+                                    <HyperlinkButton IsEnabled="{x:Bind local1:HomePage.SingletonReference.isenabled, Mode=OneWay}" x:Name="User" RelativePanel.Below="TitleTextBlock"
+                                                     RelativePanel.RightOf="Date" Margin="1" FontSize="11"
+                                                     Tapped="HyperlinkButton_Tapped">
+                                        <FlyoutBase.AttachedFlyout>
+                                            <Flyout>
+                                                <Frame Loaded="Frame_Loaded" />
+                                            </Flyout>
+                                        </FlyoutBase.AttachedFlyout>
+                                    </HyperlinkButton>
+                                    <HyperlinkButton IsEnabled="{x:Bind local1:HomePage.SingletonReference.isenabled, Mode=OneWay}" Tapped="Subreddit_Tapped" RelativePanel.Below="TitleTextBlock"
+                                                     RelativePanel.RightOf="User" x:Name="Subreddit" Margin="1"
+                                                     FontSize="11">
+                                        <FlyoutBase.AttachedFlyout>
+                                            <Flyout>
+                                                <Frame Loaded="Frame_LoadedSubreddit" />
+                                            </Flyout>
+                                        </FlyoutBase.AttachedFlyout>
+                                    </HyperlinkButton>
+                                    <StackPanel Orientation="Vertical">
+                                        <Grid CornerRadius="20" Margin="3,0,0,0"
+                                              Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}"
+                                              BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}"
+                                              HorizontalAlignment="Left" Padding="10, 5, 10, 5">
+                                            <TextBlock x:Name="Flair" TextWrapping="WrapWholeWords" />
+                                        </Grid>
+                                        <Grid CornerRadius="20" Margin="3,0,0,0"
+                                              Background="{ThemeResource SystemControlAccentDark2AcrylicElementAccentDark2MediumHighBrush}"
+                                              BorderBrush="{ThemeResource SystemControlHighlightListMediumBrush}"
+                                              HorizontalAlignment="Left" Padding="10, 5, 10, 5">
+                                            <TextBlock x:Name="NSFW" Foreground="Red" TextWrapping="WrapWholeWords" />
+                                        </Grid>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <UI:VungleAdControl x:Name="vungleBannerControl"
+                                                AutomationProperties.AutomationId="vungleBannerControl"
+                                                IsBannerAd="True"
+                                                AutoRun="True"
+                                                HorizontalAlignment="Center"
+                                                Width="728"
+                                                Height="90"
+                                                Margin="10"
+                                                AppID="5e5e9ee449b0b6001701894a"
+                                                Placement="DEFAULT-8839024">
+                                <adsjumbo:BannerAd
+                                    HorizontalAlignment="Center"
+                                    ApplicationId='ts34gvld2mg0'
+                                    WidthAd='728'
+                                    HeightAd='90'
+                                    Position='Bottom' />
+
+                            </UI:VungleAdControl>
+                            <!--<TextBlock Margin="3,0,0,0" HorizontalAlignment="Left"  Padding="10, 5, 10, 5" x:Name="NSFW" x:Phase="2" Text="{x:Bind IsNSFW}" Foreground="Red" TextWrapping="WrapWholeWords"></TextBlock>-->
+                            <CommandBar  IsEnabled="{x:Bind local1:HomePage.SingletonReference.isenabled, Mode=OneWay}" x:Name="PostsBar" IsDynamicOverflowEnabled="True" Background="Transparent"
+                                        IsOpen="False" DefaultLabelPosition="Right">
+                                <AppBarButton x:Name="Commentcount" Icon="Comment" />
+                                <AppBarButton Icon="SolidStar" Label="Awards">
+                                    <AppBarButton.Flyout>
+                                        <Flyout>
+                                            <StackPanel>
+                                                <TextBlock Margin="5" x:Name="Gold" />
+                                                <TextBlock Margin="5" x:Name="Silver" />
+                                                <TextBlock Margin="5" x:Name="Bronze" />
+                                                <TextBlock Margin="5" x:Name="Total" />
+                                            </StackPanel>
+                                        </Flyout>
+                                    </AppBarButton.Flyout>
+                                </AppBarButton>
+                                <AppBarSeparator />
+                                <AppBarButton Icon="NewWindow" Click="NewTabButton_Click" Label="Open post in new tab" />
+                                <AppBarButton Icon="Globe" Label="Open post in web" Click="OpenPostInWebButton_Click" />
+                                <AppBarSeparator />
+                                <AppBarButton Icon="ClosePane" Label="Hide" Click="HideButton_Click" />
+                                <AppBarButton Icon="Share" Label="Share" Click="ShareButton_Click" />
+                                <AppBarButton Icon="Save" Label="Save" Click="SaveButton_Click" />
+                                <AppBarButton Icon="ReportHacked" Label="Report">
+                                    <AppBarButton.Flyout>
+                                        <Flyout>
+                                            <StackPanel>
+                                                <TextBox x:Name="Reason" Header="Reason:" PlaceholderText="e.g. Spam"
+                                                         Margin="5" Width="300" />
+                                                <TextBox x:Name="RuleReason" Header="Rule reason:"
+                                                         PlaceholderText="e.g. it breaks r/example rules" Margin="5"
+                                                         Width="300" />
+                                                <TextBox x:Name="SiteReason" Header="Site reason:"
+                                                         PlaceholderText="e.g. Infringes copyright" Margin="5"
+                                                         Width="300" />
+                                                <TextBox x:Name="AdditionalInfo" Header="Additional info"
+                                                         PlaceholderText="Addional info" Margin="5" Width="300" />
+                                                <TextBox x:Name="OtherInfo" Header="Other reason:" Margin="5"
+                                                         Width="300" />
+                                                <Button Margin="5" Content="Report" Click="ReportButton_Click" />
+                                            </StackPanel>
+                                        </Flyout>
+                                    </AppBarButton.Flyout>
+                                </AppBarButton>
+                                <AppBarButton Icon="ReShare" Label="Crosspost">
+                                    <AppBarButton.Flyout>
+                                        <Flyout>
+                                            <StackPanel>
+                                                <TextBox x:Name="CrosspsotText" Header="Subreddit name:"
+                                                         PlaceholderText="Enter subreddit" Margin="5" Width="300" />
+                                                <Button Margin="5" Content="Crosspost" Click="CrosspostButton_Click" />
+                                            </StackPanel>
+                                        </Flyout>
+                                    </AppBarButton.Flyout>
+                                </AppBarButton>
+                                <AppBarSeparator />
+                                <AppBarButton Icon="Link" Label="PermaLink" Click="PermaLinkButton_Click" />
+                                <AppBarButton Icon="Edit" IsEnabled="False" Label="Edit" Click="EditButton_Click" />
+                                <AppBarButton Icon="Delete" Label="Delete" Click="DeleteButton_Click" />
+                                <AppBarButton Icon="Priority" Label="Lock" Click="LockEditButton_Click" />
+                                <AppBarButton Icon="ReportHacked" Label="Spoiler" Click="SpoilerEditButton_Click" />
+                                <AppBarButton Icon="ReportHacked" Label="Mark NSFW" Click="NSFWEditButton_Click" />
+                                <AppBarButton Icon="ReportHacked" Label="Distinguish" Click="DistinguishButton_Click" />
+                                <AppBarButton Icon="Delete" Label="Remove" Click="RemoveEditButton_Click" />
+                                <AppBarButton Icon="Cut" Label="Sticky" Click="StickyButton_Click" />
+                                <AppBarSeparator />
+                                <AppBarButton Icon="ClosePane" Label="UnHide" Click="UnHideEditButton_Click" />
+                                <AppBarButton Icon="Save" Label="UnSave" Click="UnSaveditButton_Click" />
+                                <AppBarButton Icon="Priority" Label="Unlock" Click="UnlockEditButton_Click" />
+                                <AppBarButton Icon="ReportHacked" Label="UnMark NSFW" Click="UNNSFWEditButton_Click" />
+                                <AppBarButton Icon="ReportHacked" Label="UnSpoiler" Click="UnSpoilerEditButton_Click" />
+                                <AppBarButton Icon="Cut" Label="UnSticky" Click="UnStickyEditButton_Click" />
+                            </CommandBar>
+                            <Image Margin="0, 10,0,0 " Stretch="Fill" x:Name="Image" Width="670" />
+                            <WebView x:Name="LinkView" Margin="50,5,50,0" Height="1000" />
+                            <MediaPlayerElement x:Name="MediaRedditPlayer"
+                                                Background="Beige"
+                                                Margin="0, 10,0,0 "
+                                                Visibility="Collapsed"
+                                                MaxWidth="670"
+                                                AutoPlay="False"
+                                                AreTransportControlsEnabled="True" />
+                            <HyperlinkButton FontSize="30" HorizontalAlignment="Center" Content="Link" x:Name="Link" />
+                            <controls:MarkdownTextBlock
+                                Background="Transparent"
+                                TextWrapping="Wrap"
+                                LinkClicked="MarkdownText_LinkClicked"
+                                ImageClicked="MarkdownText_ImageClicked"
+                             HorizontalAlignment="Center"
+                                IsTextSelectionEnabled="True"
+                                x:Name="PostText"
+                                Margin="26" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="5" FontSize="25" x:Name="CommentCount" />
+                                <AppBarButton Icon="Sort" Label="Top" x:Name="SortOrderCommentButton"
+                                              Visibility="Collapsed" Margin="5">
+                                    <AppBarButton.Flyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem Click="SortMenuFlyoutItem_Click" Text="Top" />
+                                            <MenuFlyoutItem Click="SortMenuFlyoutItem_Click" Text="New" />
+                                            <MenuFlyoutItem Click="SortMenuFlyoutItem_Click" Text="Q and A" />
+                                            <MenuFlyoutItem Click="SortMenuFlyoutItem_Click" Text="Controversial" />
+                                            <MenuFlyoutItem Click="SortMenuFlyoutItem_Click" Text="Old" />
+                                            <MenuFlyoutItem Click="SortMenuFlyoutItem_Click" Text="Live" />
+                                            <MenuFlyoutItem Click="SortMenuFlyoutItem_Click" Text="Random" />
+                                            <MenuFlyoutItem Click="SortMenuFlyoutItem_Click" Text="Confidence" />
+                                        </MenuFlyout>
+                                    </AppBarButton.Flyout>
+                                </AppBarButton>
+                            </StackPanel>
+
+                            <StackPanel HorizontalAlignment="Center">
+                                <controls:TextToolbar  IsEnabled="{x:Bind local1:HomePage.SingletonReference.isenabled, Mode=OneWay}"  HorizontalAlignment="Center" x:Name="Toolbar"
+                                                      Editor="{x:Bind CommentZone}"
+                                                      Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                                                      Format="MarkDown" />
+                                <RichEditBox  IsEnabled="{x:Bind local1:HomePage.SingletonReference.isenabled, Mode=OneWay}"   x:Name="CommentZone"
+                                             PlaceholderText="Enter Comment Here"
+                                             TextWrapping="Wrap"
+                                             VerticalContentAlignment="Stretch"
+                                             MinHeight="300"
+                                             TextChanged="CommentZone_TextChanged"
+                                             Padding="10,3"
+                                             BorderThickness="1"
+                                              Margin="6"
+                                             BorderBrush="{ThemeResource SystemControlAcrylicElementBrush}"
+                                             Foreground="{ThemeResource SystemControlAcrylicElementBrush}" />
+                                <TextBlock Margin="3">Live preview:</TextBlock>
+                                <controls:MarkdownTextBlock  IsEnabled="{x:Bind local1:HomePage.SingletonReference.isenabled, Mode=OneWay}" 
+                           
+                                    TextWrapping="Wrap"
+                                    VerticalContentAlignment="Stretch"
+                                    MinHeight="300"
+                                    Padding="10,3"
+                                    BorderThickness="1"
+                                    x:Name="MarkDownBlock"
+                                    ImageClicked="MarkdownText_ImageClicked"
+                                    LinkClicked="MarkdownText_LinkClicked"
+                                    Margin="6" />
+                                <Button  IsEnabled="{x:Bind local1:HomePage.SingletonReference.isenabled, Mode=OneWay}"  Width="300" Style="{ThemeResource ButtonRevealStyle}"
+                                        HorizontalAlignment="Center" Margin="7" Click="CommentBox_QuerySubmitted">
+                                    Send comment
+                                </Button>
+                            </StackPanel>
+
+
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </controls:Expander.ContentOverlay>
+        </controls:Expander>
+    </Grid>
+
+    <!--  <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local:Comments">
+                    <RelativePanel  Background="{ThemeResource SystemControlAcrylicElementBrush}" CornerRadius="10" Margin="5">
+
+                        <AppBarToggleButton CornerRadius="10" x:Name="Upvote" RelativePanel.AlignLeftWithPanel="True" Margin="5" Icon="Up"></AppBarToggleButton>
+                        <AppBarToggleButton CornerRadius="10" x:Name="DownVote" RelativePanel.AlignLeftWithPanel="True" RelativePanel.Below="Upvote" Margin="5">
+                            <AppBarToggleButton.Icon>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;"/>
+                            </AppBarToggleButton.Icon>
+                        </AppBarToggleButton>
+
+                        <controls:MarkdownTextBlock
+                                         RelativePanel.AlignTopWithPanel="True"
+                     Background="Transparent"
+                    TextWrapping="Wrap"
+                    IsTextSelectionEnabled="True"
+                        LinkClicked="MarkdownText_LinkClicked"
+                        ImageClicked="MarkdownText_ImageClicked"
+                    x:Name="TitleTextBlock"
+                   Margin="80,5,5,5"/>
+
+                        <TextBlock RelativePanel.RightOf="DownVote" RelativePanel.Below="TitleTextBlock" x:Name="Date" FontSize="11" Margin="0,13,3,0"></TextBlock>
+                        <HyperlinkButton x:Name="User" RelativePanel.Below="TitleTextBlock" RelativePanel.RightOf="Date" Margin="3,6,0,0" FontSize="11" Tapped="HyperlinkButton_Tapped">
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout>
+                                    <Frame Loaded="Frame_Loaded"></Frame>
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
+                        </HyperlinkButton>
+                        <CommandBar x:Name="CommentsBar" IsDynamicOverflowEnabled="True" RelativePanel.RightOf="DownVote" RelativePanel.Below="User" Background="Transparent" IsOpen="False" DefaultLabelPosition="Right">
+                            <AppBarButton Tag="{x:Bind CommentSelf}" Icon="Link" Label="Permalink" Click="PermaLinkCommentButton_Click"/>
+                            <AppBarButton Icon="Edit" Label="Edit" IsEnabled="False"/>
+                            <AppBarButton Tag="{x:Bind CommentSelf}" Icon="Delete" Label="Delete" Click="DeleteCommentButton_Click"/>
+                            <AppBarButton Tag="{x:Bind CommentSelf}" Icon="Save" Label="Save" Click="saveEditButton_Click"/>
+                            <AppBarButton Tag="{x:Bind CommentSelf}" Icon="ReportHacked" Label="Distinguish" Click="DistinguishEditButton_Click"/>
+                            <AppBarButton Tag="{x:Bind CommentSelf}" Icon="PostUpdate" Label="Enable replies" Click="EnableRelpyEditButton_Click"/>
+                            <AppBarButton Tag="{x:Bind CommentSelf}" Icon="Remove" Label="Remove" Click="RemoveComEditButton_Click"/>
+                            <AppBarSeparator/>
+                            <AppBarButton Tag="{x:Bind CommentSelf}" Icon="DisableUpdates" Label="Disable replies" Click="disableRelpyEditButton_Click"/>
+                            <AppBarButton Tag="{x:Bind CommentSelf}" Icon="UnSyncFolder" Label="Unsave" Click="UnsaveEditButton_Click"/>
+                        </CommandBar>
+                        <AutoSuggestBox PlaceholderText="Enter your reply here..." Width="300" QueryIcon="Send" Header="Reply:" x:Name="replyBox" Tag="{x:Bind CommentSelf}" RelativePanel.RightOf="DownVote" RelativePanel.Below="CommentsBar" Margin="10, 3, 10, 3" QuerySubmitted="ReplyBox_QuerySubmitted"></AutoSuggestBox>
+                    </RelativePanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>-->
+
+</Page>

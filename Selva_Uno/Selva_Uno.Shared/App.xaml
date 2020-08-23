@@ -1,0 +1,7 @@
+﻿<Application
+    x:Class="Selva_Uno.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Selva_Uno">
+
+</Application>

@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="Selva.Views.AwardsFlyoutFrame"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Selva.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="Transparent">
+
+    <Grid>
+        <StackPanel>
+            <TextBlock Margin="5" x:Name="GoldAward" Loaded="Award_Loaded" />
+            <TextBlock Margin="5" x:Name="SilverAward" Loaded="Award_Loaded" />
+            <TextBlock Margin="5" x:Name="BronzeAward" Loaded="Award_Loaded" />
+            <TextBlock Margin="5" x:Name="TotalAward" Loaded="Award_Loaded" />
+        </StackPanel>
+    </Grid>
+</Page>

@@ -97,12 +97,11 @@ namespace Selva.UserControls
             //Downvoted.IsChecked = PostItem.IsDownvoted;
             try
             {
-                // to fix
-               /*var p = PostItem as LinkPost;
+                var p = PostItem as LinkPost;
                 var bit = new BitmapImage();
                 bit.UriSource = new Uri(p.URL);
                 img.Source = bit;
-                img.Visibility = Visibility.Visible;*/
+                img.Visibility = Visibility.Visible;
             }
             catch
             {

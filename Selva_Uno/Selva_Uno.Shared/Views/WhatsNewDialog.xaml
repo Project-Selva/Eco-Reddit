@@ -1,0 +1,68 @@
+﻿<ContentDialog
+    x:Class="Selva.Views.WhatsNewDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    x:Uid="WhatsNewDialog"
+    d:DesignHeight="345"
+    d:DesignWidth="550"
+    mc:Ignorable="d">
+    <ContentDialog.TitleTemplate>
+        <DataTemplate x:DataType="x:String">
+            <StackPanel Orientation="Horizontal">
+                <Image
+                    Width="40"
+                    Height="40"
+                    Source="ms-appx:///Assets/StoreLogo.png" />
+                <TextBlock
+                    Margin="{StaticResource SmallLeftMargin}"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind}" />
+            </StackPanel>
+        </DataTemplate>
+    </ContentDialog.TitleTemplate>
+    <ScrollViewer>
+        <StackPanel>
+            <TextBlock>
+                Whats new (0.6.0.0 - part 1): <LineBreak />
+- app is now moved to a private preview beta
+                <LineBreak />
+                - note: this is only the first half of the 0.6.0.0 update with the second half coming later
+                <LineBreak />
+                - countless amounts of bugs fixed (only half of the bugs planned to be fixed were fixed)
+                          <LineBreak />
+                  - massive performance boost  (only half of the planned performance boost changes were done)
+          <LineBreak />
+- multiple windows support
+          <LineBreak />
+- use the app without login!
+                          <LineBreak />
+                - new login interface
+          <LineBreak />
+- album uploading support
+                 <LineBreak />
+                - flair support
+                 <LineBreak />
+                - added support for replying to comments
+                 <LineBreak />
+                - support for deleting, saving, unsaving, removing, removing marked as spam and distinguishing as moderator for comments
+     <LineBreak />
+                - new top bar UI
+                     <LineBreak />
+       - huge amounts of code readability changes
+                <LineBreak />
+                - startup time improvements
+                     <LineBreak />
+                - Added new first run page
+                <LineBreak />
+                - Added new FAQ
+                <LineBreak />
+                - Added relevant links
+                     <LineBreak />
+                - part 2 coming soon...
+            </TextBlock>
+        </StackPanel>
+    </ScrollViewer>
+</ContentDialog>

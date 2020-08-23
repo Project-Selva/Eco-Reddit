@@ -1,0 +1,19 @@
+﻿<ContentDialog
+    x:Class="Selva.Views.Errordialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Selva.Views"
+    x:Name="ErrorDialog"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Error occured"
+    PrimaryButtonText="Button1"
+    SecondaryButtonText="Button2"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <ScrollViewer VerticalScrollBarVisibility="Visible" VerticalScrollMode="Enabled">
+        <TextBlock TextWrapping="WrapWholeWords" x:Name="ErrorText" Width="300" />
+    </ScrollViewer>
+</ContentDialog>
